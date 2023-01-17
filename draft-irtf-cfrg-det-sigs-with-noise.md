@@ -356,7 +356,7 @@ Side-channel Attack on EdDSA"
         ins: A. Langley
     date: June 2013
 
-  OpenSSL13a: 
+  OpenSSL13a:
     target: https://github.com/openssl/openssl/commit/8a99cb29d1f0013243a532bccc1dc70ed678eebe
     title: "Add secure DSA nonce flag"
 
@@ -497,7 +497,7 @@ For Deterministic ECDSA: In existing ECDSA deployments where side-channel and fa
 
           K = HMAC_K(V || 0x01 || Z || int2octets(x) || 000... ||
                      bits2octets(h1))
-                     
+
 When ECDSA is used with SHAKE {{SHA3}} the HMAC construction above MAY be used but it is RECOMMENDED to use the more efficient KMAC construction {{KMAC}}. SHAKE is a variable-length hash function defined as SHAKE(M, d) where the output is a d-bits-long digest of message M. When ECDSA is used with SHAKE128(M, d), it is RECOMMENDED to replace HMAC(K, M) with KMAC128(K, M, d, ""). When ECDSA is used with SHAKE256(M, d), it is RECOMMENDED to replace HMAC(K, M) with KMAC256(K, M, d, ""). {{RFC8692}} and {{Draft-186-5}} define the use of SHAKE128 with an output length of 256 bits and SHAKE256 with an output length or 512 bits.
 
 In new deployments, where side-channel and fault injection attacks are a concern, EdDSA with additional randomness as specified in {{SecEdDSA}} is RECOMMENDED.
