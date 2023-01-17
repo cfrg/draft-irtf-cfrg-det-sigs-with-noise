@@ -4,9 +4,9 @@
 
 Crypto Forum                                           J. Preuß Mattsson
 Internet-Draft                                             E. Thormarker
-Intended status: Informational                               S. Ruohomaa
-Expires: 21 July 2023                                           Ericsson
-                                                         17 January 2023
+Updates: 6979, 8032 (if approved)                            S. Ruohomaa
+Intended status: Informational                                  Ericsson
+Expires: 21 July 2023                                    17 January 2023
 
 
   Deterministic ECDSA and EdDSA Signatures with Additional Randomness
