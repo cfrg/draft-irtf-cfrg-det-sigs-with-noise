@@ -2,16 +2,16 @@
 
 This is the working area for the individual Internet-Draft, "Deterministic ECDSA and EdDSA Signatures with Additional Randomness".
 
-* [Editor's Copy](https://emanjon.github.io/draft-irtf-cfrg-det-sigs-with-noise/#go.draft-irtf-cfrg-det-sigs-with-noise.html)
+* [Editor's Copy](https://cfrg.github.io/draft-irtf-cfrg-det-sigs-with-noise/#go.draft-irtf-cfrg-det-sigs-with-noise.html)
 * [Datatracker Page](https://datatracker.ietf.org/doc/draft-irtf-cfrg-det-sigs-with-noise)
 * [Individual Draft](https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-det-sigs-with-noise)
-* [Compare Editor's Copy to Individual Draft](https://emanjon.github.io/draft-irtf-cfrg-det-sigs-with-noise/#go.draft-irtf-cfrg-det-sigs-with-noise.diff)
+* [Compare Editor's Copy to Individual Draft](https://cfrg.github.io/draft-irtf-cfrg-det-sigs-with-noise/#go.draft-irtf-cfrg-det-sigs-with-noise.diff)
 
 
 ## Contributing
 
 See the
-[guidelines for contributions](https://github.com/emanjon/draft-irtf-cfrg-det-sigs-with-noise/blob/main/CONTRIBUTING.md).
+[guidelines for contributions](https://github.com/cfrg/draft-irtf-cfrg-det-sigs-with-noise/blob/main/CONTRIBUTING.md).
 
 Contributions can be made by creating pull requests.
 The GitHub interface supports creating pull requests using the Edit (✏) button.
