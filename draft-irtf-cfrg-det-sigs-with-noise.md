@@ -406,9 +406,9 @@ Side-channel Attack on EdDSA"
 
   RFC8037:
   RFC8080:
-  RFC8152:
   RFC8225:
   RFC8387:
+  RFC8391:
   RFC8410:
   RFC8411:
   RFC8419:
@@ -418,11 +418,10 @@ Side-channel Attack on EdDSA"
   RFC8463:
   RFC8550:
   RFC8591:
-  RFC8624:
-  RFC8208:
   RFC8608:
-  RFC8391:
+  RFC8624:
   RFC8554:
+  RFC9053:
 
 --- abstract
 
@@ -434,7 +433,7 @@ Deterministic elliptic-curve signatures such as deterministic ECDSA and EdDSA ha
 
 In Elliptic-Curve Cryptography (ECC) signature algorithms, the per-message secret number has traditionally been generated from a random number generator (RNG). The security of such algorithms depends on the cryptographic quality of the random number generation and biases in the randomness may have catastrophic effects such as compromising private keys (see e.g., {{Bernstein19}}). Repeated per-message secret numbers have caused several severe security accidents in practice. As stated in {{RFC6979}}, the need for a cryptographically secure source of randomness is also a hindrance to deployment of randomized ECDSA {{FIPS-186-4}} in architectures where secure random number generation is challenging, in particular, embedded IoT systems and smartcards. {{ABFJLM17}} does however state that smartcards typically have a high-quality RNG on board, which makes it significantly easier and faster to use the RNG instead of doing a hash computation.
 
-In deterministic ECC signatures schemes such as Deterministic Elliptic Curve Digital Signature Algorithm (ECDSA) {{RFC6979}} and Edwards-curve Digital Signature Algorithm (EdDSA) {{RFC8032}}, the per-message secret number is instead generated in a fully deterministic way as a function of the message and the private key. Except for key generation, the security of such deterministic signatures does not depend on a source of high-quality randomness. This makes verification of implementations easier. As they are presumed to be safer, deterministic signatures have gained popularity and are referenced and recommended by a large number of recent RFCs {{RFC8037}} {{RFC8080}} {{RFC8152}} {{RFC8225}} {{RFC8387}} {{RFC8410}} {{RFC8411}} {{RFC8419}} {{RFC8420}} {{RFC8422}} {{RFC8446}} {{RFC8463}} {{RFC8550}} {{RFC8591}} {{RFC8624}} {{RFC8208}} {{RFC8608}}.
+In deterministic ECC signatures schemes such as Deterministic Elliptic Curve Digital Signature Algorithm (ECDSA) {{RFC6979}} and Edwards-curve Digital Signature Algorithm (EdDSA) {{RFC8032}}, the per-message secret number is instead generated in a fully deterministic way as a function of the message and the private key. Except for key generation, the security of such deterministic signatures does not depend on a source of high-quality randomness. This makes verification of implementations easier. As they are presumed to be safer, deterministic signatures have gained popularity and are referenced and recommended by a large number of recent RFCs {{RFC8037}} {{RFC8080}} {{RFC8225}} {{RFC8387}} {{RFC8410}} {{RFC8411}} {{RFC8419}} {{RFC8420}} {{RFC8422}} {{RFC8446}} {{RFC8463}} {{RFC8550}} {{RFC8591}} {{RFC8608}} {{RFC8624}} {{RFC9053}}.
 
 Side-channel attacks are potential attack vectors for implementations of cryptographic algorithms. Side-Channel attacks can in general be classified along three orthogonal axes: passive vs. active, physical vs. logical, and local vs. remote {{SideChannel}}. It has been demonstrated how side-channel attacks such as power analysis {{BCPST14}} and timing attacks {{Minerva19}} {{TPM-Fail19}} allow for practical recovery of the private key in some existing implementations of randomized ECDSA. {{BSI}} summarizes minimum requirements for evaluating side-channel attacks of elliptic curve implementations and writes that deterministic ECDSA and EdDSA requires extra care. The deterministic ECDSA specification {{RFC6979}} notes that the deterministic generation of per-message secret numbers may be useful to an attacker in some forms of side-channel attacks and as stated in {{Minerva19}}, deterministic signatures like {{RFC6979}} and {{RFC8032}} might help an attacker to reduce the noise in the side-channel when the same message it signed multiple times. Recent research {{SH16}} {{BP16}} {{RP17}} {{ABFJLM17}} {{SBBDS17}} {{PSSLR17}} {{SB18}} {{WPB19}} {{AOTZ19}} {{FG19}} have theoretically and experimentally analyzed the resistance of deterministic ECC signature algorithms against side-channel and fault injection attacks. The conclusions are that deterministic signature algorithms have theoretical weaknesses against certain instances of these types of attacks and that the attacks are practically feasibly in some environments. These types of attacks may be of particular concern for hardware implementations such as embedded IoT devices and smartcards where the adversary can be assumed to have access to the device to induce faults and measure its side-channels such as timing information, power consumption, electromagnetic leaks, or sound with low signal-to-noise ratio. A good summary of fault attacks in given by {{Cao20}}. See also the discussions and references in {{Comments-186-5}}.
 
