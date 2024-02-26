@@ -4,35 +4,33 @@
 <meta charset="utf-8">
 <meta content="Common,Latin" name="scripts">
 <meta content="initial-scale=1.0" name="viewport">
-<title>Deterministic ECDSA and EdDSA Signatures with Additional Randomness</title>
+<title>Hedged ECDSA and EdDSA Signatures</title>
 <meta content="John Preuß Mattsson" name="author">
 <meta content="Erik Thormarker" name="author">
 <meta content="Sini Ruohomaa" name="author">
 <meta content="
        Deterministic elliptic-curve signatures such as deterministic ECDSA and EdDSA have gained popularity over randomized ECDSA as their security do not depend on a source of high-quality randomness. Recent research has however found that implementations of these signature algorithms may be vulnerable to certain side-channel and fault injection attacks due to their determinism. One countermeasure to such attacks is to re-add randomness to the otherwise deterministic calculation of the per-message secret number. This document updates RFC 6979 and RFC 8032 to recommend constructions with additional randomness for deployments where side-channel attacks and fault injection attacks are a concern. The updates are invisible to the validator of the signature and compatible with existing ECDSA and EdDSA validators. 
     " name="description">
-<meta content="xml2rfc 3.15.3" name="generator">
+<meta content="xml2rfc 3.19.4" name="generator">
 <meta content="next generation" name="keyword">
 <meta content="unicorn" name="keyword">
 <meta content="sparkling distributed ledger" name="keyword">
 <meta content="draft-irtf-cfrg-det-sigs-with-noise-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.15.3
-    Python 3.10.9
-    appdirs 1.4.4
-    ConfigArgParse 1.5.3
-    google-i18n-address 2.5.2
-    html5lib 1.1
+  xml2rfc 3.19.4
+    Python 3.11.6
+    ConfigArgParse 1.7
+    google-i18n-address 3.1.0
     intervaltree 3.1.0
     Jinja2 3.1.2
-    lxml 4.9.2
-    MarkupSafe 2.1.1
+    lxml 4.9.3
+    platformdirs 4.2.0
     pycountry 22.3.5
-    PyYAML 6.0
-    requests 2.28.1
-    setuptools 65.6.0
+    PyYAML 6.0.1
+    requests 2.31.0
+    setuptools 68.2.2
     six 1.16.0
-    wcwidth 0.2.5
+    wcwidth 0.2.13
 -->
 <link href="draft-irtf-cfrg-det-sigs-with-noise.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -363,7 +361,7 @@ ul.empty li, .ulEmpty li {
   margin-top: 0.5em;
 }
 :is(ul, ol).compact, .ulCompact, .olCompact {
-  line-height: 100%;
+  line-height: 1;
   margin: 0 0 0 2em;
 }
 
@@ -373,9 +371,12 @@ dl {
   --indent: 3ch;
   /* --indent: attr(indent ch); not supported in any browser, but we can dream */
 }
+dl.olPercent {
+  --indent: 5ch;
+}
 dl > dt {
   float: left;
-  margin-right: 1em;
+  margin-right: 2ch;
   min-width: 8ch;
 }
 dl.dlNewline > dt {
@@ -385,6 +386,9 @@ dl > dd {
   margin-bottom: .8em;
   margin-left: var(--indent) !important; /* stupid element overrides */
   min-height: 2ex;
+}
+dl.olPercent > dt {
+  min-width: calc(var(--indent) - 2ch);
 }
 :is(dl.compact, .dlCompact) > dd {
   margin-bottom: 0;
@@ -407,11 +411,11 @@ dl > dd > dl {
 a, a[href].selfRef:hover {
   text-decoration: none;
 }
-a[href].selfRef {
-  color: var(--text-color);
-}
 a[href] {
   color: var(--link-color);
+}
+a[href].selfRef, .iref + a[href].internal {
+  color: var(--text-color);
 }
 a[href]:hover {
   text-decoration: underline;
@@ -585,10 +589,14 @@ hr {
 .bcp14 {
   font-variant: small-caps;
   font-weight: 600;
-  font-size: 14.5px;
+  font-size: var(--small-font-size);
 }
 .role {
   font-variant: all-small-caps;
+}
+sub, sup {
+  line-height: 1;
+  font-size: 80%;
 }
 
 /* info block */
@@ -604,6 +612,7 @@ hr {
   clear: left;
   float: left;
   text-align: right;
+  margin-right: 1ch;
 }
 #identifiers dd {
   margin: 0;
@@ -644,7 +653,7 @@ hr {
 }
 #toc nav li {
   line-height: 1.3em;
-  margin: 0.75em 0;
+  margin: 2px 0;
   padding-left: 1.2em;
   text-indent: -1.2em;
 }
@@ -655,7 +664,8 @@ hr {
 .references dt {
   text-align: right;
   font-weight: bold;
-  min-width: 7em;
+  min-width: 10ch;
+  margin-right: 1.5ch;
 }
 .references dt:target::before {
   content: "⇒";
@@ -663,7 +673,7 @@ hr {
   margin: 0 10px 0 -25px;
 }
 .references dd {
-  margin-left: 8em !important;
+  margin-left: 12ch !important;
   overflow: auto;
 }
 
@@ -736,7 +746,7 @@ hr.addr {
     z-index: 2;
     top: 0;
     right: 0;
-    padding: 0;
+    padding: 1px 0 0 0;
     margin: 0;
     border-bottom: 1px solid #ccc;
     opacity: 0.6;
@@ -860,16 +870,13 @@ hr.addr {
     border-top: none;
     padding-top: 0;
   }
-  figure, pre {
+  figure, pre, .vcard {
     page-break-inside: avoid;
-  }
-  figure {
-    overflow: scroll;
   }
   h1, h2, h3, h4, h5, h6 {
     page-break-after: avoid;
   }
-  h2+*, h3+*, h4+*, h5+*, h6+* {
+  :is(h2, h3, h4, h5, h6)+*, dd {
     page-break-before: avoid;
   }
   pre {
@@ -882,6 +889,9 @@ hr.addr {
   }
   td {
     border-top: 1px solid #ddd;
+  }
+  .toplink {
+    display: none;
   }
 }
 
@@ -983,28 +993,6 @@ address div.right {
   text-align: right;
 }
 
-/* Give the table caption label the same styling as the figcaption */
-
-@media print {
-  .toplink {
-    display: none;
-  }
-
-  /* avoid overwriting the top border line with the ToC header */
-  #toc {
-    padding-top: 1px;
-  }
-
-  /* Avoid page breaks inside dl and author address entries */
-  dd {
-    page-break-before: avoid;
-  }
-  .vcard {
-    page-break-inside: avoid;
-  }
-
-}
-
 /* Dark mode. */
 @media (prefers-color-scheme: dark) {
 :root {
@@ -1041,11 +1029,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Hedged ECC Signatures</td>
-<td class="right">January 2023</td>
+<td class="right">February 2024</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Preuß Mattsson, et al.</td>
-<td class="center">Expires 21 July 2023</td>
+<td class="center">Expires 29 August 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1061,12 +1049,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="https://www.rfc-editor.org/rfc/rfc6979" class="eref">6979</a>, <a href="https://www.rfc-editor.org/rfc/rfc8032" class="eref">8032</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2023-01-17" class="published">17 January 2023</time>
+<time datetime="2024-02-26" class="published">26 February 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2023-07-21">21 July 2023</time></dd>
+<dd class="expires"><time datetime="2024-08-29">29 August 2024</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1084,7 +1072,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </dd>
 </dl>
 </div>
-<h1 id="title">Deterministic ECDSA and EdDSA Signatures with Additional Randomness</h1>
+<h1 id="title">Hedged ECDSA and EdDSA Signatures</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
 <p id="section-abstract-1">Deterministic elliptic-curve signatures such as deterministic ECDSA and EdDSA have gained popularity over randomized ECDSA as their security do not depend on a source of high-quality randomness. Recent research has however found that implementations of these signature algorithms may be vulnerable to certain side-channel and fault injection attacks due to their determinism. One countermeasure to such attacks is to re-add randomness to the otherwise deterministic calculation of the per-message secret number. This document updates RFC 6979 and RFC 8032 to recommend constructions with additional randomness for deployments where side-channel attacks and fault injection attacks are a concern. The updates are invisible to the validator of the signature and compatible with existing ECDSA and EdDSA validators.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
@@ -1124,7 +1112,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 21 July 2023.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 29 August 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1133,7 +1121,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
         </h2>
 <p id="section-boilerplate.2-1">
-            Copyright (c) 2023 IETF Trust and the persons identified as the
+            Copyright (c) 2024 IETF Trust and the persons identified as the
             document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.2-2">
             This document is subject to BCP 78 and the IETF Trust's Legal
@@ -1296,20 +1284,27 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-for-discussion-to-be-remove" class="section-name selfRef">For discussion (to be removed in the future)</a>
       </h2>
 <ul class="normal">
-<li class="normal" id="section-6-1.1">removal of "noise" from filename. Will be done if/when the draft is uploaded as adopted (draft-irtf-....)<a href="#section-6-1.1" class="pilcrow">¶</a>
+<li class="normal" id="section-6-1.1">
+          <p id="section-6-1.1.1">removal of "noise" from filename. Will be done if/when the draft is uploaded as adopted (draft-irtf-....)<a href="#section-6-1.1.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-6-1.2">Strong consensus to change the name "Deterministic ECDSA and EdDSA Signatures with Additional Randomness". The signatures
-are obliously not deteministic anymore. Several suggestions for new names: "message-dependent", "message-keyed", "entropy stealing", "entropy combining", "whitening", "keyed entropy whitening", "hedged", "noise".<a href="#section-6-1.2" class="pilcrow">¶</a>
+        <li class="normal" id="section-6-1.2">
+          <p id="section-6-1.2.1">Strong consensus to change the name "Deterministic ECDSA and EdDSA Signatures with Additional Randomness". The signatures
+are obliously not deteministic anymore. Several suggestions for new names: "message-dependent", "message-keyed", "entropy stealing", "entropy combining", "whitening", "keyed entropy whitening", "hedged", "noise".<a href="#section-6-1.2.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-6-1.3">Ordering of the parameters in "dom2(F, C) || Z || prefix || 000... || PH(M)" in Ed25519 and similar in Ed448 and ECDSA. There has also been sugestion to use a larger Z and to use several paddings 000....<a href="#section-6-1.3" class="pilcrow">¶</a>
+        <li class="normal" id="section-6-1.3">
+          <p id="section-6-1.3.1">Ordering of the parameters in "dom2(F, C) || Z || prefix || 000... || PH(M)" in Ed25519 and similar in Ed448 and ECDSA. There has also been sugestion to use a larger Z and to use several paddings 000....<a href="#section-6-1.3.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-6-1.4">Ilari Liusvaara pointed out attacks using the context that needs to be considered. Some statements "first block is composed only of the hashed private key and the random value" in the document are not true for Ed25519ctx and Ed448ctx.<a href="#section-6-1.4" class="pilcrow">¶</a>
+        <li class="normal" id="section-6-1.4">
+          <p id="section-6-1.4.1">Ilari Liusvaara pointed out attacks using the context that needs to be considered. Some statements "first block is composed only of the hashed private key and the random value" in the document are not true for Ed25519ctx and Ed448ctx.<a href="#section-6-1.4.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-6-1.5">Jim Schaad: Is there any advantage to stealing one of the zeros from the end padding and using it to pad between 'Z' and 'x' in the construction? I would assume that it should use the '0'/'1' construction between steps d and f.<a href="#section-6-1.5" class="pilcrow">¶</a>
+        <li class="normal" id="section-6-1.5">
+          <p id="section-6-1.5.1">Jim Schaad: Is there any advantage to stealing one of the zeros from the end padding and using it to pad between 'Z' and 'x' in the construction? I would assume that it should use the '0'/'1' construction between steps d and f.<a href="#section-6-1.5.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-6-1.6">Jim Schaad: Is there any advantage to padding with 0x01 in step f rather than 0x00?<a href="#section-6-1.6" class="pilcrow">¶</a>
+        <li class="normal" id="section-6-1.6">
+          <p id="section-6-1.6.1">Jim Schaad: Is there any advantage to padding with 0x01 in step f rather than 0x00?<a href="#section-6-1.6.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-6-1.7">Rene Stuik: MUST instead of RECOMMENDED.<a href="#section-6-1.7" class="pilcrow">¶</a>
+        <li class="normal" id="section-6-1.7">
+          <p id="section-6-1.7.1">Rene Stuik: MUST instead of RECOMMENDED.<a href="#section-6-1.7.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 </section>
@@ -1318,6 +1313,7 @@ are obliously not deteministic anymore. Several suggestions for new names: "mess
       <h2 id="name-references">
 <a href="#section-7" class="section-number selfRef">7. </a><a href="#name-references" class="section-name selfRef">References</a>
       </h2>
+<div id="sec-normative-references">
 <section id="section-7.1">
         <h3 id="name-normative-references">
 <a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
@@ -1357,6 +1353,8 @@ are obliously not deteministic anymore. Several suggestions for new names: "mess
 <dd class="break"></dd>
 </dl>
 </section>
+</div>
+<div id="sec-informative-references">
 <section id="section-7.2">
         <h3 id="name-informative-references">
 <a href="#section-7.2" class="section-number selfRef">7.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
@@ -1408,7 +1406,7 @@ are obliously not deteministic anymore. Several suggestions for new names: "mess
 <dd class="break"></dd>
 <dt id="I-D.irtf-cfrg-frost">[I-D.irtf-cfrg-frost]</dt>
         <dd>
-<span class="refAuthor">Connolly, D.</span>, <span class="refAuthor">Komlo, C.</span>, <span class="refAuthor">Goldberg, I.</span>, and <span class="refAuthor">C. A. Wood</span>, <span class="refTitle">"Two-Round Threshold Schnorr Signatures with FROST"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-irtf-cfrg-frost-11</span>, <time datetime="2022-10-07" class="refDate">7 October 2022</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-frost-11">https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-frost-11</a>&gt;</span>. </dd>
+<span class="refAuthor">Connolly, D.</span>, <span class="refAuthor">Komlo, C.</span>, <span class="refAuthor">Goldberg, I.</span>, and <span class="refAuthor">C. A. Wood</span>, <span class="refTitle">"Two-Round Threshold Schnorr Signatures with FROST"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-irtf-cfrg-frost-15</span>, <time datetime="2023-09-18" class="refDate">18 September 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-frost-15">https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-frost-15</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="Kampanakis16">[Kampanakis16]</dt>
         <dd>
@@ -1564,6 +1562,7 @@ are obliously not deteministic anymore. Several suggestions for new names: "mess
 <dd class="break"></dd>
 </dl>
 </section>
+</div>
 </section>
 <div id="acknowledgments">
 <section id="appendix-A">

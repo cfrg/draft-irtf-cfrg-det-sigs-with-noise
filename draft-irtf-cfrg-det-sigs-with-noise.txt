@@ -6,10 +6,10 @@ Crypto Forum                                           J. Preuß Mattsson
 Internet-Draft                                             E. Thormarker
 Updates: 6979, 8032 (if approved)                            S. Ruohomaa
 Intended status: Informational                                  Ericsson
-Expires: 21 July 2023                                    17 January 2023
+Expires: 29 August 2024                                 26 February 2024
 
 
-  Deterministic ECDSA and EdDSA Signatures with Additional Randomness
+                   Hedged ECDSA and EdDSA Signatures
                draft-irtf-cfrg-det-sigs-with-noise-latest
 
 Abstract
@@ -61,11 +61,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 July 2023.
+   This Internet-Draft will expire on 29 August 2024.
 
 Copyright Notice
 
-   Copyright (c) 2023 IETF Trust and the persons identified as the
+   Copyright (c) 2024 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -491,9 +491,9 @@ Table of Contents
    [I-D.irtf-cfrg-frost]
               Connolly, D., Komlo, C., Goldberg, I., and C. A. Wood,
               "Two-Round Threshold Schnorr Signatures with FROST", Work
-              in Progress, Internet-Draft, draft-irtf-cfrg-frost-11, 7
-              October 2022, <https://datatracker.ietf.org/doc/html/
-              draft-irtf-cfrg-frost-11>.
+              in Progress, Internet-Draft, draft-irtf-cfrg-frost-15, 18
+              September 2023, <https://datatracker.ietf.org/doc/html/
+              draft-irtf-cfrg-frost-15>.
 
    [Kampanakis16]
               Kampanakis, P., "FIPS and Deterministic ECDSA: Achieving
