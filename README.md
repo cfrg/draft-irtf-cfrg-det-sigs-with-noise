@@ -4,8 +4,8 @@ This is the working area for the IRTF CFRG Internet-Draft, "Hedged ECDSA and EdD
 
 * [Editor's Copy](https://cfrg.github.io/draft-irtf-cfrg-det-sigs-with-noise/#go.draft-irtf-cfrg-det-sigs-with-noise.html)
 * [Datatracker Page](https://datatracker.ietf.org/doc/draft-irtf-cfrg-det-sigs-with-noise)
-* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-det-sigs-with-noise)
-* [Compare Editor's Copy to Individual Draft](https://cfrg.github.io/draft-irtf-cfrg-det-sigs-with-noise/#go.draft-irtf-cfrg-det-sigs-with-noise.diff)
+* [Research Group Draft](https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-det-sigs-with-noise)
+* [Compare Editor's Copy to Research Group Draft](https://cfrg.github.io/draft-irtf-cfrg-det-sigs-with-noise/#go.draft-irtf-cfrg-det-sigs-with-noise.diff)
 
 
 ## Contributing
