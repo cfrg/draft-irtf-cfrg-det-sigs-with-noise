@@ -1,6 +1,6 @@
-# Deterministic ECDSA and EdDSA Signatures with Additional Randomness
+# Hedged ECDSA and EdDSA Signatures
 
-This is the working area for the individual Internet-Draft, "Deterministic ECDSA and EdDSA Signatures with Additional Randomness".
+This is the working area for the individual Internet-Draft, "Hedged ECDSA and EdDSA Signatures".
 
 * [Editor's Copy](https://cfrg.github.io/draft-irtf-cfrg-det-sigs-with-noise/#go.draft-irtf-cfrg-det-sigs-with-noise.html)
 * [Datatracker Page](https://datatracker.ietf.org/doc/draft-irtf-cfrg-det-sigs-with-noise)
