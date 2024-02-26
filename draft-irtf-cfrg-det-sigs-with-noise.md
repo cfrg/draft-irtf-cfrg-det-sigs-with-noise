@@ -1,5 +1,5 @@
 ---
-title: "Deterministic ECDSA and EdDSA Signatures with Additional Randomness"
+title: "Hedged ECDSA and EdDSA Signatures"
 abbrev: "Hedged ECC Signatures"
 category: info
 updates: 6979, 8032
