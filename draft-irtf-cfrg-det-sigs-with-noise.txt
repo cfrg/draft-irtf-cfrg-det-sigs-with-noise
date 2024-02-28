@@ -274,6 +274,9 @@ Table of Contents
           K = HMAC_K(V || 0x01 || Z || 000... || int2octets(x) ||
               000... || bits2octets(h1))
 
+       Note that the "internal octet" is 0x01 this time and that Z is
+       newly generated random data, i.e., not reused from step (d).
+
    When ECDSA is used with SHAKE [SHA3] the HMAC construction above MAY
    be used but it is RECOMMENDED to use the more efficient KMAC
    construction [KMAC].  SHAKE is a variable-length hash function
