@@ -16,7 +16,7 @@ Abstract
 
    Deterministic elliptic-curve signatures such as deterministic ECDSA
    and EdDSA have gained popularity over randomized ECDSA as their
-   security do not depend on a source of high-quality randomness.
+   security does not depend on a source of high-quality randomness.
    Recent research, however, has found that implementations of these
    signature algorithms may be vulnerable to certain side-channel and
    fault injection attacks due to their deterministic nature.  One
@@ -158,7 +158,7 @@ Table of Contents
    faults that bypass even secure execution technologies.  RowHammer can
    e.g., be used in operating systems with several processes or cloud
    scenarios with virtualized servers.  Protocols like TLS, SSH, and
-   IKEv2 that adds a random number to the message to be signed mitigate
+   IKEv2 that add a random number to the message to be signed mitigate
    some types of attacks [PSSLR17].
 
    Government agencies are clearly concerned about these attacks.  In
@@ -294,7 +294,7 @@ Table of Contents
 
 5.  Security Considerations
 
-   The constructions in this document follows the high-level approach in
+   The constructions in this document follow the high-level approach in
    [XEdDSA] to calculate the per-message secret number from the hash of
    the private key and the message, but add additional randomness into
    the calculation for greater resilience.  This does not re-introduce
@@ -693,7 +693,7 @@ Change log
 
 Acknowledgments
 
-   The authors want to thank Tony Arcieri, Uri Blumenthal, Carsten
+   The authors would like to thank Tony Arcieri, Uri Blumenthal, Carsten
    Bormann, Phillip Hallam-Baker, Chelsea Komlo, Quynh Dang, Janos
    Follath, Ilari Liusvaara, Jim Schaad, and Ruggero Susella for their
    valuable comments and feedback.
