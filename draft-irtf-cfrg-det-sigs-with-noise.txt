@@ -81,10 +81,9 @@ Table of Contents
    3.  Updates to RFC 8032 (EdDSA)
    4.  Updates to RFC 6979 (Deterministic ECDSA)
    5.  Security Considerations
-   6.  For discussion (to be removed in the future)
-   7.  References
-     7.1.  Normative References
-     7.2.  Informative References
+   6.  References
+     6.1.  Normative References
+     6.2.  Informative References
    Change log
    Acknowledgments
    Authors' Addresses
@@ -349,31 +348,9 @@ Table of Contents
    against all side-channel attacks, not just attacks that exploit
    determinism, see for example [BSI].
 
-6.  For discussion (to be removed in the future)
+6.  References
 
-   *  Ordering of the parameters in "dom2(F, C) || Z || prefix ||
-      000... || PH(M)" in Ed25519 and similar in Ed448 and ECDSA.  There
-      has also been sugestion to use a larger Z and to use several
-      paddings 000....
-
-   *  Ilari Liusvaara pointed out attacks using the context that needs
-      to be considered.  Some statements "first block is composed only
-      of the hashed private key and the random value" in the document
-      are not true for Ed25519ctx and Ed448ctx.
-
-   *  Jim Schaad: Is there any advantage to stealing one of the zeros
-      from the end padding and using it to pad between 'Z' and 'x' in
-      the construction?  I would assume that it should use the '0'/'1'
-      construction between steps d and f.
-
-   *  Jim Schaad: Is there any advantage to padding with 0x01 in step f
-      rather than 0x00?
-
-   *  Rene Stuik: MUST instead of RECOMMENDED.
-
-7.  References
-
-7.1.  Normative References
+6.1.  Normative References
 
    [FIPS-186-5]
               Department of Commerce, N. S., "Digital Signature Standard
@@ -417,7 +394,7 @@ Table of Contents
               <https://nvlpubs.nist.gov/nistpubs/FIPS/
               NIST.FIPS.202.pdf>.
 
-7.2.  Informative References
+6.2.  Informative References
 
    [ABFJLM17] Ambrose, C., Bos, J., Fay, B., Joye, M., Lochter, M., and
               B. Murray, "Differential Attacks on Deterministic
