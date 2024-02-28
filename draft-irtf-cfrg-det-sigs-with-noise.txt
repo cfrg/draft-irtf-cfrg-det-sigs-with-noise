@@ -85,6 +85,7 @@ Table of Contents
    7.  References
      7.1.  Normative References
      7.2.  Informative References
+   Change log
    Acknowledgments
    Authors' Addresses
 
@@ -672,6 +673,19 @@ Table of Contents
    [XEdDSA]   Signal, "The XEdDSA and VXEdDSA Signature Schemes",
               October 2016,
               <https://signal.org/docs/specifications/xeddsa/>.
+
+Change log
+
+   This section is to be removed before publishing as an RFC.
+
+   Changes from -00 to -01:
+
+   *  Changed terminology to hedged signatures
+
+   *  Added reference to the FIPS 204 (ML-DSA) where hedged signatures
+      are the default.
+
+   *  Editorial changes.
 
 Acknowledgments
 
