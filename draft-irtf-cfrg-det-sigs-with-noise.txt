@@ -106,18 +106,18 @@ Table of Contents
    and faster to use the RNG instead of doing a hash computation.
 
    In deterministic ECC signatures schemes such as Deterministic
-   Elliptic Curve Digital Signature Algorithm (ECDSA) [RFC6979] and
-   Edwards-curve Digital Signature Algorithm (EdDSA) [RFC8032], the per-
-   message secret number is instead generated in a fully deterministic
-   way as a function of the message and the private key.  Except for key
-   generation, the security of such deterministic signatures does not
-   depend on a source of high-quality randomness.  This makes
-   verification of implementations easier.  As they are presumed to be
-   safer, deterministic signatures have gained popularity and are
-   referenced and recommended by a large number of recent RFCs [RFC8037]
-   [RFC8080] [RFC8225] [RFC8387] [RFC8410] [RFC8411] [RFC8419] [RFC8420]
-   [RFC8422] [RFC8446] [RFC8463] [RFC8550] [RFC8591] [RFC8608] [RFC8624]
-   [RFC9053].
+   Elliptic Curve Digital Signature Algorithm (ECDSA)
+   [RFC6979][FIPS-186-5] and Edwards-curve Digital Signature Algorithm
+   (EdDSA) [RFC8032], the per-message secret number is instead generated
+   in a fully deterministic way as a function of the message and the
+   private key.  Except for key generation, the security of such
+   deterministic signatures does not depend on a source of high-quality
+   randomness.  This makes verification of implementations easier.  As
+   they are presumed to be safer, deterministic signatures have gained
+   popularity and are referenced and recommended by a large number of
+   recent RFCs [RFC8037] [RFC8080] [RFC8225] [RFC8387] [RFC8410]
+   [RFC8411] [RFC8419] [RFC8420] [RFC8422] [RFC8446] [RFC8463] [RFC8550]
+   [RFC8591] [RFC8608] [RFC8624] [RFC9053].
 
    Side-channel attacks are potential attack vectors for implementations
    of cryptographic algorithms.  Side-Channel attacks can in general be
@@ -162,7 +162,7 @@ Table of Contents
    some types of attacks [PSSLR17].
 
    Government agencies are clearly concerned about these attacks.  In
-   [Notice-186-5] and [Draft-186-5], NIST warns about side-channel and
+   [Notice-186-5] and {FIPS-186-5}, NIST warns about side-channel and
    fault injection attacks, but states that deterministic ECDSA may be
    desirable for devices that lack good randomness.  BSI has published
    [BSI] and researchers from BSI have co-authored two research papers
