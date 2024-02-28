@@ -1,6 +1,5 @@
 ---
 title: "Hedged ECDSA and EdDSA Signatures"
-abbrev: "Hedged ECC Signatures"
 category: info
 updates: 6979, 8032
 
