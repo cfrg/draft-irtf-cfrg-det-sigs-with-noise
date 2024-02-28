@@ -44,7 +44,7 @@ About This Document
    at https://www.ietf.org/mailman/listinfo/cfrg/.
 
    Source for this draft and an issue tracker can be found at
-   https://github.com/emanjon/draft-irtf-cfrg-det-sigs-with-noise.
+   https://github.com/cfrg/draft-irtf-cfrg-det-sigs-with-noise.
 
 Status of This Memo
 
