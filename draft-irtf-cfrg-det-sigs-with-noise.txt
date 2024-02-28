@@ -162,7 +162,7 @@ Table of Contents
    some types of attacks [PSSLR17].
 
    Government agencies are clearly concerned about these attacks.  In
-   [Notice-186-5] and {FIPS-186-5}, NIST warns about side-channel and
+   [Notice-186-5] and [FIPS-186-5], NIST warns about side-channel and
    fault injection attacks, but states that deterministic ECDSA may be
    desirable for devices that lack good randomness.  BSI has published
    [BSI] and researchers from BSI have co-authored two research papers
