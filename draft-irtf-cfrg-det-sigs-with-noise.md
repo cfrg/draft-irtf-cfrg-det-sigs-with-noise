@@ -535,7 +535,7 @@ Implementations need to follow best practices on how to protect against all side
 
 Changes from -00 to -01:
 
-* Changed terminology to hedged signatures.
+* Changed terminology to hedged signatures/signing.
 * Added reference to the FIPS 204 (ML-DSA) where hedged signatures are the default.
 * Added a second 000... padding that separates the context from the prefix, aligning with BSI recommendations.
 * Added note that Z in step f is not reused from step d.
