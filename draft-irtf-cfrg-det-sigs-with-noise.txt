@@ -275,7 +275,7 @@ Table of Contents
    message M.  When ECDSA is used with SHAKE128(M, d), it is RECOMMENDED
    to replace HMAC(K, M) with KMAC128(K, M, d, "").  When ECDSA is used
    with SHAKE256(M, d), it is RECOMMENDED to replace HMAC(K, M) with
-   KMAC256(K, M, d, "").  [RFC8692] and [Draft-186-5] define the use of
+   KMAC256(K, M, d, "").  [RFC8692] and [FIPS-186-5] define the use of
    SHAKE128 with an output length of 256 bits and SHAKE256 with an
    output length or 512 bits.
 
