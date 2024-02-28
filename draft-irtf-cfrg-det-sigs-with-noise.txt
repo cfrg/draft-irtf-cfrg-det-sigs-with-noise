@@ -316,8 +316,7 @@ Table of Contents
    insufficient mixing of the hashed private key with the additional
    randomness.  The construction in this document aims to mitigate fault
    injection attacks that leverage determinism in deterministic ECDSA
-   and EdDSA signatures (see e.g.,
-   https://eprint.iacr.org/2017/975.pdf), by randomizing nonce
+   and EdDSA signatures (see e.g., [ABFJLM17]), by randomizing nonce
    generation.  Fault injection attacks that achieve instruction
    skipping as in e.g., Section 3.4 of [ABFJLM17] are not necessarily
    stopped.  It seems to be possible to, at the same time, also mitigate
