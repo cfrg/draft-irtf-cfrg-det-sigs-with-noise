@@ -424,7 +424,7 @@ Side-channel Attack on EdDSA"
 
 --- abstract
 
-Deterministic elliptic-curve signatures such as deterministic ECDSA and EdDSA have gained popularity over randomized ECDSA as their security do not depend on a source of high-quality randomness. Recent research has however found that implementations of these signature algorithms may be vulnerable to certain side-channel and fault injection attacks due to their determinism. One countermeasure to such attacks is hedged signatures where the per-message secret number is calculated from both fresh randomness and the message. This document updates RFC 6979 and RFC 8032 to recommend constructions with additional randomness for deployments where side-channel attacks and fault injection attacks are a concern. The updates are invisible to the validator of the signature and compatible with existing ECDSA and EdDSA validators.
+Deterministic elliptic-curve signatures such as deterministic ECDSA and EdDSA have gained popularity over randomized ECDSA as their security do not depend on a source of high-quality randomness. Recent research has however found that implementations of these signature algorithms may be vulnerable to certain side-channel and fault injection attacks due to their determinism. One countermeasure to such attacks is hedged signatures where the calculation of the per-message secret number includes both fresh randomness and the message. This document updates RFC 6979 and RFC 8032 to recommend constructions with additional randomness for deployments where side-channel attacks and fault injection attacks are a concern. The updates are invisible to the validator of the signature and compatible with existing ECDSA and EdDSA validators.
 
 --- middle
 
