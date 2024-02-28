@@ -536,6 +536,7 @@ Changes from -00 to -01:
 
 * Changed terminology to hedged signatures
 * Added reference to the FIPS 204 (ML-DSA) where hedged signatures are the default.
+* Two padding 000... This has been suggested by several people and aligns with BSI recommendations
 * Editorial changes.
 
 # Acknowledgments
