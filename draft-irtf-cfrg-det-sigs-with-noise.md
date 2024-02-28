@@ -537,14 +537,14 @@ Implementations need to follow best practices on how to protect against all side
 
 Changes from -00 to -01:
 
-* Changed terminology to hedged signatures
+* Changed terminology to hedged signatures.
 * Added reference to the FIPS 204 (ML-DSA) where hedged signatures are the default.
 * Added a second 000... padding that separates the context from the prefix, aligning with BSI recommendations.
-* Added note that Z in step f is not reused from step d
-* Added note on "internal octet" is 0x01 from RFC 6979
-* Removed incorrect statement that context fit in first block
-* Added more description about the construction
-* Moved "For discussion" section to GitHub issue
+* Added note that Z in step f is not reused from step d.
+* Added note on "internal octet" is 0x01 from RFC 6979.
+* Removed incorrect statement that context fit in first block.
+* Added more description about the construction.
+* Moved "For discussion" section to GitHub issue.
 * Editorial changes.
 
 # Acknowledgments
