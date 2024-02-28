@@ -173,13 +173,13 @@ informative:
         ins: "National Institute of Standards and Technology (NIST)"
     date: October 2019
 
-  Draft-186-5:
-    target: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-5-draft.pdf
-    title: FIPS PUB 186-5 (Draft)
+  Draft-204:
+    target: https://csrc.nist.gov/pubs/fips/204/ipd
+    title: FIPS PUB 204 (Draft)
     author:
       -
         ins: "National Institute of Standards and Technology (NIST)"
-    date: October 2019
+    date: August 2023
 
   SideChannel:
     target: https://arxiv.org/pdf/1611.03748.pdf
