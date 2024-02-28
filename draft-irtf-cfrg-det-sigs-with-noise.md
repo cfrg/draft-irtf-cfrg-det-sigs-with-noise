@@ -20,7 +20,7 @@ venue:
   type: "Research Group"
   mail: "cfrg@ietf.org"
   arch: "https://mailarchive.ietf.org/arch/search/?email_list=cfrg"
-  github: "emanjon/draft-irtf-cfrg-det-sigs-with-noise"
+  github: "cfrg/draft-irtf-cfrg-det-sigs-with-noise"
   latest: "https://cfrg.github.io/draft-irtf-cfrg-det-sigs-with-noise/draft-irtf-cfrg-det-sigs-with-noise.html"
 
 author:
