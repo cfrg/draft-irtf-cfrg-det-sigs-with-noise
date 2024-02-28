@@ -456,20 +456,20 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 For Ed25519ph, Ed25519ctx, and Ed25519: In deployments where side-channel and fault injection attacks are a concern, the following step is RECOMMENDED instead of step (2) in Section 5.1.6 of {{RFC8032}}:
 
-       2.  Compute SHA-512(dom2(F, C) || Z || prefix || 000... || PH(M)),
+       2.  Compute SHA-512(dom2(F, C) || Z || 000... || prefix || 000... || PH(M)),
            where M is the message to be signed, Z is 32 octets of random
-           data, the number of zeroes 000... is chosen so that the length
-           of (dom2(F, C) || Z || prefix || 000...) is a multiple of 128
+           data, the number of zeroes 000... is chosen so that the lengths
+           of (dom2(F, C) || Z || 000...) and (prefix || 000...) are multiples of 128
            octets. Interpret the 64-octet digest as a little-endian
            integer r.
 
-For Ed448ph and Ed448: In deployments where side-channel and fault injection attacks are a concern, the following step is RECOMMENDED instead of step (2) in Section 5.3.6 of {{RFC8032}}:
+For Ed448ph and Ed448: In deployments where side-channel and fault injection attacks are a concern, the following step is RECOMMENDED instead of step (2) in Section 5.2.6 of {{RFC8032}}:
 
-       2.  Compute SHAKE256(dom4(F, C) || Z || prefix || 000... || PH(M),
+       2.  Compute SHAKE256(dom4(F, C) || Z || 000... || prefix || 000... || PH(M),
            114), where M is the message to be signed, and Z is 57 octets
            of random data, the number of zeroes 000... is chosen so that
-           the length of (dom4(F, C) || Z || prefix || 000...) is a
-           multiple of 136 octets. F is 1 for Ed448ph, 0 for Ed448, and C
+           the length of (dom4(F, C) || Z || 000...) and (prefix || 000...) are
+           multiples of 136 octets. F is 1 for Ed448ph, 0 for Ed448, and C
            is the context to use. Interpret the 114-octet digest as a
            little-endian integer r.
 
