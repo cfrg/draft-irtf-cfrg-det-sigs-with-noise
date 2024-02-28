@@ -1285,26 +1285,19 @@ svg :is([fill="white"], [fill^="#fff"]) {
       </h2>
 <ul class="normal">
 <li class="normal" id="section-6-1.1">
-          <p id="section-6-1.1.1">removal of "noise" from filename. Will be done if/when the draft is uploaded as adopted (draft-irtf-....)<a href="#section-6-1.1.1" class="pilcrow">¶</a></p>
+          <p id="section-6-1.1.1">Ordering of the parameters in "dom2(F, C) || Z || prefix || 000... || PH(M)" in Ed25519 and similar in Ed448 and ECDSA. There has also been sugestion to use a larger Z and to use several paddings 000....<a href="#section-6-1.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-6-1.2">
-          <p id="section-6-1.2.1">Strong consensus to change the name "Deterministic ECDSA and EdDSA Signatures with Additional Randomness". The signatures
-are obliously not deteministic anymore. Several suggestions for new names: "message-dependent", "message-keyed", "entropy stealing", "entropy combining", "whitening", "keyed entropy whitening", "hedged", "noise".<a href="#section-6-1.2.1" class="pilcrow">¶</a></p>
+          <p id="section-6-1.2.1">Ilari Liusvaara pointed out attacks using the context that needs to be considered. Some statements "first block is composed only of the hashed private key and the random value" in the document are not true for Ed25519ctx and Ed448ctx.<a href="#section-6-1.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-6-1.3">
-          <p id="section-6-1.3.1">Ordering of the parameters in "dom2(F, C) || Z || prefix || 000... || PH(M)" in Ed25519 and similar in Ed448 and ECDSA. There has also been sugestion to use a larger Z and to use several paddings 000....<a href="#section-6-1.3.1" class="pilcrow">¶</a></p>
+          <p id="section-6-1.3.1">Jim Schaad: Is there any advantage to stealing one of the zeros from the end padding and using it to pad between 'Z' and 'x' in the construction? I would assume that it should use the '0'/'1' construction between steps d and f.<a href="#section-6-1.3.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-6-1.4">
-          <p id="section-6-1.4.1">Ilari Liusvaara pointed out attacks using the context that needs to be considered. Some statements "first block is composed only of the hashed private key and the random value" in the document are not true for Ed25519ctx and Ed448ctx.<a href="#section-6-1.4.1" class="pilcrow">¶</a></p>
+          <p id="section-6-1.4.1">Jim Schaad: Is there any advantage to padding with 0x01 in step f rather than 0x00?<a href="#section-6-1.4.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-6-1.5">
-          <p id="section-6-1.5.1">Jim Schaad: Is there any advantage to stealing one of the zeros from the end padding and using it to pad between 'Z' and 'x' in the construction? I would assume that it should use the '0'/'1' construction between steps d and f.<a href="#section-6-1.5.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-6-1.6">
-          <p id="section-6-1.6.1">Jim Schaad: Is there any advantage to padding with 0x01 in step f rather than 0x00?<a href="#section-6-1.6.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-6-1.7">
-          <p id="section-6-1.7.1">Rene Stuik: MUST instead of RECOMMENDED.<a href="#section-6-1.7.1" class="pilcrow">¶</a></p>
+          <p id="section-6-1.5.1">Rene Stuik: MUST instead of RECOMMENDED.<a href="#section-6-1.5.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 </section>
