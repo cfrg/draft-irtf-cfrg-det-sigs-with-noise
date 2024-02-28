@@ -670,7 +670,7 @@ Change log
 
    Changes from -00 to -01:
 
-   *  Changed terminology to hedged signatures.
+   *  Changed terminology to hedged signatures/signing.
 
    *  Added reference to the FIPS 204 (ML-DSA) where hedged signatures
       are the default.
