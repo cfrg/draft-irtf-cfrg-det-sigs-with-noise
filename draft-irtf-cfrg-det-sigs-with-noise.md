@@ -438,7 +438,9 @@ Side-channel attacks are potential attack vectors for implementations of cryptog
 
 Fault attacks may also be possible without physical access to the device. RowHammer {{RowHammer14}} showed how an attacker to induce DRAM bit-flips in memory areas the attacker should not have access to. Plundervolt {{Plundervolt19}} showed how an attacker with root access can use frequency and voltage scaling interfaces to induce faults that bypass even secure execution technologies. RowHammer can e.g., be used in operating systems with several processes or cloud scenarios with virtualized servers. Protocols like TLS, SSH, and IKEv2 that adds a random number to the message to be signed mitigate some types of attacks {{PSSLR17}}.
 
-Government agencies are clearly concerned about these attacks. In {{Notice-186-5}} and {{FIPS-186-5}}, NIST warns about side-channel and fault injection attacks, but states that deterministic ECDSA may be desirable for devices that lack good randomness. BSI has published {{BSI}} and researchers from BSI have co-authored two research papers {{ABFJLM17}} {{PSSLR17}} on attacks on deterministic signatures. For many industries it is important to be compliant with both RFCs and government publications, alignment between IETF, NIST, and BSI recommendations would be preferable.
+Government agencies are clearly concerned about these attacks. In {{Notice-186-5}} and {{FIPS-186-5}}, NIST warns about side-channel and fault injection attacks, but states that deterministic ECDSA may be desirable for devices that lack good randomness. The quantum-resistant ML-DSA {{Draft-204}} under standardization by NIST uses hedged signing by default.
+
+BSI has published {{BSI}} and researchers from BSI have co-authored two research papers {{ABFJLM17}} {{PSSLR17}} on attacks on deterministic signatures. For many industries it is important to be compliant with both RFCs and government publications, alignment between IETF, NIST, and BSI recommendations would be preferable.
 
 Note that deriving per-message secret number deterministically, is also insecure in a multi-party signature setting {{I-D.irtf-cfrg-frost}}.
 
