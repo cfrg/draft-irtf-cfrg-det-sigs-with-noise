@@ -2,7 +2,8 @@
 
 This is the working area for the IRTF [Crypto Forum Research Group](https://datatracker.ietf.org/rg/cfrg/documents/) Internet-Draft, "Hedged ECDSA and EdDSA Signatures".
 
-* [Editor's Copy](https://cfrg.github.io/draft-irtf-cfrg-det-sigs-with-noise/#go.draft-irtf-cfrg-det-sigs-with-noise.html)
+* [Editor's Copy HTML](https://cfrg.github.io/draft-irtf-cfrg-det-sigs-with-noise/#go.draft-irtf-cfrg-det-sigs-with-noise.html)
+* [Editor's Copy Text](https://cfrg.github.io/draft-irtf-cfrg-det-sigs-with-noise/draft-irtf-cfrg-det-sigs-with-noise.txt)
 * [Datatracker Page](https://datatracker.ietf.org/doc/draft-irtf-cfrg-det-sigs-with-noise)
 * [Research Group Draft](https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-det-sigs-with-noise)
 * [Compare Editor's Copy to Research Group Draft](https://cfrg.github.io/draft-irtf-cfrg-det-sigs-with-noise/#go.draft-irtf-cfrg-det-sigs-with-noise.diff)
