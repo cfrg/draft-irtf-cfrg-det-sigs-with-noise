@@ -166,13 +166,12 @@ Table of Contents
    fault injection attacks, but states that deterministic ECDSA may be
    desirable for devices that lack good randomness.  The quantum-
    resistant ML-DSA [Draft-204] under standardization by NIST uses
-   hedged signing by default.
-
-   BSI has published [BSI] and researchers from BSI have co-authored two
-   research papers [ABFJLM17] [PSSLR17] on attacks on deterministic
-   signatures.  For many industries it is important to be compliant with
-   both RFCs and government publications, alignment between IETF, NIST,
-   and BSI recommendations would be preferable.
+   hedged signing by default.  BSI has published [BSI] and researchers
+   from BSI have co-authored two research papers [ABFJLM17] [PSSLR17] on
+   attacks on deterministic signatures.  For many industries it is
+   important to be compliant with both RFCs and government publications,
+   alignment between IETF, NIST, and BSI recommendations would be
+   preferable.
 
    Note that deriving per-message secret number deterministically, is
    also insecure in a multi-party signature setting
