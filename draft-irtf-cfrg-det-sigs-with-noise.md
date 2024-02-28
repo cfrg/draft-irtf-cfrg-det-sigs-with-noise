@@ -486,7 +486,7 @@ d.  Set:
 
        K = HMAC_K(V || 0x00 || Z || 000... || int2octets(x) || 000...
            || bits2octets(h1))
-       
+
     where '||' denotes concatenation.  In other words, we compute
     HMAC with key K, over the concatenation of the following, in
     order: the current value of V, a sequence of eight bits of value
