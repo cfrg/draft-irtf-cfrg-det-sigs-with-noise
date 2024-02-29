@@ -268,13 +268,13 @@ Table of Contents
       yielding rlen bits of output, i.e., an integral number of octets
       (rlen is a multiple of 8).
 
-   f.  Set:
+  f.  Set:
 
-          K = HMAC_K(V || 0x01 || Zf || 000... || int2octets(x) ||
-              000... || bits2octets(h1))
+         K = HMAC_K(V || 0x01 || Zf || 000... || int2octets(x) || 000...
+             || bits2octets(h1))
 
-       Note that the "internal octet" is 0x01 this time and that Zf is
-       newly generated random data, i.e., not reused from step (d).
+      Note that the "internal octet" is 0x01 this time and that Zf is
+      newly generated random data, i.e., not reused from step (d).
 
    When ECDSA is used with SHAKE [SHA3] the HMAC construction above MAY
    be used but it is RECOMMENDED to use the more efficient KMAC
