@@ -668,6 +668,10 @@ Change log
 
    This section is to be removed before publishing as an RFC.
 
+   Changes from -01 to -02:
+
+   *  Different names Zd and Zf for the randomness in ECDSA
+
    Changes from -00 to -01:
 
    *  Changed terminology to hedged signatures/signing.
