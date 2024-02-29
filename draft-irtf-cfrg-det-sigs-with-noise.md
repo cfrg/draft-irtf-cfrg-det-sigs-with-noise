@@ -503,8 +503,8 @@ d.  Set:
 ~~~~~~~~~~~~~~~~~~~~~~~
 f.  Set:
 
-       K = HMAC_K(V || 0x01 || Zf || 000... || int2octets(x) ||
-           000... || bits2octets(h1))
+       K = HMAC_K(V || 0x01 || Zf || 000... || int2octets(x) || 000...
+           || bits2octets(h1))
 
     Note that the "internal octet" is 0x01 this time and that Zf is
     newly generated random data, i.e., not reused from step (d).
