@@ -552,10 +552,11 @@ The authors would like to thank
 {{{Tony Arcieri}}},
 {{{Uri Blumenthal}}},
 {{{Carsten Bormann}}},
-{{{Phillip Hallam-Baker}}},
-{{{Chelsea Komlo}}},
+{{{Taylor R Campbell}}},
 {{{Quynh Dang}}},
 {{{Janos Follath}}},
+{{{Phillip Hallam-Baker}}},
+{{{Chelsea Komlo}}},
 {{{Ilari Liusvaara}}},
 {{{Jim Schaad}}},
 and
