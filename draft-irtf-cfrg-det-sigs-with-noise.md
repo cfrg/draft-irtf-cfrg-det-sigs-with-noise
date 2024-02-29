@@ -1,7 +1,7 @@
 ---
 title: "Hedged ECDSA and EdDSA Signatures"
 category: info
-updates: 6979, 8032 
+updates: 6979, 8032
 
 docname: draft-irtf-cfrg-det-sigs-with-noise-latest
 submissiontype: IRTF  # also: "independent", "IAB", or "IRTF"
