@@ -533,6 +533,10 @@ Implementations need to follow best practices on how to protect against all side
 # Change log
 {:removeInRFC="true" numbered="false"}
 
+Changes from -01 to -02:
+
+* Different names Zd and Zf for the randomness in ECDSA
+
 Changes from -00 to -01:
 
 * Changed terminology to hedged signatures/signing.
