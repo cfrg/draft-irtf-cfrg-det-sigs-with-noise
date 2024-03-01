@@ -540,6 +540,7 @@ TODO
 Changes from -01 to -02:
 
 * Different names Zd and Zf for the randomness in ECDSA
+* Added empty test vector section as TODO.
 
 Changes from -00 to -01:
 
