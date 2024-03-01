@@ -528,6 +528,10 @@ With the construction in this document, the repetition of the same per-message s
 
 Implementations need to follow best practices on how to protect against all side-channel attacks, not just attacks that exploit determinism, see for example {{BSI}}.
 
+# Test Vectors
+
+TODO
+
 --- back
 
 # Change log
