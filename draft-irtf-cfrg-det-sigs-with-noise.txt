@@ -6,7 +6,7 @@ Crypto Forum                                           J. Preuß Mattsson
 Internet-Draft                                             E. Thormarker
 Updates: 6979, 8032 (if approved)                            S. Ruohomaa
 Intended status: Informational                                  Ericsson
-Expires: 1 September 2024                               29 February 2024
+Expires: 2 September 2024                                   1 March 2024
 
 
                    Hedged ECDSA and EdDSA Signatures
@@ -61,7 +61,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 1 September 2024.
+   This Internet-Draft will expire on 2 September 2024.
 
 Copyright Notice
 
@@ -81,9 +81,10 @@ Table of Contents
    3.  Updates to RFC 8032 (EdDSA)
    4.  Updates to RFC 6979 (Deterministic ECDSA)
    5.  Security Considerations
-   6.  References
-     6.1.  Normative References
-     6.2.  Informative References
+   6.  Test Vectors
+   7.  References
+     7.1.  Normative References
+     7.2.  Informative References
    Change log
    Acknowledgments
    Authors' Addresses
@@ -361,9 +362,13 @@ Table of Contents
    against all side-channel attacks, not just attacks that exploit
    determinism, see for example [BSI].
 
-6.  References
+6.  Test Vectors
 
-6.1.  Normative References
+   TODO
+
+7.  References
+
+7.1.  Normative References
 
    [FIPS-186-5]
               Department of Commerce, N. S., "Digital Signature Standard
@@ -407,7 +412,7 @@ Table of Contents
               <https://nvlpubs.nist.gov/nistpubs/FIPS/
               NIST.FIPS.202.pdf>.
 
-6.2.  Informative References
+7.2.  Informative References
 
    [ABFJLM17] Ambrose, C., Bos, J., Fay, B., Joye, M., Lochter, M., and
               B. Murray, "Differential Attacks on Deterministic
