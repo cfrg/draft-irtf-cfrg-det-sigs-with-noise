@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-02-29T00:53:57.099164+00:00",
+  "timestamp": "2024-03-03T00:57:16.936650+00:00",
   "repo": "cfrg/draft-irtf-cfrg-det-sigs-with-noise",
   "labels": [
     {
@@ -127,16 +127,24 @@
       "id": "I_kwDOIymWWc6Avd5e",
       "title": "Suggestion from Taylor R Campbell - Don't use Z twice",
       "url": "https://github.com/cfrg/draft-irtf-cfrg-det-sigs-with-noise/issues/5",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "emanjon",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": ">    *  Added note that Z in step f is not reused from step d.\r\n\r\nMay I suggest using different letters for this, or numbered instances\r\nlike Z0 and Z1?  It's confusing to define a function F(m, Z, Z) as\r\nyou're doing here where the two Z's are actually different parameters.\r\n\r\n\r\nhttps://mailarchive.ietf.org/arch/msg/cfrg/jmfn1b880x7-7gZKb7_uwLvE3oU/",
       "createdAt": "2024-02-28T21:49:19Z",
-      "updatedAt": "2024-02-28T21:49:19Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2024-02-29T09:26:47Z",
+      "closedAt": "2024-02-29T09:26:47Z",
+      "comments": [
+        {
+          "author": "emanjon",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Fixed in main",
+          "createdAt": "2024-02-29T09:26:47Z",
+          "updatedAt": "2024-02-29T09:26:47Z"
+        }
+      ]
     }
   ],
   "pulls": []
