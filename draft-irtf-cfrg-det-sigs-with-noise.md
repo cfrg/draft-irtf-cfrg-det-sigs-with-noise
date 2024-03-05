@@ -567,6 +567,7 @@ The authors would like to thank
 {{{Phillip Hallam-Baker}}},
 {{{Chelsea Komlo}}},
 {{{Ilari Liusvaara}}},
+{{{Danny Niu}}},
 {{{Jim Schaad}}},
 and
 {{{Ruggero Susella}}}
