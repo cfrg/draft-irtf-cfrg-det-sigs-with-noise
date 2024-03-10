@@ -502,11 +502,13 @@ d.  Set:
 ~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~
 f.  Set:
-
+Rescorla                     Standards Track                    [Page 1]
        K = HMAC_K(V || 0x01 || Z || 000... || int2octets(x) || 000...
        || bits2octets(h1))
 
-    Note that the "internal octet" is 0x01 this time.
+    Note that the "internal octet" is 0x01 this time. The string
+    (Z || 000... || int2octets(x) || 000.. || bits2octets(h1)),
+    called provided_data in HMAC_DRBG, is the same as in step (d).
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 When ECDSA is used with SHAKE {{SHA3}} the HMAC construction above MAY be used but it is RECOMMENDED to use the more efficient KMAC construction {{KMAC}}. SHAKE is a variable-length hash function defined as SHAKE(M, d) where the output is a d-bits-long digest of message M. When ECDSA is used with SHAKE128(M, d), it is RECOMMENDED to replace HMAC(K, M) with KMAC128(K, M, d, ""). When ECDSA is used with SHAKE256(M, d), it is RECOMMENDED to replace HMAC(K, M) with KMAC256(K, M, d, ""). {{RFC8692}} and {{FIPS-186-5}} define the use of SHAKE128 with an output length of 256 bits and SHAKE256 with an output length or 512 bits.
