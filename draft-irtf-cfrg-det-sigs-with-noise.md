@@ -538,6 +538,11 @@ TODO
 # Change log
 {:removeInRFC="true" numbered="false"}
 
+Changes from -02 to -03:
+
+* Same randomness Z in step d and f to align with HMAC_DRBG
+* Added more description about the construction.
+
 Changes from -01 to -02:
 
 * Different names Zd and Zf for the randomness in ECDSA
