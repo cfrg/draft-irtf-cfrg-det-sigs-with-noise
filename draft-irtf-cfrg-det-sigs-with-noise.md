@@ -502,7 +502,7 @@ d.  Set:
 ~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~
 f.  Set:
-Rescorla                     Standards Track                    [Page 1]
+
        K = HMAC_K(V || 0x01 || Z || 000... || int2octets(x) || 000...
        || bits2octets(h1))
 
