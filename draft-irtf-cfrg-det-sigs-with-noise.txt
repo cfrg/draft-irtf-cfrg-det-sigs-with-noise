@@ -269,14 +269,14 @@ Table of Contents
        yielding rlen bits of output, i.e., an integral number of octets
        (rlen is a multiple of 8).
 
-f.  Set:
-Rescorla                     Standards Track                    [Page 1]
-       K = HMAC_K(V || 0x01 || Z || 000... || int2octets(x) || 000...
-       || bits2octets(h1))
+   f.  Set:
 
-    Note that the "internal octet" is 0x01 this time. The string
-    (Z || 000... || int2octets(x) || 000.. || bits2octets(h1)),
-    called provided_data in HMAC_DRBG, is the same as in step (d).
+          K = HMAC_K(V || 0x01 || Z || 000... || int2octets(x) || 000...
+          || bits2octets(h1))
+
+       Note that the "internal octet" is 0x01 this time. The string
+       (Z || 000... || int2octets(x) || 000.. || bits2octets(h1)),
+       called provided_data in HMAC_DRBG, is the same as in step (d).
 
    When ECDSA is used with SHAKE [SHA3] the HMAC construction above MAY
    be used but it is RECOMMENDED to use the more efficient KMAC
