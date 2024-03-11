@@ -6,7 +6,7 @@ Crypto Forum                                           J. Preuß Mattsson
 Internet-Draft                                             E. Thormarker
 Updates: 6979, 8032 (if approved)                            S. Ruohomaa
 Intended status: Informational                                  Ericsson
-Expires: 11 September 2024                                 10 March 2024
+Expires: 12 September 2024                                 11 March 2024
 
 
                    Hedged ECDSA and EdDSA Signatures
@@ -61,7 +61,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 11 September 2024.
+   This Internet-Draft will expire on 12 September 2024.
 
 Copyright Notice
 
@@ -673,6 +673,12 @@ Rescorla                     Standards Track                    [Page 1]
 Change log
 
    This section is to be removed before publishing as an RFC.
+
+   Changes from -02 to -03:
+
+   *  Same randomness Z in step d and f to align with HMAC_DRBG
+
+   *  Added more description about the construction.
 
    Changes from -01 to -02:
 
