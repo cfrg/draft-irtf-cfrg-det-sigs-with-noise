@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-03-10T00:58:05.989245+00:00",
+  "timestamp": "2024-03-12T00:54:01.996893+00:00",
   "repo": "cfrg/draft-irtf-cfrg-det-sigs-with-noise",
   "labels": [
     {
@@ -62,8 +62,8 @@
       "labels": [],
       "body": "- Ordering of the parameters in \"dom2(F, C) || Z || prefix || 000... || PH(M)\" in Ed25519 and similar in Ed448 and ECDSA. There has also been sugestion to use a larger Z and to use several paddings 000....\r\n\r\n- Ilari Liusvaara pointed out attacks using the context that needs to be considered. Some statements \"first block is composed only of the hashed private key and the random value\" in the document are not true for Ed25519ctx and Ed448ctx.\r\n\r\n- Jim Schaad: Is there any advantage to stealing one of the zeros from the end padding and using it to pad between 'Z' and 'x' in the construction? I would assume that it should use the '0'/'1' construction between steps d and f.\r\n\r\n- Jim Schaad: Is there any advantage to padding with 0x01 in step f rather than 0x00?\r\n\r\n- Rene Stuik: MUST instead of RECOMMENDED.",
       "createdAt": "2024-02-28T07:21:43Z",
-      "updatedAt": "2024-02-28T12:39:53Z",
-      "closedAt": "2024-02-28T12:39:53Z",
+      "updatedAt": "2024-03-11T12:51:47Z",
+      "closedAt": "2024-03-11T12:51:47Z",
       "comments": [
         {
           "author": "emanjon",
@@ -71,6 +71,13 @@
           "body": "-use several paddings 000.... \r\n-pad between 'Z' and 'x'\r\n-statements are not true\r\n\r\nAre addressed in main. Closing this issue. If something needs further discussion we open a new more focused issue.",
           "createdAt": "2024-02-28T12:39:53Z",
           "updatedAt": "2024-02-28T12:39:53Z"
+        },
+        {
+          "author": "emanjon",
+          "authorAssociation": "COLLABORATOR",
+          "body": ">Is there any advantage to padding with 0x01 in step f rather than 0x00?\r\n\r\nthis would not be compatible with HMAC_DRBG",
+          "createdAt": "2024-03-11T12:51:20Z",
+          "updatedAt": "2024-03-11T12:51:20Z"
         }
       ]
     },
@@ -86,7 +93,7 @@
       "labels": [],
       "body": "I'd like to let the interested parties know that, I've written a experimental C implementation of the draft. If anyone's interested in benchmarking or any kind of testing, I'd love to assist. I've also raised a few implementation-related issue at [crypto.stackexchange.com/a/106599/36960](http://crypto.stackexchange.com/a/106599/36960) and I'll summarize here:\r\n\r\n1. The draft treats ECDSA RNG as a white box and penetrates the PRNG boundary to seed it, which is something NIST specifies not to do. This isn't too big an issue, as there are ways to maintain functionality opacity.\r\n\r\n2. The draft underspecifies how to use KMAC when the hash function is SHAKE. The way I prefer is to persuade NIST to specify and approve a permutation-based PRNG and use that instead. However in the interim time, we could add details on how KMAC should be used with HMAC-DRBG, but again, it'll penetrate the PRNG boundary. What's more, KMAC had not been approved for use with HMAC-DRBG yet.",
       "createdAt": "2024-02-28T08:59:13Z",
-      "updatedAt": "2024-03-05T04:06:30Z",
+      "updatedAt": "2024-03-11T14:17:28Z",
       "closedAt": null,
       "comments": [
         {
@@ -95,6 +102,34 @@
           "body": "Answering the email\r\n====\r\n\r\n> 1. I am correct in my understanding that this is concerning deterministic ECDSA (RFC 6979) and not just the hedged construction in draft-irtf-cfrg-det-sigs-with-noise?\r\n\r\nActually I directed my 1st comment directly at the new ECDSA hedged RNG construction. \r\n\r\nI'll have to **object** to the construction in the new https://www.ietf.org/archive/id/draft-irtf-cfrg-det-sigs-with-noise-02.html - It uses 2 different `Z` (`Zd` and `Zf`) which completely breaks PRNG boundary. I'll assume with best of my faith that this is an oversight caused by not being able to realize the rationales that I'll provide below.\r\n\r\nIf you look at [NIST.SP.800-90Ar1 Page 44 section 10.1.2.2](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-90Ar1.pdf#page=53), there's only 1 single *provided_data* in the `HMAC_DRBG Update` process, and RFC-6979 was drafted in such way that PRNG behavior can be preserved. See [section 3.3 of RFC-6979](https://www.rfc-editor.org/rfc/rfc6979#section-3.3). So by changing the value(s) of `Z`, you're really changing an established CSPRNG algorithm!\r\n\r\nMy interpretation on this is that the \"deterministic\" ECDSA should be implementable by combining an existing signing implementation with an existing HMAC-DRBG implementation. If the new hedged ECDSA use 2 different `Z`s, then it will be impossible to combine them in such way.\r\n\r\n> 2. I don\u2019t see excactly what is missing for KMAC. Maybe you can describe in more detail in the GitHub issue?\r\n\r\nActually, there isn't much missing for KMAC, except we need to specify whether to *invoke* KMAC as a XOF (with L=0) or a fixed-length PRF (with L being 32, 48, <s>64</s> 66 (P-521)). \r\n\r\nThe other thing is just I hoped NIST can specify a DRBG based on Keccak-1600 so that something more efficient than KMAC can be adopted in the future.\r\n\r\nMore on PRNG boundary\r\n====\r\n\r\nI was recently amazed by [this StackExchange post](https://softwareengineering.stackexchange.com/q/452229/290091) which talks about \"tell, don't ask\" paradigm, which I think is nice. I think it's best to:\r\n\r\n- **tell** the PRNG we want to seed you with nonce, privkey, an H(msg), \r\n- **rather than asking** \"what's your block-length\", than doing seed nonce, pad, seed privkey, pad, seed H(msg).\r\n\r\nThe HMAC calls in step d and f are part of PRNG operation, and they shouldn't be exposed, not to mention altered. Querying the block size of the hash function is the most I consider reasonable in this circumstance.\r\n\r\n----\r\n\r\nExisting experience\r\n====\r\n\r\nMy parallel effort on [ML-DSA](https://github.com/dannyniu/MySuiteA/blob/b48deb7f9acc953f47eb9a10065b85355a2d011b/src/3-pq-crystals/mldsa.c#L371) and [SLH-DSA](https://github.com/dannyniu/MySuiteA/blob/b48deb7f9acc953f47eb9a10065b85355a2d011b/src/3-sphincs/slhdsa.c#L98) also shows that it's easiest when hedged generation of nonce is part of algorithm, and especially easy when it can switch seemlessly between hedged and deterministic.\r\n\r\nMy EdDSA was able to be modified in-place. However, my existing implementation for ECDSA (as well as the similar SM2 DSS from China - my homeland):\r\n\r\n1. didn't reserve a space for an instance of HMAC-DRBG\r\n2. was intended to be combined with an *external* PRNG from day-one of its design\r\n\r\nTherefore I implemented an external [`Signer`](https://github.com/dannyniu/MySuiteA/blob/c8b5537f4435759cac4bb6551d9a26aa7ee16f51/src/3-ecc-common/ecc-dss-sign-hedged.c). ",
           "createdAt": "2024-03-04T11:27:37Z",
           "updatedAt": "2024-03-05T04:06:30Z"
+        },
+        {
+          "author": "emanjon",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Hi Danny,\r\n\r\nYes, we missed that different random number is not compatible with HMAC_DRBG. The reason that we suggested different random numbers was that this improves security against second-order DPA attacks. We agree that compliance with HMAC_DRBG seems more important. I have made commits that change to a single random value Z and gives you acknowledgement.\r\n\r\nhttps://author-tools.ietf.org/api/iddiff?doc_1=draft-irtf-cfrg-det-sigs-with-noise&url_2=https://cfrg.github.io/draft-irtf-cfrg-det-sigs-with-noise/draft-irtf-cfrg-det-sigs-with-noise.txt\r\n\r\n> Actually, there isn't much missing for KMAC, except we need to specify whether to invoke KMAC as a XOF (with L=0) or a fixed-length PRF (with L being 32, 48, 64 66 (P-521)).\r\n\r\nReading the current text is seems to be specified on a RECOMMENDED level to use the same value L as in the hashing of the message. I.e. when ECDSA is used with SHAKE128(M, 256) and SHAKE256(M, 512) as in RFC 8692 and FIPS-186-5, it is RECOMMENDED to use KMAC128(K, M, 256, \"\") and KMAC128(K, M, 512, \"\"). Note that L is specified in bits.\r\n\r\n",
+          "createdAt": "2024-03-10T11:57:18Z",
+          "updatedAt": "2024-03-10T11:57:18Z"
+        },
+        {
+          "author": "dannyniu",
+          "authorAssociation": "NONE",
+          "body": "Thanks, appreciated.\r\n\r\nNote that for the P-521 instance, 521 bits are needed, otherwise [lattice attack](https://eprint.iacr.org/2019/023.pdf) will work.\r\n\r\n> to use KMAC128(K, M, 256, \"\") and KMAC128(K, M, 512, \"\"). \r\n\r\nYou mean KMAC256(K, M, 512, \"\") with the 2nd instance?",
+          "createdAt": "2024-03-10T12:31:07Z",
+          "updatedAt": "2024-03-11T02:56:44Z"
+        },
+        {
+          "author": "emanjon",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@dannyniu Do you by any way have test vectors? Taylor R Campbell are asking for test vectors in #4\r\n",
+          "createdAt": "2024-03-11T10:22:47Z",
+          "updatedAt": "2024-03-11T10:22:47Z"
+        },
+        {
+          "author": "dannyniu",
+          "authorAssociation": "NONE",
+          "body": "@emanjon I can generate some, but some details are needed:\r\n\r\n1. (for ECDSA & EdDSA) against which revision should I generate my test vectors,\r\n2. (for ECDSA) which curves and hash lengths should I include? (I'd go for P-256 and P-384 because that 2 are the ones currently implemented and are marked as recommended in [one of the IANA registeries](https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml#tls-parameters-8).)\r\n3. (for ECDSA) we'd be needing SHA-2+HMAC test vectors I presume?\r\n4. (for ECDSA) when instantiating with FIPS-202, do I use SHAKE+KMAC or the regular SHA-3 instances with HMAC (or some other combination)?\r\n5. (misc) would anyone be interested in a set of [BLAKE2](https://datatracker.ietf.org/doc/html/rfc7693) test vectors? BLAKE2 have both hashing and PRF modes.",
+          "createdAt": "2024-03-11T11:03:43Z",
+          "updatedAt": "2024-03-11T14:17:28Z"
         }
       ]
     },
@@ -108,27 +143,35 @@
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
-      "body": "https://mailarchive.ietf.org/arch/msg/cfrg/GRigAYvZ8-Z8qmxJ1jOiKR8eLyQ/\r\n\r\n> Compute SHA-512(dom2(F, C) || Z || prefix || 000... || PH(M)),\r\n\r\nWhat stops implementors from forgetting to include PH(M) in the hash\r\ninput? I'd recommend building this on top of a deterministic interface\r\nwhere Z is an explicit input, and making sure to test that interface.\r\n\r\nAlso, two useful rules of thumb regarding input concatenations (for\r\nmotivating attacks see, e.g., Crypto 1995 Preneel--van Oorschot): 1.\r\nNever put a variable-length input anywhere but last. Previous positions\r\ncan have fixed-length _hashes_ of other variable-length inputs. 2. Put\r\nwhatever is least likely to be attacker-predictable first. Both Z and\r\n\"prefix\" are less likely to be attacker-predictable than C; scenarios\r\nwhere RNG failures are the top threat should put \"prefix\" first, while\r\nscenarios where side channels are the top threat (which seems to be the\r\nscenario under discussion) should put Z first.\r\n\r\n---D. J. Bernstein",
+      "body": "https://mailarchive.ietf.org/arch/msg/cfrg/GRigAYvZ8-Z8qmxJ1jOiKR8eLyQ/\r\n\r\n> Compute SHA-512(dom2(F, C) || Z || prefix || 000... || PH(M)),\r\n\r\nAlso, two useful rules of thumb regarding input concatenations (for\r\nmotivating attacks see, e.g., Crypto 1995 Preneel--van Oorschot): 1.\r\nNever put a variable-length input anywhere but last. Previous positions\r\ncan have fixed-length _hashes_ of other variable-length inputs. 2. Put\r\nwhatever is least likely to be attacker-predictable first. Both Z and\r\n\"prefix\" are less likely to be attacker-predictable than C; scenarios\r\nwhere RNG failures are the top threat should put \"prefix\" first, while\r\nscenarios where side channels are the top threat (which seems to be the\r\nscenario under discussion) should put Z first.\r\n\r\n---D. J. Bernstein",
       "createdAt": "2024-02-28T09:51:26Z",
-      "updatedAt": "2024-02-28T11:17:49Z",
+      "updatedAt": "2024-03-11T13:08:09Z",
       "closedAt": null,
       "comments": []
     },
     {
       "number": 4,
       "id": "I_kwDOIymWWc6Avdkp",
-      "title": "Request from Taylor R Campbell - Test vectors inclusing Z",
+      "title": "API and test vectors including Z",
       "url": "https://github.com/cfrg/draft-irtf-cfrg-det-sigs-with-noise/issues/4",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "emanjon",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Where does one find test vectors for the deterministic functions\r\ndefined here with the extra randomization parameters Z?\r\n\r\nhttps://mailarchive.ietf.org/arch/msg/cfrg/jmfn1b880x7-7gZKb7_uwLvE3oU/",
       "createdAt": "2024-02-28T21:48:17Z",
-      "updatedAt": "2024-02-28T21:48:18Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2024-03-11T13:19:44Z",
+      "closedAt": "2024-03-11T13:19:44Z",
+      "comments": [
+        {
+          "author": "emanjon",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Bernstein wrote:\r\n\r\nhttps://mailarchive.ietf.org/arch/msg/cfrg/GRigAYvZ8-Z8qmxJ1jOiKR8eLyQ/\r\n\r\n>     Compute SHA-512(dom2(F, C) || Z || prefix || 000... || PH(M)),\r\n\r\nWhat stops implementors from forgetting to include PH(M) in the hash\r\ninput? I'd recommend building this on top of a deterministic interface\r\nwhere Z is an explicit input, and making sure to test that interface.",
+          "createdAt": "2024-03-11T13:14:46Z",
+          "updatedAt": "2024-03-11T13:14:46Z"
+        }
+      ]
     },
     {
       "number": 5,
@@ -160,6 +203,125 @@
           "updatedAt": "2024-03-05T11:15:31Z"
         }
       ]
+    },
+    {
+      "number": 6,
+      "id": "I_kwDOIymWWc6B3ZUu",
+      "title": "FIPS 186 compliant mode where message-dependent pseudorandom values are used as \u2018additional input\u2019?",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-det-sigs-with-noise/issues/6",
+      "state": "OPEN",
+      "author": "emanjon",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "People have suggested a FIPS 186 compliant mode where message-dependent pseudorandom values are used as \u2018additional input\u2019 in the random number generation for randomized ECDSA [FIPS 186]. Such a mode could compliment the current hedged construction based on Deterministic ECDSA [RFC 6979].\r\nhttps://blogs.cisco.com/security/fips-and-deterministic-ecdsa-achieving-robust-security-and-conformance",
+      "createdAt": "2024-03-11T10:32:08Z",
+      "updatedAt": "2024-03-11T10:32:08Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 7,
+      "id": "I_kwDOIymWWc6B4LbK",
+      "title": "Algorithm naming - Comment by Simon Josefsson",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-det-sigs-with-noise/issues/7",
+      "state": "OPEN",
+      "author": "emanjon",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "https://mailarchive.ietf.org/arch/msg/cfrg/EuHdNSQf_bsMWemjvbec-hTbWkw/\r\n\r\nI believe this document should not update/modify the core EdDSA/ECDSA\r\nalgorithms but instead it should specify new names for the alternative\r\nEdDSA/ECDSA variant it is attempting to introduce.\r\n\r\nIt would cause confusion to modify a tiny but security-critical piece of\r\na crypto algorithm, that is only applicable to certain environments, and\r\ncontinue to use the same name for the new algorithm that has different\r\nsecurity properties.\r\n\r\nI suggest using the name 'R* for the variants, e.g., 'REd25519ph',\r\n'REd25519ctx', 'REd25519 etc.\r\n\r\nThen any IoT specification that wants to use the REd25519 variant can do\r\nso clearly, and those specifications/implementations that do not want to\r\nuse it is not put at risk by using a library that implements 'Ed25519'\r\nthat happened to have adopted this modification.\r\n\r\n",
+      "createdAt": "2024-03-11T12:15:50Z",
+      "updatedAt": "2024-03-11T12:15:50Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 8,
+      "id": "I_kwDOIymWWc6B4Oxp",
+      "title": "RFC 2119 language - RECOMMENDED or MUST",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-det-sigs-with-noise/issues/8",
+      "state": "OPEN",
+      "author": "emanjon",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Rene Stuik strongly suggests MUST instead of RECOMMENDED.\r\n\r\nCurrent draft states:\r\n\r\n```\r\nIn deployments where side-channel and fault injection attacks are a concern, the following step is RECOMMENDED instead of step (2) in Section 5.1.6 of {{RFC8032}}:\r\n\r\nFor Ed448ph and Ed448: In deployments where side-channel and fault injection attacks are a concern, the following step is RECOMMENDED instead of step (2) in Section 5.2.6 of {{RFC8032}}:\r\n\r\nFor Deterministic ECDSA: In existing ECDSA deployments where side-channel and fault injection attacks are a concern, the following steps are RECOMMENDED instead of steps (d) and (f) in Section 3.2 of {{RFC6979}}:\r\n```",
+      "createdAt": "2024-03-11T12:22:56Z",
+      "updatedAt": "2024-03-11T12:23:20Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 9,
+      "id": "I_kwDOIymWWc6B4RnU",
+      "title": "Remove step f section completely - Suggested by Yolan Romailler ",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-det-sigs-with-noise/issues/9",
+      "state": "CLOSED",
+      "author": "emanjon",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "https://mailarchive.ietf.org/arch/msg/cfrg/CfDtdteov0gBVetkvi6VPU6y3VU/\r\n```\r\n\r\nI would however recommend mentioning section 3.6 of RFC6979 in sections 4\r\nand 5 of this proposal.\r\nI also don't see why it is necessary to modify the step (f) in Section 3.2\r\nof [RFC6979], since the randomization is already taking place in step (d)\r\nwhen additional random data is provided there. I would recommend only\r\nmodifying step (d) to conform with the existing proposal for variants in\r\nRFC6976 section 3.6 and for ease of implementation.\r\nFinally, I'm not convinced by the need to \"middle\"-pad the input to HMAC\r\nwith \"a sequence of zero bits 000... chosen so that the length of (V ||\r\n0x00 || Z || int2octets(x) || 000...) is equal to block size of the hash\r\nfunction\". I don't see any rationale to do so. Indeed, we could instead set\r\nK = HMAC_K(V || 0x00 || int2octets(x) || bits2octets(h1) || Z), where Z is\r\nthe  random data of the same length as int2octets(x) and that would be\r\n\"nicer\" and avoid implementers to needlessly worry about the underlying\r\nblock size of their hash, plus it would be conforming to section 3.6 of the\r\nRFC6979.\r\n```\r\n",
+      "createdAt": "2024-03-11T12:28:24Z",
+      "updatedAt": "2024-03-11T12:50:13Z",
+      "closedAt": "2024-03-11T12:50:13Z",
+      "comments": [
+        {
+          "author": "emanjon",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Removing f does not work as the current step f does not include 000.... and Z. The result would then not be compatible with HMAC_DRBG",
+          "createdAt": "2024-03-11T12:50:13Z",
+          "updatedAt": "2024-03-11T12:50:13Z"
+        }
+      ]
+    },
+    {
+      "number": 10,
+      "id": "I_kwDOIymWWc6B4qkK",
+      "title": "Deterministic interface",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-det-sigs-with-noise/issues/10",
+      "state": "OPEN",
+      "author": "emanjon",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "\r\nhttps://mailarchive.ietf.org/arch/msg/cfrg/jmfn1b880x7-7gZKb7_uwLvE3oU/\r\n\r\nTaylor R Campbell wrote:\r\nWhere does one find test vectors for the deterministic functions\r\ndefined here with the extra randomization parameters Z?\r\n\r\nDaniel Bernstein wrote:\r\n",
+      "createdAt": "2024-03-11T13:17:45Z",
+      "updatedAt": "2024-03-11T13:41:44Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "emanjon",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Bernstein wrote:\r\n\r\nhttps://mailarchive.ietf.org/arch/msg/cfrg/GRigAYvZ8-Z8qmxJ1jOiKR8eLyQ/\r\n\r\n>     Compute SHA-512(dom2(F, C) || Z || prefix || 000... || PH(M)),\r\n\r\nWhat stops implementors from forgetting to include PH(M) in the hash\r\ninput? I'd recommend building this on top of a deterministic interface\r\nwhere Z is an explicit input, and making sure to test that interface.",
+          "createdAt": "2024-03-11T13:18:10Z",
+          "updatedAt": "2024-03-11T13:18:10Z"
+        },
+        {
+          "author": "emanjon",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I assume the suggestion here is that the interface is inside of the specification. I.e., the end user calls Sign(sk, M) and the description in the specification is\r\n\r\nSign(sk, M):\r\n1. Generate random Z\r\n2. Sign(sk, M, Z)\r\n",
+          "createdAt": "2024-03-11T13:41:42Z",
+          "updatedAt": "2024-03-11T13:41:42Z"
+        }
+      ]
+    },
+    {
+      "number": 11,
+      "id": "I_kwDOIymWWc6B4rhw",
+      "title": "Test vectors including Z ",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-det-sigs-with-noise/issues/11",
+      "state": "OPEN",
+      "author": "emanjon",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Taylor R Campbell wrote:\r\nWhere does one find test vectors for the deterministic functions\r\ndefined here with the extra randomization parameters Z?\r\n\r\nhttps://mailarchive.ietf.org/arch/msg/cfrg/jmfn1b880x7-7gZKb7_uwLvE3oU/",
+      "createdAt": "2024-03-11T13:19:35Z",
+      "updatedAt": "2024-03-11T13:19:35Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": []
