@@ -533,6 +533,24 @@ Implementations need to follow best practices on how to protect against all side
 
 TODO
 
+## Hedged EdDSA 
+
+~~~~~~~~~~~~~~~~~~~~~~~
+    MESSAGE = { 00 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 0f }
+ SECRET KEY = { 30 31 32 33 34 35 36 37 38 39 3a 3b }
+RANDOM DATA = { 22 ce 92 da cb 50 77 4b ab 0d 18 29 3d 6e ae 7f }
+  SIGNATURE = { }
+~~~~~~~~~~~~~~~~~~~~~~
+
+## Hedged ECDSA with P-256 and SHA-256
+
+~~~~~~~~~~~~~~~~~~~~~~~
+    MESSAGE = { 00 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 0f }
+ SECRET KEY = { 30 31 32 33 34 35 36 37 38 39 3a 3b }
+RANDOM DATA = { 22 ce 92 da cb 50 77 4b ab 0d 18 29 3d 6e ae 7f }
+  SIGNATURE = { }
+~~~~~~~~~~~~~~~~~~~~~~
+
 --- back
 
 # Change log
