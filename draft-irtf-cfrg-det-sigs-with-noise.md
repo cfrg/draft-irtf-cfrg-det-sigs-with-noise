@@ -540,7 +540,7 @@ TODO
  SECRET KEY = { 30 31 32 33 34 35 36 37 38 39 3a 3b }
 RANDOM DATA = { 22 ce 92 da cb 50 77 4b ab 0d 18 29 3d 6e ae 7f }
   SIGNATURE = { }
-~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
 
 ## Hedged ECDSA with P-256 and SHA-256
 
@@ -549,7 +549,7 @@ RANDOM DATA = { 22 ce 92 da cb 50 77 4b ab 0d 18 29 3d 6e ae 7f }
  SECRET KEY = { 30 31 32 33 34 35 36 37 38 39 3a 3b }
 RANDOM DATA = { 22 ce 92 da cb 50 77 4b ab 0d 18 29 3d 6e ae 7f }
   SIGNATURE = { }
-~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
 
 --- back
 
