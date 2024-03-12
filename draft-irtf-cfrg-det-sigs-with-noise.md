@@ -533,7 +533,7 @@ Implementations need to follow best practices on how to protect against all side
 
 TODO
 
-## Hedged EdDSA
+## Hedged Ed25519
 
 ~~~~~~~~~~~~~~~~~~~~~~~
     MESSAGE = { 00 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 0f }
