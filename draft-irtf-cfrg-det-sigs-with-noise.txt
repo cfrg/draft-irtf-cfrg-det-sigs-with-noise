@@ -6,7 +6,7 @@ Crypto Forum                                           J. Preuß Mattsson
 Internet-Draft                                             E. Thormarker
 Updates: 6979, 8032 (if approved)                            S. Ruohomaa
 Intended status: Informational                                  Ericsson
-Expires: 13 September 2024                                 12 March 2024
+Expires: 14 September 2024                                 13 March 2024
 
 
                    Hedged ECDSA and EdDSA Signatures
@@ -61,7 +61,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 13 September 2024.
+   This Internet-Draft will expire on 14 September 2024.
 
 Copyright Notice
 
@@ -78,8 +78,8 @@ Table of Contents
 
    1.  Introduction
    2.  Conventions Used in This Document
-   3.  Updates to RFC 8032 (EdDSA)
-   4.  Updates to RFC 6979 (Deterministic ECDSA)
+   3.  Hedged EdDSA
+   4.  Hedged ECDSA
    5.  Security Considerations
    6.  Test Vectors
      6.1.  Hedged Ed25519
@@ -219,7 +219,15 @@ Table of Contents
    14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
 
-3.  Updates to RFC 8032 (EdDSA)
+3.  Hedged EdDSA
+
+   This document updates RFC 8032 (EdDSA) to recommend hedged variants
+   of EdDSA for deployments where side-channel attacks and fault
+   injection attacks are a concern, the variants are called hedged
+   EdDSA.  The updates are invisible to the validator of the signature
+   and compatible with existing EdDSA validators.
+
+   Update to RFC 8032:
 
    For Ed25519ph, Ed25519ctx, and Ed25519: In deployments where side-
    channel and fault injection attacks are a concern, the following step
@@ -244,12 +252,17 @@ Table of Contents
        Ed448, and C is the context to use.  Interpret the 114-octet
        digest as a little-endian integer r.
 
-4.  Updates to RFC 6979 (Deterministic ECDSA)
+4.  Hedged ECDSA
 
-   For Deterministic ECDSA: In existing ECDSA deployments where side-
-   channel and fault injection attacks are a concern, the following
-   steps are RECOMMENDED instead of steps (d) and (f) in Section 3.2 of
-   [RFC6979]:
+   This document updates RFC 6979 (deterministic ECDSA) to recommend a
+   hedged variant of ECDSA for deployments where side-channel attacks
+   and fault injection attacks are a concern, the variant is called
+   hedged ECDSA.  The updates are invisible to the validator of the
+   signature and compatible with existing ECDSA validators.
+
+   Update to RFC 6979: In ECDSA deployments where side-channel and fault
+   injection attacks are a concern, the following steps are RECOMMENDED
+   instead of steps (d) and (f) in Section 3.2 of [RFC6979]:
 
    d.  Set:
 
