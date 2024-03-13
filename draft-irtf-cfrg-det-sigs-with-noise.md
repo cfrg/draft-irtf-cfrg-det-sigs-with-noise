@@ -454,7 +454,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 This document updates RFC 8032 (EdDSA) to recommend hedged variants of EdDSA for deployments where side-channel attacks and fault injection attacks are a concern, the variants are called hedged EdDSA. The updates are invisible to the validator of the signature and compatible with existing EdDSA validators.
 
-Update to RFC 8032: 
+Update to RFC 8032:
 
 For Ed25519ph, Ed25519ctx, and Ed25519: In deployments where side-channel and fault injection attacks are a concern, the following step is RECOMMENDED instead of step (2) in Section 5.1.6 of {{RFC8032}}:
 
