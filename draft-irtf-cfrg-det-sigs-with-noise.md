@@ -450,7 +450,11 @@ This document updates {{RFC6979}} and {{RFC8032}} to recommend constructions wit
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 {{RFC2119}} {{RFC8174}} when, and only when, they appear in all capitals, as shown here.
 
-# Updates to RFC 8032 (EdDSA) {#SecEdDSA}
+# Hedged EdDSA {#SecEdDSA}
+
+This document updates RFC 8032 (EdDSA) to recommend hedged variants of EdDSA for deployments where side-channel attacks and fault injection attacks are a concern, the variants are called hedged EdDSA. The updates are invisible to the validator of the signature and compatible with existing EdDSA validators.
+
+Update to RFC 8032: 
 
 For Ed25519ph, Ed25519ctx, and Ed25519: In deployments where side-channel and fault injection attacks are a concern, the following step is RECOMMENDED instead of step (2) in Section 5.1.6 of {{RFC8032}}:
 
@@ -475,9 +479,11 @@ For Ed448ph and Ed448: In deployments where side-channel and fault injection att
     digest as a little-endian integer r.
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-# Updates to RFC 6979 (Deterministic ECDSA)
+# Hedged ECDSA
 
-For Deterministic ECDSA: In existing ECDSA deployments where side-channel and fault injection attacks are a concern, the following steps are RECOMMENDED instead of steps (d) and (f) in Section 3.2 of {{RFC6979}}:
+This document updates RFC 6979 (deterministic ECDSA) to recommend a hedged variant of ECDSA for deployments where side-channel attacks and fault injection attacks are a concern, the variant is called hedged ECDSA. The updates are invisible to the validator of the signature and compatible with existing ECDSA validators.
+
+Update to RFC 6979: In ECDSA deployments where side-channel and fault injection attacks are a concern, the following steps are RECOMMENDED instead of steps (d) and (f) in Section 3.2 of {{RFC6979}}:
 
 ~~~~~~~~~~~~~~~~~~~~~~~
 d.  Set:
