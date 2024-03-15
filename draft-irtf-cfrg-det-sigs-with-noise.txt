@@ -6,7 +6,7 @@ Crypto Forum                                           J. Preuß Mattsson
 Internet-Draft                                             E. Thormarker
 Updates: 6979, 8032 (if approved)                            S. Ruohomaa
 Intended status: Informational                                  Ericsson
-Expires: 15 September 2024                                 14 March 2024
+Expires: 16 September 2024                                 15 March 2024
 
 
                    Hedged ECDSA and EdDSA Signatures
@@ -61,7 +61,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 15 September 2024.
+   This Internet-Draft will expire on 16 September 2024.
 
 Copyright Notice
 
@@ -342,7 +342,7 @@ Table of Contents
    document agrees with one mentioned in [ABFJLM17] and appears to be as
    effective against the referenced first order DPA attacks as the one
    in [SBBDS17].  The random bytes Z are re-used in step d and f of
-   Hedged ECDSA to align with HMAC_DRBG (see Section 3.3 of [RFC8391]).
+   Hedged ECDSA to align with HMAC_DRBG (see Section 3.3 of [RFC6979]).
    This may make certain DPA attacks easier than if randomness had been
    sampled fresh for each respective step.  Note however that V is
    updated between the steps and that the secret key x is processed in a
