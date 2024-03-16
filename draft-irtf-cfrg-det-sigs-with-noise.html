@@ -1605,10 +1605,10 @@ RANDOM DATA = { }
 <p id="appendix-A-2">Changes from -02 to -03:<a href="#appendix-A-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-A-3.1">
-          <p id="appendix-A-3.1.1">Same randomness Z in step d and f to align with HMAC_DRBG<a href="#appendix-A-3.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-3.1.1">Same randomness Z in step d and f to align with HMAC_DRBG.<a href="#appendix-A-3.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-3.2">
-          <p id="appendix-A-3.2.1">Added more description about the construction.<a href="#appendix-A-3.2.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-3.2.1">Changed Hedged EdDSA order to 0x00 || Z || dom2(F, C) instead of dom2(F, C) || Z. This avoids collisions with RFC 8032 and aligns with Bernstein's recommendation to put Z before the context.<a href="#appendix-A-3.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-3.3">
           <p id="appendix-A-3.3.1">Changed KMAC output length recommendations to avoid multiple invocations.<a href="#appendix-A-3.3.1" class="pilcrow">¶</a></p>
@@ -1616,11 +1616,17 @@ RANDOM DATA = { }
         <li class="normal" id="appendix-A-3.4">
           <p id="appendix-A-3.4.1">Updates some text to align with the hedged signatures/signing terminology.<a href="#appendix-A-3.4.1" class="pilcrow">¶</a></p>
 </li>
+        <li class="normal" id="appendix-A-3.5">
+          <p id="appendix-A-3.5.1">Added more description about the construction.<a href="#appendix-A-3.5.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-3.6">
+          <p id="appendix-A-3.6.1">Editorial changes.<a href="#appendix-A-3.6.1" class="pilcrow">¶</a></p>
+</li>
       </ul>
 <p id="appendix-A-4">Changes from -01 to -02:<a href="#appendix-A-4" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-A-5.1">
-          <p id="appendix-A-5.1.1">Different names Zd and Zf for the randomness in ECDSA<a href="#appendix-A-5.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-5.1.1">Different names Zd and Zf for the randomness in ECDSA.<a href="#appendix-A-5.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-5.2">
           <p id="appendix-A-5.2.1">Added empty test vector section as TODO.<a href="#appendix-A-5.2.1" class="pilcrow">¶</a></p>
