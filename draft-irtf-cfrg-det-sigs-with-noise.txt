@@ -187,10 +187,10 @@ Table of Contents
    generate the per-message secret number from a random string, a secret
    key, and the message.  This combines the security benefits of fully
    randomized per-message secret numbers with the security benefits of
-   fully deterministic secret numbers.  Such a construction protects
-   against key compromise due to weak random number generation, but
-   still effectively prevents many side-channel and fault injection
-   attacks that exploit determinism.  Such a construction require minor
+   fully deterministic secret numbers.  Such a hedged construction
+   protects against key compromise due to weak random number generation,
+   but still effectively prevents many side-channel and fault injection
+   attacks that exploit determinism.  Hedged constructions require minor
    changes to the implementation and does not increase the number of
    elliptic curve point multiplications and is therefore suitable for
    constrained IoT.  Adding randomness to EdDSA is not compliant with
@@ -202,13 +202,13 @@ Table of Contents
    string, a secret key, the message, and a message counter is common in
    DSA/ECDSA implementations.
 
-   This document updates [RFC6979] and [RFC8032] to recommend
-   constructions with additional randomness for deployments where side-
-   channel and fault injection attacks are a concern.  The updates are
-   invisible to the validator of the signature.  Produced signatures
-   remain fully compatible with unmodified ECDSA and EdDSA verifiers and
-   existing key pairs can continue to be used.  As the precise use of
-   the noise is specified, test vectors can still be produced, and
+   This document updates [RFC6979] and [RFC8032] to recommend hedged
+   constructions in deployments where side-channel and fault injection
+   attacks are a concern.  The updates are invisible to the validator of
+   the signature.  Produced signatures remain fully compatible with
+   unmodified ECDSA and EdDSA verifiers and existing key pairs can
+   continue to be used.  As the precise use of the noise is specified,
+   test vectors can still be produced, see Section 6, and
    implementations can be tested against them.
 
 2.  Conventions Used in This Document
@@ -299,11 +299,12 @@ Table of Contents
    defined as SHAKE(M, d) where the output is a d-bits-long digest of
    message M.  When ECDSA is used with SHAKE128(M, d), it is RECOMMENDED
    to replace HMAC(K, M) with KMAC128(K, M, d2, ""), where d2 = max(d,
-   qlen).  When ECDSA is used with SHAKE256(M, d), it is RECOMMENDED to
-   replace HMAC(K, M) with KMAC256(K, M, d2, ""), where d2 = max(d,
-   qlen).  [RFC8692] and [FIPS-186-5] define the use of SHAKE128 with an
-   output length of 256 bits and SHAKE256 with an output length or 512
-   bits.
+   qlen) and qlen is the binary length of the order of the base point of
+   the elliptic curve [RFC6979].  When ECDSA is used with SHAKE256(M,
+   d), it is RECOMMENDED to replace HMAC(K, M) with KMAC256(K, M, d2,
+   ""), where d2 = max(d, qlen).  [RFC8692] and [FIPS-186-5] define the
+   use of SHAKE128 with an output length of 256 bits and SHAKE256 with
+   an output length or 512 bits.
 
    In new deployments, where side-channel and fault injection attacks
    are a concern, EdDSA with additional randomness as specified in
@@ -391,16 +392,16 @@ Table of Contents
 
 6.1.  Hedged Ed25519
 
-       MESSAGE = { 00 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 0f }
-    SECRET KEY = { 30 31 32 33 34 35 36 37 38 39 3a 3b }
-   RANDOM DATA = { 22 ce 92 da cb 50 77 4b ab 0d 18 29 3d 6e ae 7f }
+       MESSAGE = { }
+    SECRET KEY = { }
+   RANDOM DATA = { }
      SIGNATURE = { }
 
 6.2.  Hedged ECDSA with P-256 and SHA-256
 
-       MESSAGE = { 00 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 0f }
-    SECRET KEY = { 30 31 32 33 34 35 36 37 38 39 3a 3b }
-   RANDOM DATA = { 22 ce 92 da cb 50 77 4b ab 0d 18 29 3d 6e ae 7f }
+       MESSAGE = { }
+    SECRET KEY = { }
+   RANDOM DATA = { }
      SIGNATURE = { }
 
 7.  References
@@ -715,6 +716,12 @@ Change log
    *  Same randomness Z in step d and f to align with HMAC_DRBG
 
    *  Added more description about the construction.
+
+   *  Changed KMAC output length recommendations to avoid multiple
+      invocations.
+
+   *  Updates some text to align with the hedged signatures/signing
+      terminology.
 
    Changes from -01 to -02:
 
