@@ -535,7 +535,7 @@ With the construction in this document, the repetition of the same per-message s
 
 Implementations need to follow best practices on how to protect against all side-channel attacks, not just attacks that exploit determinism, see for example {{BSI}}.
 
-The leading 0x00 octet in Hedged EdDSA provides domain separation with RFC 8032 since the first octets of dom2 and dom4 are distinct from 0x00.
+The leading 0x00 octet in Hedged EdDSA provides domain separation with RFC 8032 since the first octets of dom2 and dom4 are distinct from 0x00. In the case of Ed25519, for which dom2 is the empty string, note that Ed25519 in RFC 8032 would have to contain the prefix also in PH(M) to collide with any of the inputs to the hash computations in the hedged variants in this document.
 
 # Test Vectors {#test}
 
