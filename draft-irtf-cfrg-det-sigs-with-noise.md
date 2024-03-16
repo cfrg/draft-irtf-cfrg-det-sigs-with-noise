@@ -459,7 +459,7 @@ Update to RFC 8032:
 For Ed25519ph, Ed25519ctx, and Ed25519: In deployments where side-channel and fault injection attacks are a concern, the following step is RECOMMENDED instead of step (2) in Section 5.1.6 of {{RFC8032}}:
 
 ~~~~~~~~~~~~~~~~~~~~~~~
-2.  Compute SHA-512(dom2(F, C) || Z || 000... || prefix || 000... ||
+2.  Compute SHA-512(0x00 || Z || dom2(F, C) || 000... || prefix || 000... ||
     PH(M)), where M is the message to be signed, Z is 32 octets of
     random data, the number of zeroes 000... is chosen so that the
     lengths of (dom2(F, C) || Z || 000...) and (prefix || 000...) are
@@ -470,7 +470,7 @@ For Ed25519ph, Ed25519ctx, and Ed25519: In deployments where side-channel and fa
 For Ed448ph and Ed448: In deployments where side-channel and fault injection attacks are a concern, the following step is RECOMMENDED instead of step (2) in Section 5.2.6 of {{RFC8032}}:
 
 ~~~~~~~~~~~~~~~~~~~~~~~
-2.  Compute SHAKE256(dom4(F, C) || Z || 000... || prefix || 000... ||
+2.  Compute SHAKE256(0x00 || Z || dom4(F, C) || 000... || prefix || 000... ||
     PH(M), 114), where M is the message to be signed, and Z is 57
     octets of random data, the number of zeroes 000... is chosen so
     that the length of (dom4(F, C) || Z || 000...) and (prefix ||
@@ -534,6 +534,8 @@ Another countermeasure to fault attacks is to force the signer to verify the sig
 With the construction in this document, the repetition of the same per-message secret number for two different messages is highly unlikely even with an imperfect random number generator, but not impossible. As an extreme countermeasure, previously used secret numbers can be tracked to ensure their uniqueness for a given key, and a different random number can be used if a collision is detected. This document neither mandates nor prohibits implementations from taking such precautions.
 
 Implementations need to follow best practices on how to protect against all side-channel attacks, not just attacks that exploit determinism, see for example {{BSI}}.
+
+The leading 0x00 octet in Hedged EdDSA provides domain separation with RFC 8032 since the first octets of dom2 and dom4 are distinct from 0x00.
 
 # Test Vectors {#test}
 
