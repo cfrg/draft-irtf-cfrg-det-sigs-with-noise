@@ -568,7 +568,7 @@ Changes from -02 to -03:
 * Added more description about the construction.
 * Changed KMAC output length recommendations to avoid multiple invocations.
 * Updates some text to align with the hedged signatures/signing terminology.
-  
+
 Changes from -01 to -02:
 
 * Different names Zd and Zf for the randomness in ECDSA
