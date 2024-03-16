@@ -566,16 +566,16 @@ RANDOM DATA = { }
 
 Changes from -02 to -03:
 
-* Same randomness Z in step d and f to align with HMAC_DRBG
-* Changed Hedged EdDSA order to 0x00 || Z || dom2(F, C) instead of dom2(F, C) || Z. This avoids collisions with RFC 8032 and aligns with Bernstein's recommendation to put Z before the context.
-* Same randomness Z in step d and f to align with HMAC_DRBG
+* Same randomness Z in step d and f to align with HMAC_DRBG.
+* Changed Hedged EdDSA order to 0x00 \|\| Z \|\| dom2(F, C) instead of dom2(F, C) \|\| Z. This avoids collisions with RFC 8032 and aligns with Bernstein's recommendation to put Z before the context.
 * Changed KMAC output length recommendations to avoid multiple invocations.
 * Updates some text to align with the hedged signatures/signing terminology.
 * Added more description about the construction.
+* Editorial changes.
 
 Changes from -01 to -02:
 
-* Different names Zd and Zf for the randomness in ECDSA
+* Different names Zd and Zf for the randomness in ECDSA.
 * Added empty test vector section as TODO.
 
 Changes from -00 to -01:
