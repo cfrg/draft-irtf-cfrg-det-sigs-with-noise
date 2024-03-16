@@ -442,9 +442,9 @@ Government agencies are clearly concerned about these attacks. In {{Notice-186-5
 
 Note that deriving per-message secret number deterministically, is also insecure in a multi-party signature setting {{I-D.irtf-cfrg-frost}}.
 
-One countermeasure to entropy failures, side-channel attacks, and fault injection attacks recommended by {{Langley13}} {{RP17}} {{ABFJLM17}} {{SBBDS17}} {{PSSLR17}} {{SB18}} {{AOTZ19}} {{FG19}} and implemented in {{OpenSSL13a}} {{OpenSSL13b}} {{XEdDSA}} {{libSodium}} {{libHydrogen}} is to generate the per-message secret number from a random string, a secret key, and the message. This combines the security benefits of fully randomized per-message secret numbers with the security benefits of fully deterministic secret numbers.  Such a construction protects against key compromise due to weak random number generation, but still effectively prevents many side-channel and fault injection attacks that exploit determinism. Such a construction require minor changes to the implementation and does not increase the number of elliptic curve point multiplications and is therefore suitable for constrained IoT. Adding randomness to EdDSA is not compliant with {{RFC8032}}. {{Kampanakis16}} describes an alternative {{FIPS-186-5}} compliant approach where message specific pseudo-random information is used as an additional input to the random number generation to create per-message secret number. {{Bernstein14}} states that generation of the per-message secret number from a subset of a random string, a secret key, the message, and a message counter is common in DSA/ECDSA implementations.
+One countermeasure to entropy failures, side-channel attacks, and fault injection attacks recommended by {{Langley13}} {{RP17}} {{ABFJLM17}} {{SBBDS17}} {{PSSLR17}} {{SB18}} {{AOTZ19}} {{FG19}} and implemented in {{OpenSSL13a}} {{OpenSSL13b}} {{XEdDSA}} {{libSodium}} {{libHydrogen}} is to generate the per-message secret number from a random string, a secret key, and the message. This combines the security benefits of fully randomized per-message secret numbers with the security benefits of fully deterministic secret numbers.  Such a hedged construction protects against key compromise due to weak random number generation, but still effectively prevents many side-channel and fault injection attacks that exploit determinism. Hedged constructions require minor changes to the implementation and does not increase the number of elliptic curve point multiplications and is therefore suitable for constrained IoT. Adding randomness to EdDSA is not compliant with {{RFC8032}}. {{Kampanakis16}} describes an alternative {{FIPS-186-5}} compliant approach where message specific pseudo-random information is used as an additional input to the random number generation to create per-message secret number. {{Bernstein14}} states that generation of the per-message secret number from a subset of a random string, a secret key, the message, and a message counter is common in DSA/ECDSA implementations.
 
-This document updates {{RFC6979}} and {{RFC8032}} to recommend constructions with additional randomness for deployments where side-channel and fault injection attacks are a concern. The updates are invisible to the validator of the signature. Produced signatures remain fully compatible with unmodified ECDSA and EdDSA verifiers and existing key pairs can continue to be used. As the precise use of the noise is specified, test vectors can still be produced, and implementations can be tested against them.
+This document updates {{RFC6979}} and {{RFC8032}} to recommend hedged constructions in deployments where side-channel and fault injection attacks are a concern. The updates are invisible to the validator of the signature. Produced signatures remain fully compatible with unmodified ECDSA and EdDSA verifiers and existing key pairs can continue to be used. As the precise use of the noise is specified, test vectors can still be produced, see {{test}}, and implementations can be tested against them.
 
 # Conventions Used in This Document
 
@@ -517,7 +517,7 @@ f.  Set:
     called provided_data in HMAC_DRBG, is the same as in step (d).
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-When ECDSA is used with SHAKE {{SHA3}} the HMAC construction above MAY be used but it is RECOMMENDED to use the more efficient KMAC construction {{KMAC}}. SHAKE is a variable-length hash function defined as SHAKE(M, d) where the output is a d-bits-long digest of message M. When ECDSA is used with SHAKE128(M, d), it is RECOMMENDED to replace HMAC(K, M) with KMAC128(K, M, d2, ""), where d2 = max(d, qlen). When ECDSA is used with SHAKE256(M, d), it is RECOMMENDED to replace HMAC(K, M) with KMAC256(K, M, d2, ""), where d2 = max(d, qlen). {{RFC8692}} and {{FIPS-186-5}} define the use of SHAKE128 with an output length of 256 bits and SHAKE256 with an output length or 512 bits.
+When ECDSA is used with SHAKE {{SHA3}} the HMAC construction above MAY be used but it is RECOMMENDED to use the more efficient KMAC construction {{KMAC}}. SHAKE is a variable-length hash function defined as SHAKE(M, d) where the output is a d-bits-long digest of message M. When ECDSA is used with SHAKE128(M, d), it is RECOMMENDED to replace HMAC(K, M) with KMAC128(K, M, d2, ""), where d2 = max(d, qlen) and qlen is the binary length of the order of the base point of the elliptic curve {{RFC6979}}. When ECDSA is used with SHAKE256(M, d), it is RECOMMENDED to replace HMAC(K, M) with KMAC256(K, M, d2, ""), where d2 = max(d, qlen). {{RFC8692}} and {{FIPS-186-5}} define the use of SHAKE128 with an output length of 256 bits and SHAKE256 with an output length or 512 bits.
 
 In new deployments, where side-channel and fault injection attacks are a concern, EdDSA with additional randomness as specified in {{SecEdDSA}} is RECOMMENDED.
 
@@ -535,25 +535,25 @@ With the construction in this document, the repetition of the same per-message s
 
 Implementations need to follow best practices on how to protect against all side-channel attacks, not just attacks that exploit determinism, see for example {{BSI}}.
 
-# Test Vectors
+# Test Vectors {#test}
 
 TODO
 
 ## Hedged Ed25519
 
 ~~~~~~~~~~~~~~~~~~~~~~~
-    MESSAGE = { 00 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 0f }
- SECRET KEY = { 30 31 32 33 34 35 36 37 38 39 3a 3b }
-RANDOM DATA = { 22 ce 92 da cb 50 77 4b ab 0d 18 29 3d 6e ae 7f }
+    MESSAGE = { }
+ SECRET KEY = { }
+RANDOM DATA = { }
   SIGNATURE = { }
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 ## Hedged ECDSA with P-256 and SHA-256
 
 ~~~~~~~~~~~~~~~~~~~~~~~
-    MESSAGE = { 00 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 0f }
- SECRET KEY = { 30 31 32 33 34 35 36 37 38 39 3a 3b }
-RANDOM DATA = { 22 ce 92 da cb 50 77 4b ab 0d 18 29 3d 6e ae 7f }
+    MESSAGE = { }
+ SECRET KEY = { }
+RANDOM DATA = { }
   SIGNATURE = { }
 ~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -566,7 +566,9 @@ Changes from -02 to -03:
 
 * Same randomness Z in step d and f to align with HMAC_DRBG
 * Added more description about the construction.
-
+* Changed KMAC output length recommendations to avoid multiple invocations.
+* Updates some text to align with the hedged signatures/signing terminology.
+  
 Changes from -01 to -02:
 
 * Different names Zd and Zf for the randomness in ECDSA
