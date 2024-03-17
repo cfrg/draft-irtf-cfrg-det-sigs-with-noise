@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-03-14T00:54:41.282796+00:00",
+  "timestamp": "2024-03-17T00:58:11.702065+00:00",
   "repo": "cfrg/draft-irtf-cfrg-det-sigs-with-noise",
   "labels": [
     {
@@ -93,7 +93,7 @@
       "labels": [],
       "body": "I'd like to let the interested parties know that, I've written a experimental C implementation of the draft. If anyone's interested in benchmarking or any kind of testing, I'd love to assist. I've also raised a few implementation-related issue at [crypto.stackexchange.com/a/106599/36960](http://crypto.stackexchange.com/a/106599/36960) and I'll summarize here:\r\n\r\n1. The draft treats ECDSA RNG as a white box and penetrates the PRNG boundary to seed it, which is something NIST specifies not to do. This isn't too big an issue, as there are ways to maintain functionality opacity.\r\n\r\n2. The draft underspecifies how to use KMAC when the hash function is SHAKE. The way I prefer is to persuade NIST to specify and approve a permutation-based PRNG and use that instead. However in the interim time, we could add details on how KMAC should be used with HMAC-DRBG, but again, it'll penetrate the PRNG boundary. What's more, KMAC had not been approved for use with HMAC-DRBG yet.",
       "createdAt": "2024-02-28T08:59:13Z",
-      "updatedAt": "2024-03-11T14:17:28Z",
+      "updatedAt": "2024-03-16T12:51:45Z",
       "closedAt": null,
       "comments": [
         {
@@ -127,9 +127,37 @@
         {
           "author": "dannyniu",
           "authorAssociation": "NONE",
-          "body": "@emanjon I can generate some, but some details are needed:\r\n\r\n1. (for ECDSA & EdDSA) against which revision should I generate my test vectors,\r\n2. (for ECDSA) which curves and hash lengths should I include? (I'd go for P-256 and P-384 because that 2 are the ones currently implemented and are marked as recommended in [one of the IANA registeries](https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml#tls-parameters-8).)\r\n3. (for ECDSA) we'd be needing SHA-2+HMAC test vectors I presume?\r\n4. (for ECDSA) when instantiating with FIPS-202, do I use SHAKE+KMAC or the regular SHA-3 instances with HMAC (or some other combination)?\r\n5. (misc) would anyone be interested in a set of [BLAKE2](https://datatracker.ietf.org/doc/html/rfc7693) test vectors? BLAKE2 have both hashing and PRF modes.",
+          "body": "@emanjon I can generate some, but some details are needed:\r\n\r\n1. (for ECDSA & EdDSA) against which revision should I generate my test vectors,\r\n2. (for ECDSA) which curves and hash lengths should I include? I'd go for P-256 and P-384 because that 2 are the ones I've implemented and also marked as recommended in [one of the IANA registeries](https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml#tls-parameters-8); whereas with P-521, we need to agree on whether to invoke KMAC with 521-bit output, or 2 successive 512-bit output with truncation.\r\n3. (for ECDSA) we'd be needing SHA-2+HMAC test vectors I presume?\r\n4. (for ECDSA) when instantiating with FIPS-202, do I use SHAKE+KMAC or the regular SHA-3 instances with HMAC (or some other combination)?\r\n5. (misc) would anyone be interested in a set of [BLAKE2](https://datatracker.ietf.org/doc/html/rfc7693) test vectors? BLAKE2 have both hashing and PRF modes.",
           "createdAt": "2024-03-11T11:03:43Z",
-          "updatedAt": "2024-03-11T14:17:28Z"
+          "updatedAt": "2024-03-15T00:56:01Z"
+        },
+        {
+          "author": "dannyniu",
+          "authorAssociation": "NONE",
+          "body": "@ethorm I checked out the new draft, and noticed a reference to \"section 3.3 of RFC-8391\". However, there's no section 3.3 in RFC-8391, there's only 1 2nd-level subsection in RFC-8391.",
+          "createdAt": "2024-03-15T01:05:00Z",
+          "updatedAt": "2024-03-15T01:05:00Z"
+        },
+        {
+          "author": "ethorm",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Thank you @dannyniu, fixed it to reference RFC 6979.",
+          "createdAt": "2024-03-15T10:11:33Z",
+          "updatedAt": "2024-03-15T10:11:33Z"
+        },
+        {
+          "author": "ethorm",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Thanks @dannyniu, \r\n\r\n> Note that for the P-521 instance, 521 bits are needed, otherwise [lattice attack](https://eprint.iacr.org/2019/023.pdf) will work.\r\n\r\nI assume that you mean that step h.2 of https://datatracker.ietf.org/doc/html/rfc6979#section-3.2 will be iterated twice. John just made a commit recommending that KMAC outputs at least qlen bits (more exactly max(d, qlen)), where qlen is from RFC 6979.",
+          "createdAt": "2024-03-16T09:18:00Z",
+          "updatedAt": "2024-03-16T09:18:56Z"
+        },
+        {
+          "author": "dannyniu",
+          "authorAssociation": "NONE",
+          "body": "@ethorm It looks great. \r\n\r\nI was going to say \"exactly 521 bits may cause difficulty for octet-oriented HMAC-DRBG implementations instantiated with KMAC\", because L=521 is baked into domain separation informations. So I prefer the wording change to \"at least max(d, qlen) bits\"; or allow L=0 to make the output idempotent (which I find more preferable) just like when instantiating with HMAC-SHA-512.\r\n\r\nBut I think I'll manage by breaking curve abstraction layer a bit. I'll let others raise their concern. At worst, I'll omit test vectors for P-521. When the next revision is posted on IETF data tracker, I'll try find time write up codes to generate test vectors.",
+          "createdAt": "2024-03-16T11:27:49Z",
+          "updatedAt": "2024-03-16T12:51:45Z"
         }
       ]
     },
