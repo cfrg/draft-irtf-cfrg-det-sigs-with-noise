@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-03-19T00:54:36.082832+00:00",
+  "timestamp": "2024-03-21T00:56:10.091498+00:00",
   "repo": "cfrg/draft-irtf-cfrg-det-sigs-with-noise",
   "labels": [
     {
@@ -93,7 +93,7 @@
       "labels": [],
       "body": "I'd like to let the interested parties know that, I've written a experimental C implementation of the draft. If anyone's interested in benchmarking or any kind of testing, I'd love to assist. I've also raised a few implementation-related issue at [crypto.stackexchange.com/a/106599/36960](http://crypto.stackexchange.com/a/106599/36960) and I'll summarize here:\r\n\r\n1. The draft treats ECDSA RNG as a white box and penetrates the PRNG boundary to seed it, which is something NIST specifies not to do. This isn't too big an issue, as there are ways to maintain functionality opacity.\r\n\r\n2. The draft underspecifies how to use KMAC when the hash function is SHAKE. The way I prefer is to persuade NIST to specify and approve a permutation-based PRNG and use that instead. However in the interim time, we could add details on how KMAC should be used with HMAC-DRBG, but again, it'll penetrate the PRNG boundary. What's more, KMAC had not been approved for use with HMAC-DRBG yet.",
       "createdAt": "2024-02-28T08:59:13Z",
-      "updatedAt": "2024-03-18T08:03:16Z",
+      "updatedAt": "2024-03-19T09:47:56Z",
       "closedAt": null,
       "comments": [
         {
@@ -162,9 +162,9 @@
         {
           "author": "dannyniu",
           "authorAssociation": "NONE",
-          "body": "I found some problem.\r\n\r\nThe current wording makes P-521+KMAC-256 unimplementable without making some breaking changes to existing codebase, both established ones such as LibreSSL, OpenSSL, NSS, etc. as well as my own MySuiteA. This is mostly with respect to octet-oriented assumptions in current implementations.\r\n\r\nVast majority of existing codes are octet-oriented, this means that requesting a fraction bytes' output is impossible since lengths are specified in units of bytes (and are integer types). Therefore when instantiating HMAC-DRBG with KMAC-256 to use with P-521, the biggest common denominator is not 521 bits, but rather 66 bytes.\r\n\r\nOne possible way to implement this in signing subroutine would be:\r\n\r\n1. to request 66 bytes,\r\n2. interpret the bytes and convert it to big-endian integer (using OS2IP).\r\n3. right-shift 7 bits to get a 521-bit random number - this emulates what `leftmost(bitstr)` does.\r\n\r\nOn the same note, I recommend the following change for KMAC-instantiated HMAC-DRBG: merge steps h-1 and h-2 in [generation of k](https://datatracker.ietf.org/doc/html/rfc6979#section-3.2) into a single step as follow:\r\n\r\n```\r\nT = KMAC-{128,256}(K,V,ceil(qlen/8)*8,\"\")\r\n```\r\n\r\nI said before not to break PRNG boundary, but since we're instantiating HMAC-DRBG with the unapproved combination of KMAC, the efficiency gain worth making the change. (although it's more preferable NIST specify a Keccak permutation-based PRNG.)",
+          "body": "I found some problem.\r\n\r\nThe current wording makes P-521+KMAC-256 unimplementable without making some breaking changes to existing codebase, both established ones such as LibreSSL, OpenSSL, NSS, etc. as well as my own MySuiteA. This is mostly with respect to octet-oriented assumptions in current implementations.\r\n\r\nVast majority of existing codes are octet-oriented, this means that requesting a fraction bytes' output is impossible since lengths are specified in units of bytes (and are integer types). Therefore when instantiating HMAC-DRBG with KMAC-256 to use with P-521, the biggest common denominator is not 521 bits, but rather 66 bytes.\r\n\r\nOne possible way to implement this in signing subroutine would be:\r\n\r\n1. to request 66 bytes,\r\n2. interpret the bytes and convert it to big-endian integer (using OS2IP).\r\n3. right-shift 7 bits to get a 521-bit random number - this emulates what `leftmost(bitstr)` does.\r\n\r\nOn the same note, I recommend the following change to accomondate KMAC-instantiated HMAC-DRBG: change step h in [generation of k](https://datatracker.ietf.org/doc/html/rfc6979#section-3.2) to:\r\n\r\n> h. Apply the following algorithms until a proper value is found for k:\r\n> \r\n> 1. if KMAC is used: \r\n>\r\n>    `T = KMAC-{128,256}(K, V, ceil(qlen/8)*8, \"\")\r\n>\r\n> 2. if HMAC is used, repeat the following steps until tlen >= qlen:\r\n>\r\n>    2.1. V = HMAC_K(V)\r\n>    2.2. T = T || V\r\n>\r\n> 3. Compute k = bits2int(leftmost(T, qlen))\r\n>\r\n>    If that value of k is within the [1,q-1], and is suitable for ...\r\n>    ... Otherwise compute:\r\n>\r\n>    K = KMAC_K(V || 0)\r\n>    V = KMAC_K(V)\r\n>\r\n>    and repeat this step h.\r\n\r\nI said before not to break PRNG boundary, but since we're instantiating HMAC-DRBG with the unapproved combination of KMAC, the efficiency gain worth making the change. (although it's more preferable NIST specify a Keccak permutation-based PRNG.)",
           "createdAt": "2024-03-18T01:26:07Z",
-          "updatedAt": "2024-03-18T08:03:16Z"
+          "updatedAt": "2024-03-19T09:47:56Z"
         }
       ]
     },
