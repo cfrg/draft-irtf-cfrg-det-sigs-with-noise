@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-04-18T00:55:24.412653+00:00",
+  "timestamp": "2024-04-21T01:00:33.426109+00:00",
   "repo": "cfrg/draft-irtf-cfrg-det-sigs-with-noise",
   "labels": [
     {
@@ -266,9 +266,17 @@
       "labels": [],
       "body": "People have suggested a FIPS 186 compliant mode where message-dependent pseudorandom values are used as \u2018additional input\u2019 in the random number generation for randomized ECDSA [FIPS 186]. Such a mode could compliment the current hedged construction based on Deterministic ECDSA [RFC 6979].\r\nhttps://blogs.cisco.com/security/fips-and-deterministic-ecdsa-achieving-robust-security-and-conformance",
       "createdAt": "2024-03-11T10:32:08Z",
-      "updatedAt": "2024-03-11T10:32:08Z",
+      "updatedAt": "2024-04-21T00:06:47Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "FiloSottile",
+          "authorAssociation": "NONE",
+          "body": "I believe Hedged ECDSA as described in draft-irtf-cfrg-det-sigs-with-noise-03 is already FIPS 186-5 compliant.\r\n\r\nIt's using HMAC_DRBG consistently with SP 800-90Ar1, with Z as entropy (which has length sufficient to provide the requested DRBG security strength for the ECDSA key size, double that in fact), no nonce (as allowed by SP 800-90Ar1, Sections 8.6.7 and 9.1), and a `personalization_string` of `000... || int2octets(x) || 000... || bits2octets(h1)` (consistent with SP 800-90Ar1, Section 8.7.1, \"The personalization string may contain secret information\").\r\n\r\nAlternatively, one could argue that `int2octets(x) || 000...` is the nonce, and `Z || 000...` is the entropy (which is allowed to be longer than the actual bits of entropy it contains). Yet another argument could be that the first half of Z is the entropy (since e.g. a 256 bit ECDSA key requires a DRGB with minimum security strength of 128 per SP 800-57 Part 1), and the second half is the nonce. We have options (and as I type this I think I like that last one the most).\r\n\r\nIt then uses this cryptographically strong DRBG to generate the nonce according to FIPS 186-5, Appendix A.3.2, \"Per-Message Secret Number Generation of Private Keys by Rejection Sampling\". RFC 6979 checks 0 < x < q, while Appendix A.4.2 checks 0 <= x < q-1 and then returns x + 1 (which is way more annoying to implement), but note that Appendix A.3.2 says \"Convert returned_bits to the (non-negative) integer k using the procedure in Appendix A.4.2 *or an equivalent process*\" (emphasis mine).\r\n\r\nAre there concerns about the compliance of the current version? I actually landed here by first rederiving the exact same scheme (except for the `000...` padding) as a FIPS-compliant hedged ECDSA I will need to implement, and then remembering about this draft, and I was happy to find it similarly compliant.",
+          "createdAt": "2024-04-21T00:06:46Z",
+          "updatedAt": "2024-04-21T00:06:46Z"
+        }
+      ]
     },
     {
       "number": 7,
@@ -375,7 +383,7 @@
       "labels": [],
       "body": "\r\nhttps://mailarchive.ietf.org/arch/msg/cfrg/jmfn1b880x7-7gZKb7_uwLvE3oU/\r\n\r\nTaylor R Campbell wrote:\r\nWhere does one find test vectors for the deterministic functions\r\ndefined here with the extra randomization parameters Z?\r\n\r\nDaniel Bernstein wrote:\r\n",
       "createdAt": "2024-03-11T13:17:45Z",
-      "updatedAt": "2024-03-18T02:40:12Z",
+      "updatedAt": "2024-04-21T00:17:28Z",
       "closedAt": null,
       "comments": [
         {
@@ -398,6 +406,13 @@
           "body": "I think this is a good idea.",
           "createdAt": "2024-03-18T02:40:11Z",
           "updatedAt": "2024-03-18T02:40:11Z"
+        },
+        {
+          "author": "FiloSottile",
+          "authorAssociation": "NONE",
+          "body": "Big fan of derandomized interfaces, and NIST is planning to introduce them for the PQ algorithms (https://groups.google.com/a/list.nist.gov/g/pqc-forum/c/Mf2kemwwreY/m/oF8HfaNxAQAJ) so I like the idea of a testable `Sign_internal(sk, M, Z)`, but only if it doesn't delay this draft further. I'd like to implement this and produce shared test vectors for it ASAP :)",
+          "createdAt": "2024-04-21T00:17:27Z",
+          "updatedAt": "2024-04-21T00:17:27Z"
         }
       ]
     },
