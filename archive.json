@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-04-21T01:00:33.426109+00:00",
+  "timestamp": "2024-04-23T00:57:09.132207+00:00",
   "repo": "cfrg/draft-irtf-cfrg-det-sigs-with-noise",
   "labels": [
     {
@@ -266,7 +266,7 @@
       "labels": [],
       "body": "People have suggested a FIPS 186 compliant mode where message-dependent pseudorandom values are used as \u2018additional input\u2019 in the random number generation for randomized ECDSA [FIPS 186]. Such a mode could compliment the current hedged construction based on Deterministic ECDSA [RFC 6979].\r\nhttps://blogs.cisco.com/security/fips-and-deterministic-ecdsa-achieving-robust-security-and-conformance",
       "createdAt": "2024-03-11T10:32:08Z",
-      "updatedAt": "2024-04-21T00:06:47Z",
+      "updatedAt": "2024-04-21T11:35:56Z",
       "closedAt": null,
       "comments": [
         {
@@ -275,6 +275,13 @@
           "body": "I believe Hedged ECDSA as described in draft-irtf-cfrg-det-sigs-with-noise-03 is already FIPS 186-5 compliant.\r\n\r\nIt's using HMAC_DRBG consistently with SP 800-90Ar1, with Z as entropy (which has length sufficient to provide the requested DRBG security strength for the ECDSA key size, double that in fact), no nonce (as allowed by SP 800-90Ar1, Sections 8.6.7 and 9.1), and a `personalization_string` of `000... || int2octets(x) || 000... || bits2octets(h1)` (consistent with SP 800-90Ar1, Section 8.7.1, \"The personalization string may contain secret information\").\r\n\r\nAlternatively, one could argue that `int2octets(x) || 000...` is the nonce, and `Z || 000...` is the entropy (which is allowed to be longer than the actual bits of entropy it contains). Yet another argument could be that the first half of Z is the entropy (since e.g. a 256 bit ECDSA key requires a DRGB with minimum security strength of 128 per SP 800-57 Part 1), and the second half is the nonce. We have options (and as I type this I think I like that last one the most).\r\n\r\nIt then uses this cryptographically strong DRBG to generate the nonce according to FIPS 186-5, Appendix A.3.2, \"Per-Message Secret Number Generation of Private Keys by Rejection Sampling\". RFC 6979 checks 0 < x < q, while Appendix A.4.2 checks 0 <= x < q-1 and then returns x + 1 (which is way more annoying to implement), but note that Appendix A.3.2 says \"Convert returned_bits to the (non-negative) integer k using the procedure in Appendix A.4.2 *or an equivalent process*\" (emphasis mine).\r\n\r\nAre there concerns about the compliance of the current version? I actually landed here by first rederiving the exact same scheme (except for the `000...` padding) as a FIPS-compliant hedged ECDSA I will need to implement, and then remembering about this draft, and I was happy to find it similarly compliant.",
           "createdAt": "2024-04-21T00:06:46Z",
           "updatedAt": "2024-04-21T00:06:46Z"
+        },
+        {
+          "author": "FiloSottile",
+          "authorAssociation": "NONE",
+          "body": "Ah, actually, more evidence from SP 800-90Ar1, Section 8.6.7 in support of just calling Z entropy+nonce.\r\n\r\n> For case 1 above, the random value could be acquired from the same source and at the same time as the entropy input. In this case, the seed could be considered to be constructed from an \u201cextra strong\u201d entropy input and the optional personalization string, where the entropy for the entropy input is equal to or greater than (3/2 security_strength) bits.\r\n\r\nThis is very reasonable, especially for ECDSA nonce generation, because this use case is susceptible to birthday bounds. This is explicitly called out.\r\n\r\n> The nonce provides greater assurance that the DRBG provides security_strength bits of security to the consuming application. If a DRBG were instantiated many times without a nonce, a compromise could become more likely. In some consuming applications, a single DRBG compromise could reveal long-term secrets (e.g., a compromise of the DSA per-message secret could reveal the signing key).\r\n\r\nGiven P-256, P-384, and P-521 require a security strength of 128, 192, and 256 respectively per SP 800-57 Part 1 Rev. 5, Section 5.6.1.1, the Z length of 256, 384, and 528 respectively is always greater than 3/2 security_strength.\r\n\r\nAlso, SHA-256 or better is sufficient for all those security strengths per SP 800-57 Part 1 Rev. 5, Section 5.6.1.2. From SP 800-90Ar1, Section 10.1:\r\n\r\n> The maximum security strength that can be supported by each DRBG based on a hash function is the security strength of the hash function for pre-image resistance; these security strengths are provided in [SP 800-107]. [SP 800-57] identifies hash functions that can be used to support a required security strength.",
+          "createdAt": "2024-04-21T11:35:55Z",
+          "updatedAt": "2024-04-21T11:35:55Z"
         }
       ]
     },
