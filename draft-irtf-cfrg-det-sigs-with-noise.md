@@ -450,7 +450,7 @@ This document updates {{RFC6979}} and {{RFC8032}} to recommend hedged constructi
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 {{RFC2119}} {{RFC8174}} when, and only when, they appear in all capitals, as shown here.
 
-# Hedged EdDSA {#SecEdDSA}
+# Hedged EdDSA {#HedgedEdDSA}
 
 This document updates RFC 8032 (EdDSA) to recommend hedged variants of EdDSA for deployments where side-channel attacks and fault injection attacks are a concern, the variants are called hedged EdDSA. The updates are invisible to the validator of the signature and compatible with existing EdDSA validators.
 
@@ -479,7 +479,7 @@ For Ed448ph and Ed448: In deployments where side-channel and fault injection att
     114-octet digest as a little-endian integer r.
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-# Hedged ECDSA
+# Hedged ECDSA {#HedgedECDSA}
 
 This document updates RFC 6979 (deterministic ECDSA) to recommend a hedged variant of ECDSA for deployments where side-channel attacks and fault injection attacks are a concern, the variant is called hedged ECDSA. The updates are invisible to the validator of the signature and compatible with existing ECDSA validators.
 
@@ -519,7 +519,7 @@ f.  Set:
 
 When ECDSA is used with SHAKE {{SHA3}} the HMAC construction above MAY be used but it is RECOMMENDED to use the more efficient KMAC construction {{KMAC}}. SHAKE is a variable-length hash function defined as SHAKE(M, d) where the output is a d-bits-long digest of message M. When ECDSA is used with SHAKE128(M, d), it is RECOMMENDED to replace HMAC(K, M) with KMAC128(K, M, d2, ""), where d2 = max(d, qlen) and qlen is the binary length of the order of the base point of the elliptic curve {{RFC6979}}. When ECDSA is used with SHAKE256(M, d), it is RECOMMENDED to replace HMAC(K, M) with KMAC256(K, M, d2, ""), where d2 = max(d, qlen). {{RFC8692}} and {{FIPS-186-5}} define the use of SHAKE128 with an output length of 256 bits and SHAKE256 with an output length or 512 bits.
 
-In new deployments, where side-channel and fault injection attacks are a concern, EdDSA with additional randomness as specified in {{SecEdDSA}} is RECOMMENDED.
+In new deployments, where side-channel and fault injection attacks are a concern, Hedged EdDSA as specified in {{HedgedEdDSA}} is RECOMMENDED.
 
 # Security Considerations
 
