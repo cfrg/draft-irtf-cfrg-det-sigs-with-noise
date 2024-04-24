@@ -517,7 +517,7 @@ f.  Set:
     called provided_data in HMAC_DRBG, is the same as in step (d).
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-When ECDSA is used with SHAKE {{SHA3}} the HMAC construction above MAY be used but it is RECOMMENDED to use the more efficient KMAC construction {{KMAC}}. SHAKE is a variable-length hash function defined as SHAKE(M, d) where the output is a d-bits-long digest of message M. When ECDSA is used with SHAKE128(M, d), it is RECOMMENDED to replace HMAC(K, M) with KMAC128(K, M, d2, ""), where d2 = max(d, qlen) and qlen is the binary length of the order of the base point of the elliptic curve {{RFC6979}}. When ECDSA is used with SHAKE256(M, d), it is RECOMMENDED to replace HMAC(K, M) with KMAC256(K, M, d2, ""), where d2 = max(d, qlen). {{RFC8692}} and {{FIPS-186-5}} define the use of SHAKE128 with an output length of 256 bits and SHAKE256 with an output length or 512 bits.
+When ECDSA is used with SHAKE {{SHA3}} the HMAC construction in Section 3.2 of {{RFC6979}} MAY be used but it is RECOMMENDED to use the more efficient KMAC construction {{KMAC}} with output length hlen = 8*ceil(qlen/8), where qlen is the binary length of the order of the base point of the elliptic curve {{RFC6979}}. When ECDSA is used with SHAKE128, it is RECOMMENDED to replace HMAC(K, M) in Section 3.2 of {{RFC6979}} with KMAC128(K, M, hlen, ""). When ECDSA is used with SHAKE256, it is RECOMMENDED to replace HMAC(K, M) in Section 3.2 of {{RFC6979}} with KMAC256(K, M, hlen, ""). {{RFC8692}} and {{FIPS-186-5}} define the use of SHAKE128 with an output length of 256 bits and SHAKE256 with an output length or 512 bits.
 
 In new deployments, where side-channel and fault injection attacks are a concern, Hedged EdDSA as specified in {{HedgedEdDSA}} is RECOMMENDED.
 
