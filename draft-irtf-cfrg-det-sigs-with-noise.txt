@@ -6,7 +6,7 @@ Crypto Forum                                           J. Preuß Mattsson
 Internet-Draft                                             E. Thormarker
 Updates: 6979, 8032 (if approved)                            S. Ruohomaa
 Intended status: Informational                                  Ericsson
-Expires: 17 September 2024                                 16 March 2024
+Expires: 26 October 2024                                   24 April 2024
 
 
                    Hedged ECDSA and EdDSA Signatures
@@ -61,7 +61,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 17 September 2024.
+   This Internet-Draft will expire on 26 October 2024.
 
 Copyright Notice
 
@@ -307,8 +307,7 @@ Table of Contents
    an output length or 512 bits.
 
    In new deployments, where side-channel and fault injection attacks
-   are a concern, EdDSA with additional randomness as specified in
-   Section 3 is RECOMMENDED.
+   are a concern, Hedged EdDSA as specified in Section 3 is RECOMMENDED.
 
 5.  Security Considerations
 
