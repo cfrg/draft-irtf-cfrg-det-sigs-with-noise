@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-06T01:17:25.734179+00:00",
+  "timestamp": "2024-10-08T01:12:16.726399+00:00",
   "repo": "cfrg/draft-irtf-cfrg-det-sigs-with-noise",
   "labels": [
     {
@@ -470,15 +470,15 @@
       "labels": [],
       "body": "Taylor R Campbell wrote:\r\nWhere does one find test vectors for the deterministic functions\r\ndefined here with the extra randomization parameters Z?\r\n\r\nhttps://mailarchive.ietf.org/arch/msg/cfrg/jmfn1b880x7-7gZKb7_uwLvE3oU/",
       "createdAt": "2024-03-11T13:19:35Z",
-      "updatedAt": "2024-03-18T08:12:29Z",
+      "updatedAt": "2024-10-07T12:39:43Z",
       "closedAt": null,
       "comments": [
         {
           "author": "dannyniu",
           "authorAssociation": "NONE",
-          "body": "<s>[2023-hedged-dss.testvecs-local.d.zip](https://github.com/cfrg/draft-irtf-cfrg-det-sigs-with-noise/files/14627035/2023-hedged-dss.testvecs-local.d.zip)</s>\r\n\r\nI've generated preliminary test vectors. Test vectors for some parameters and features (e.g. P-521, EdDSA pre-hash and context strings) hasn't been generated for now, although it should be easy. \r\n\r\nThe zip file also contain scripts and codes that generated the test vector. To use it, place the \"2023-hedged-dss.testvecs-local.d\" directory under the \"utils\" directory in the \"2023-hedged-dss\" branch of [MySuiteA](https://github.com/dannyniu/MySuiteA), and hack it all you want.\r\n\r\nI encourage 3rd-party implementations to cross check on the correctness of the test vectors, to find potential errors that may have crept in.\r\n\r\n----\r\n\r\n**2024-03-18 Update**\r\n\r\nThe test vectors for ECDSA instantiated with P-384/SHAKE-256 + KMAC-256 was in error due to an inconsistency between my implementation and the *-03 draft. I've noted this and raised some other concerns in https://github.com/cfrg/draft-irtf-cfrg-det-sigs-with-noise/issues/2#issuecomment-2002716578\r\n\r\nI've revised the test vectors in this regard: [2023-hedged-dss.testvecs-local.d.zip](https://github.com/cfrg/draft-irtf-cfrg-det-sigs-with-noise/files/14632671/2023-hedged-dss.testvecs-local.d.zip)\r\n",
+          "body": "<s>[2023-hedged-dss.testvecs-local.d.zip](https://github.com/cfrg/draft-irtf-cfrg-det-sigs-with-noise/files/14627035/2023-hedged-dss.testvecs-local.d.zip)</s>\r\n\r\nI've generated preliminary test vectors. Test vectors for some parameters and features (e.g. P-521, EdDSA pre-hash and context strings) hasn't been generated for now, although it should be easy. \r\n\r\nThe zip file also contain scripts and codes that generated the test vector. To use it, place the \"2023-hedged-dss.testvecs-local.d\" directory under the \"utils\" directory in the \"2023-hedged-dss\" branch of [MySuiteA](https://github.com/dannyniu/MySuiteA), and hack it all you want.\r\n\r\nI encourage 3rd-party implementations to cross check on the correctness of the test vectors, to find potential errors that may have crept in.\r\n\r\n----\r\n\r\n**2024-03-18 Update**\r\n\r\nThe test vectors for ECDSA instantiated with P-384/SHAKE-256 + KMAC-256 was in error due to an inconsistency between my implementation and the *-03 draft. I've noted this and raised some other concerns in https://github.com/cfrg/draft-irtf-cfrg-det-sigs-with-noise/issues/2#issuecomment-2002716578\r\n\r\nI've revised the test vectors in this regard: <s>[2023-hedged-dss.testvecs-local.d.zip](https://github.com/cfrg/draft-irtf-cfrg-det-sigs-with-noise/files/14632671/2023-hedged-dss.testvecs-local.d.zip)</s>\r\n\r\n----\r\n\r\n**2024-10-07 Update**\r\n\r\nPureEdDSA vectors were missing and is now being added. Some other bugs were found in my repo, I'll push some time soon.\r\n\r\n[2023-hedged-dss.testvecs-20241007-local.d.zip](https://github.com/user-attachments/files/17278588/2023-hedged-dss.testvecs-20241007-local.d.zip)\r\n\r\n",
           "createdAt": "2024-03-17T10:24:26Z",
-          "updatedAt": "2024-03-18T08:12:29Z"
+          "updatedAt": "2024-10-07T12:39:43Z"
         }
       ]
     },
