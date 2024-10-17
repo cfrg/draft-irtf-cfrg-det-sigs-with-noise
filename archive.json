@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-15T01:13:21.307315+00:00",
+  "timestamp": "2024-10-17T01:12:34.097537+00:00",
   "repo": "cfrg/draft-irtf-cfrg-det-sigs-with-noise",
   "labels": [
     {
@@ -495,6 +495,22 @@
       "body": "In the current draft (as of this writing), the each amendments to the existing RFCs contain:\r\n\r\n> the number of zeroes 000... is chosen so that the length are multiples of ...\r\n\r\nShould this number chosen to be strictly positive? Or a length of 0 is also acceptable?",
       "createdAt": "2024-09-26T07:18:12Z",
       "updatedAt": "2024-09-26T07:18:12Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 14,
+      "id": "I_kwDOIymWWc6aQWt9",
+      "title": "Better wording to explain non-colliding of hedged Ed25519 and deterministic Ed25519.",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-det-sigs-with-noise/issues/14",
+      "state": "OPEN",
+      "author": "dannyniu",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Current wording (highlights' mine):\r\n\r\n> The leading 0x00 octet in Hedged EdDSA provides domain separation with RFC 8032 since the first octets of dom2 and dom4 are distinct from 0x00. **In the case of Ed25519, for which dom2 is the empty string, note that Ed25519 in RFC 8032 would have to contain the prefix also in PH(M) to collide with any of the inputs to the hash computations in the hedged variants in this document.**\r\n\r\nThe bold is a bit unclear in my opinion. Can we come up with a better wording that explain it. For example, my attempt:\r\n\r\n> In the case of Ed25519 for which `dom2` is the empty string, an attacker must somehow find a private key that collide with `Z`, then make signer sign both hedged Ed25519 as well as RFC-8032-style deterministic Ed25519 with different message that results in the same nonce-generation-hash input string - a situation that's improbable assuming proper protection of the secret key, and also out side the scope of hedged EdDSA.",
+      "createdAt": "2024-10-15T08:05:24Z",
+      "updatedAt": "2024-10-15T08:05:24Z",
       "closedAt": null,
       "comments": []
     }
