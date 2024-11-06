@@ -564,6 +564,10 @@ RANDOM DATA = { }
 # Change log
 {:removeInRFC="true" numbered="false"}
 
+Changes from -03 to -04:
+
+* Resubmission
+
 Changes from -02 to -03:
 
 * Same randomness Z in step d and f to align with HMAC_DRBG.
