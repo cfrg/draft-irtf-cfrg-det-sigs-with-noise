@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-11-14T01:12:16.248491+00:00",
+  "timestamp": "2024-11-17T01:20:20.102362+00:00",
   "repo": "cfrg/draft-irtf-cfrg-det-sigs-with-noise",
   "labels": [
     {
@@ -494,9 +494,17 @@
       "labels": [],
       "body": "In the current draft (as of this writing), the each amendments to the existing RFCs contain:\r\n\r\n> the number of zeroes 000... is chosen so that the length are multiples of ...\r\n\r\nShould this number chosen to be strictly positive? Or a length of 0 is also acceptable?",
       "createdAt": "2024-09-26T07:18:12Z",
-      "updatedAt": "2024-09-26T07:18:12Z",
+      "updatedAt": "2024-11-16T23:16:17Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "FiloSottile",
+          "authorAssociation": "NONE",
+          "body": "I had the same doubt. FWIW I chose to interpret a length of zero to be acceptable, since it still achieves its stated purpose without wasting a whole hash compression on zeroes.\r\n\r\nWould be good to clarify.",
+          "createdAt": "2024-11-16T23:16:16Z",
+          "updatedAt": "2024-11-16T23:16:16Z"
+        }
+      ]
     },
     {
       "number": 14,
