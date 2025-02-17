@@ -459,13 +459,22 @@ Update to RFC 8032:
 For Ed25519ph, Ed25519ctx, and Ed25519: In deployments where side-channel and fault injection attacks are a concern, the following step is RECOMMENDED instead of step (2) in Section 5.1.6 of {{RFC8032}}:
 
 ~~~~~~~~~~~~~~~~~~~~~~~
-2.  Compute the digest SHA-512(prefix || Z), where Z is 32 octets of random data. Let prefix’ denote the leftmost half of the digest. Compute SHA-512(dom2(F, C) || prefix’ || PH(M)), where M is the message to be signed.  Interpret the 64-octet digest as a little-endian integer r.
+2.  Compute the digest SHA-512(prefix || Z), where Z is 32 octets of
+    random data. Let prefix’ denote the leftmost half of the digest.
+    Compute SHA-512(dom2(F, C) || prefix’ || PH(M)), where M is the
+    message to be signed.  Interpret the 64-octet digest as a
+    little-endian integer r.
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 For Ed448ph and Ed448: In deployments where side-channel and fault injection attacks are a concern, the following step is RECOMMENDED instead of step (2) in Section 5.2.6 of {{RFC8032}}:
 
 ~~~~~~~~~~~~~~~~~~~~~~~
-2.  Compute the digest SHAKE256(prefix || Z, 114), where Z is 57 octets of random data. Let prefix’ denote the leftmost half of the digest. Compute SHAKE256(dom4(F, C) || prefix’ || PH(M), 114), where M is the message to be signed,  F is 1 for Ed448ph, 0 for Ed448, and C is the context to use. Interpret the 114-octet digest as a little-endian integer r.
+2.  Compute the digest SHAKE256(prefix || Z, 114), where Z is 57
+    octets of random data. Let prefix’ denote the leftmost half of
+    the digest. Compute SHAKE256(dom4(F, C) || prefix’ || PH(M), 114),
+    where M is the message to be signed,  F is 1 for Ed448ph, 0 for
+    Ed448, and C is the context to use. Interpret the 114-octet digest
+    as a little-endian integer r.
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 # Hedged ECDSA {#HedgedECDSA}
