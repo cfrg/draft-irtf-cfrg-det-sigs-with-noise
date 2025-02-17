@@ -496,8 +496,8 @@ d.  Set:
     sequence of zero bits 000..., the encoding of the (EC)DSA private
     key x, a sequence of zero bits 000..., and the hashed message
     (possibly truncated and extended as specified by the bits2octets
-    transform).  The number of zeroes 000... is chosen so that the
-    non-negative length of (V || 0x00 || Z || 000...) and
+    transform).  The non-negative number of zeroes 000... is chosen
+    so that the length of (V || 0x00 || Z || 000...) and
     (int2octets(x) || 000...) are the smallest possible multiples
     of the block size of the hash function. The HMAC result is the
     new value of K.  Note that the private key x is in the [1, q-1]
