@@ -497,12 +497,12 @@ d.  Set:
     key x, a sequence of zero bits 000..., and the hashed message
     (possibly truncated and extended as specified by the bits2octets
     transform).  The number of zeroes 000... is chosen so that the
-    length of (V || 0x00 || Z || 000...) and (int2octets(x) ||
-    000...) are multiples of the block size of the hash function.
-    The HMAC result is the new value of K.  Note that the private key
-    x is in the [1, q-1] range, hence a proper input for int2octets,
-    yielding rlen bits of output, i.e., an integral number of octets
-    (rlen is a multiple of 8).
+    non-negative length of (V || 0x00 || Z || 000...) and
+    (int2octets(x) || 000...) are the smallest possible multiples
+    of the block size of the hash function. The HMAC result is the
+    new value of K.  Note that the private key x is in the [1, q-1]
+    range, hence a proper input for int2octets, yielding rlen bits of
+    output, i.e., an integral number of octets (rlen is a multiple of 8).
 ~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~
 f.  Set:
