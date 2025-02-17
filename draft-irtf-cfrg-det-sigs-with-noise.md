@@ -459,24 +459,13 @@ Update to RFC 8032:
 For Ed25519ph, Ed25519ctx, and Ed25519: In deployments where side-channel and fault injection attacks are a concern, the following step is RECOMMENDED instead of step (2) in Section 5.1.6 of {{RFC8032}}:
 
 ~~~~~~~~~~~~~~~~~~~~~~~
-2.  Compute SHA-512(0x00 || Z || dom2(F, C) || 000... || prefix ||
-    000... || PH(M)), where M is the message to be signed, Z is 32
-    octets of random data, the number of zeroes 000... is chosen so
-    that the lengths of (0x00 || Z || dom2(F, C) || 000...) and
-    (prefix || 000...) are multiples of 128 octets.  Interpret the
-    64-octet digest as a little-endian integer r.
+2.  Compute the digest SHA-512(prefix || Z), where Z is 32 octets of random data. Let prefix’ denote the leftmost half of the digest. Compute SHA-512(dom2(F, C) || prefix’ || PH(M)), where M is the message to be signed.  Interpret the 64-octet digest as a little-endian integer r.
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 For Ed448ph and Ed448: In deployments where side-channel and fault injection attacks are a concern, the following step is RECOMMENDED instead of step (2) in Section 5.2.6 of {{RFC8032}}:
 
 ~~~~~~~~~~~~~~~~~~~~~~~
-2.  Compute SHAKE256(0x00 || Z || dom4(F, C) || 000... || prefix ||
-    000... || PH(M), 114), where M is the message to be signed, and Z
-    is 57 octets of random data, the number of zeroes 000... is
-    chosen so that the length of (0x00 || Z || dom4(F, C) || 000...)
-    and (prefix || 000...) are multiples of 136 octets.  F is 1 for
-    Ed448ph, 0 for Ed448, and C is the context to use.  Interpret the
-    114-octet digest as a little-endian integer r.
+2.  Compute the digest SHAKE256(prefix || Z, 114), where Z is 57 octets of random data. Let prefix’ denote the leftmost half of the digest. Compute SHAKE256(dom4(F, C) || prefix’ || PH(M), 114), where M is the message to be signed,  F is 1 for Ed448ph, 0 for Ed448, and C is the context to use. Interpret the 114-octet digest as a little-endian integer r.
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 # Hedged ECDSA {#HedgedECDSA}
@@ -528,8 +517,6 @@ The constructions in this document follow the high-level approach in {{XEdDSA}} 
 The construction in this document aims to mitigate fault injection attacks that leverage determinism in deterministic ECDSA and EdDSA signatures (see e.g., {{ABFJLM17}}), by randomizing nonce generation. Fault injection attacks that achieve instruction skipping as in e.g., Section 3.4 of {{ABFJLM17}} are not necessarily stopped. It seems to be possible to, at the same time, also mitigate attacks that use first order differential power analysis (DPA) against the hash computation of deterministic nonces in EdDSA and ECDSA (see e.g., {{ABFJLM17}}{{SBBDS17}}). The Hedged EdDSA construction mitigates the referenced first order DPA attacks by mixing prefix with Z before mixing it with any public variable data (message or context). Similarly, the Hedged ECDSA construction mixes x with a state randomized by Z before mixing it with public variable data (h1). The random bytes Z are re-used in step d and f of Hedged ECDSA to align with HMAC_DRBG (see Section 3.3 of {{RFC6979}}). This may make certain DPA attacks easier than if randomness had been sampled fresh for each respective step. Note however that V is updated between the steps and that the secret key x is processed in a new input block of the hash function after processing V and Z in each respective step.
 
 Implementations need to follow best practices on how to protect against all side-channel attacks, not just attacks that exploit determinism, see for example {{BSI}}.
-
-The leading 0x00 octet in Hedged EdDSA provides domain separation with RFC 8032 since the first octets of dom2 and dom4 are distinct from 0x00. In the case of Ed25519, for which dom2 is the empty string, note that Ed25519 in RFC 8032 would have to contain the prefix also in PH(M) to collide with any of the inputs to the hash computations in the hedged variants in this document.
 
 # Test Vectors {#test}
 
@@ -605,6 +592,7 @@ The authors would like to thank
 {{{Ilari Liusvaara}}},
 {{{Danny Niu}}},
 {{{Jim Schaad}}},
+{{{Ruggero Susella}}},
 and
-{{{Ruggero Susella}}}
+{{{Daniel J. Bernstein}}}
 for their valuable comments and feedback.
