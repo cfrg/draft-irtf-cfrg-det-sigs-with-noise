@@ -25,19 +25,16 @@ venue:
 
 author:
       -
-        ins: J. Preuß Mattsson
-        name: John Preuß Mattsson
-        org: Ericsson
+        name: John | Preuß Mattsson
+        organization: Ericsson
         email: john.mattsson@ericsson.com
       -
-        ins: E. Thormarker
         name: Erik Thormarker
-        org: Ericsson
+        organization: Ericsson
         email: erik.thormarker@ericsson.com
       -
-        ins: S. Ruohomaa
         name: Sini Ruohomaa
-        org: Ericsson
+        organization: Ericsson
         email: sini.ruohomaa@ericsson.com
 
 normative:
