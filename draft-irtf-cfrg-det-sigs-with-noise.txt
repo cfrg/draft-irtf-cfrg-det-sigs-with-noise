@@ -177,8 +177,7 @@ Table of Contents
    preferable.
 
    Note that deriving per-message secret number deterministically, is
-   also insecure in a multi-party signature setting
-   [I-D.irtf-cfrg-frost].
+   also insecure in a multi-party signature setting [RFC9591].
 
    One countermeasure to entropy failures, side-channel attacks, and
    fault injection attacks recommended by [Langley13] [RP17] [ABFJLM17]
@@ -486,13 +485,6 @@ d.  Set:
               Signature and Encryption Schemes", September 2019,
               <https://eprint.iacr.org/2019/1053>.
 
-   [I-D.irtf-cfrg-frost]
-              Connolly, D., Komlo, C., Goldberg, I., and C. A. Wood,
-              "Two-Round Threshold Schnorr Signatures with FROST", Work
-              in Progress, Internet-Draft, draft-irtf-cfrg-frost-15, 18
-              September 2023, <https://datatracker.ietf.org/doc/html/
-              draft-irtf-cfrg-frost-15>.
-
    [Kampanakis16]
               Kampanakis, P., "FIPS and Deterministic ECDSA: Achieving
               robust security and conformance", December 2016,
@@ -636,6 +628,12 @@ d.  Set:
    [RFC9053]  Schaad, J., "CBOR Object Signing and Encryption (COSE):
               Initial Algorithms", RFC 9053, DOI 10.17487/RFC9053,
               August 2022, <https://www.rfc-editor.org/rfc/rfc9053>.
+
+   [RFC9591]  Connolly, D., Komlo, C., Goldberg, I., and C. A. Wood,
+              "The Flexible Round-Optimized Schnorr Threshold (FROST)
+              Protocol for Two-Round Schnorr Signatures", RFC 9591,
+              DOI 10.17487/RFC9591, June 2024,
+              <https://www.rfc-editor.org/rfc/rfc9591>.
 
    [RowHammer14]
               Kim, Y., Daly, R., Kim, J., Fallin, C., Lee, J., Lee, D.,
