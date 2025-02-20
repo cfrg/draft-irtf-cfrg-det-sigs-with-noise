@@ -77,7 +77,7 @@ normative:
 informative:
 
   RFC8937:
-  I-D.irtf-cfrg-frost:
+  RFC9591:
 
   BSI:
     target: https://www.bsi.bund.de/SharedDocs/Downloads/DE/BSI/Zertifizierung/Interpretationen/AIS_46_ECCGuide_e_pdf.pdf?__blob=publicationFile
@@ -440,7 +440,7 @@ Fault attacks may also be possible without physical access to the device. RowHam
 
 Government agencies are clearly concerned about these attacks. In {{Notice-186-5}} and {{FIPS-186-5}}, NIST warns about side-channel and fault injection attacks, but states that deterministic ECDSA may be desirable for devices that lack good randomness. The quantum-resistant ML-DSA {{Draft-204}} under standardization by NIST uses hedged signing by default. BSI has published {{BSI}} and researchers from BSI have co-authored two research papers {{ABFJLM17}} {{PSSLR17}} on attacks on deterministic signatures. For many industries it is important to be compliant with both RFCs and government publications, alignment between IETF, NIST, and BSI recommendations would be preferable.
 
-Note that deriving per-message secret number deterministically, is also insecure in a multi-party signature setting {{I-D.irtf-cfrg-frost}}.
+Note that deriving per-message secret number deterministically, is also insecure in a multi-party signature setting {{RFC9591}}.
 
 One countermeasure to entropy failures, side-channel attacks, and fault injection attacks recommended by {{Langley13}} {{RP17}} {{ABFJLM17}} {{SBBDS17}} {{PSSLR17}} {{SB18}} {{AOTZ19}} {{FG19}} and implemented in {{OpenSSL13a}} {{OpenSSL13b}} {{XEdDSA}} {{libSodium}} {{libHydrogen}} is to generate the per-message secret number from a random string, a secret key, and the message. This combines the security benefits of fully randomized per-message secret numbers with the security benefits of fully deterministic secret numbers.  Such a hedged construction protects against key compromise due to weak random number generation, but still effectively prevents many side-channel and fault injection attacks that exploit determinism. Hedged constructions require minor changes to the implementation and does not increase the number of elliptic curve point multiplications and is therefore suitable for constrained IoT. Adding randomness to EdDSA is not compliant with {{RFC8032}}. {{Kampanakis16}} describes an alternative {{FIPS-186-5}} compliant approach where message specific pseudo-random information is used as an additional input to the random number generation to create per-message secret number. {{Bernstein14}} states that generation of the per-message secret number from a subset of a random string, a secret key, the message, and a message counter is common in DSA/ECDSA implementations.
 
