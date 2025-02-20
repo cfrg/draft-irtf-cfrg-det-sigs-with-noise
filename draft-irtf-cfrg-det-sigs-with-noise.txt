@@ -6,7 +6,7 @@ Crypto Forum                                           J. Preuß Mattsson
 Internet-Draft                                             E. Thormarker
 Updates: 6979, 8032 (if approved)                            S. Ruohomaa
 Intended status: Informational                                  Ericsson
-Expires: 10 May 2025                                     6 November 2024
+Expires: 24 August 2025                                 20 February 2025
 
 
                    Hedged ECDSA and EdDSA Signatures
@@ -61,11 +61,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 10 May 2025.
+   This Internet-Draft will expire on 24 August 2025.
 
 Copyright Notice
 
-   Copyright (c) 2024 IETF Trust and the persons identified as the
+   Copyright (c) 2025 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -233,24 +233,22 @@ Table of Contents
    channel and fault injection attacks are a concern, the following step
    is RECOMMENDED instead of step (2) in Section 5.1.6 of [RFC8032]:
 
-   2.  Compute SHA-512(0x00 || Z || dom2(F, C) || 000... || prefix ||
-       000... || PH(M)), where M is the message to be signed, Z is 32
-       octets of random data, the number of zeroes 000... is chosen so
-       that the lengths of (0x00 || Z || dom2(F, C) || 000...) and
-       (prefix || 000...) are multiples of 128 octets.  Interpret the
-       64-octet digest as a little-endian integer r.
+   2.  Compute the digest SHA-512(prefix || Z), where Z is 32 octets of
+       random data. Let prefix’ denote the leftmost half of the digest.
+       Compute SHA-512(dom2(F, C) || prefix’ || PH(M)), where M is the
+       message to be signed.  Interpret the 64-octet digest as a
+       little-endian integer r.
 
    For Ed448ph and Ed448: In deployments where side-channel and fault
    injection attacks are a concern, the following step is RECOMMENDED
    instead of step (2) in Section 5.2.6 of [RFC8032]:
 
-   2.  Compute SHAKE256(0x00 || Z || dom4(F, C) || 000... || prefix ||
-       000... || PH(M), 114), where M is the message to be signed, and Z
-       is 57 octets of random data, the number of zeroes 000... is
-       chosen so that the length of (0x00 || Z || dom4(F, C) || 000...)
-       and (prefix || 000...) are multiples of 136 octets.  F is 1 for
-       Ed448ph, 0 for Ed448, and C is the context to use.  Interpret the
-       114-octet digest as a little-endian integer r.
+  2.  Compute the digest SHAKE256(prefix || Z, 114), where Z is 57
+      octets of random data. Let prefix’ denote the leftmost half of
+      the digest. Compute SHAKE256(dom4(F, C) || prefix’ || PH(M), 114),
+      where M is the message to be signed,  F is 1 for Ed448ph, 0 for
+      Ed448, and C is the context to use. Interpret the 114-octet digest
+      as a little-endian integer r.
 
 4.  Hedged ECDSA
 
@@ -264,25 +262,25 @@ Table of Contents
    injection attacks are a concern, the following steps are RECOMMENDED
    instead of steps (d) and (f) in Section 3.2 of [RFC6979]:
 
-   d.  Set:
+d.  Set:
 
-          K = HMAC_K(V || 0x00 || Z || 000... || int2octets(x) || 000...
-          || bits2octets(h1))
+       K = HMAC_K(V || 0x00 || Z || 000... || int2octets(x) || 000...
+       || bits2octets(h1))
 
-       where '||' denotes concatenation.  In other words, we compute
-       HMAC with key K, over the concatenation of the following, in
-       order: the current value of V, a sequence of eight bits of value
-       0, random data Z (of the same length as int2octets(x)), a
-       sequence of zero bits 000..., the encoding of the (EC)DSA private
-       key x, a sequence of zero bits 000..., and the hashed message
-       (possibly truncated and extended as specified by the bits2octets
-       transform).  The number of zeroes 000... is chosen so that the
-       length of (V || 0x00 || Z || 000...) and (int2octets(x) ||
-       000...) are multiples of the block size of the hash function.
-       The HMAC result is the new value of K.  Note that the private key
-       x is in the [1, q-1] range, hence a proper input for int2octets,
-       yielding rlen bits of output, i.e., an integral number of octets
-       (rlen is a multiple of 8).
+    where '||' denotes concatenation.  In other words, we compute
+    HMAC with key K, over the concatenation of the following, in
+    order: the current value of V, a sequence of eight bits of value
+    0, random data Z (of the same length as int2octets(x)), a
+    sequence of zero bits 000..., the encoding of the (EC)DSA private
+    key x, a sequence of zero bits 000..., and the hashed message
+    (possibly truncated and extended as specified by the bits2octets
+    transform).  The non-negative number of zeroes 000... is chosen
+    so that the length of (V || 0x00 || Z || 000...) and
+    (int2octets(x) || 000...) are the smallest possible multiples
+    of the block size of the hash function. The HMAC result is the
+    new value of K.  Note that the private key x is in the [1, q-1]
+    range, hence a proper input for int2octets, yielding rlen bits of
+    output, i.e., an integral number of octets (rlen is a multiple of 8).
 
    f.  Set:
 
@@ -317,80 +315,52 @@ Table of Contents
    the calculation for greater resilience.  This does not re-introduce
    the strong security requirement of randomness needed by randomized
    ECDSA [FIPS-186-5].  The randomness of Z need not be perfect but
-   SHALL be generated by a cryptographically secure pseudo random number
-   generator (CSPRNG) and SHALL be secret.  Even if the same random
-   number Z is used to sign two different messages, the security will be
-   the same as deterministic ECDSA and EdDSA and an attacker will not be
-   able to compromise the private key with algebraic means as in fully
-   randomized ECDSA [FIPS-186-5].  With the construction specified in
-   this document, two signatures over two equal messages are different
-   which prevents information leakage in use cases where signatures but
-   not messages are public.  The construction in this document place the
-   additional randomness before the message to align with randomized
-   hashing methods.
+   SHALL be generated by a cryptographically secure method and SHALL be
+   secret.  Even if the same random number Z is used to sign two
+   different messages, the security will be the same as deterministic
+   ECDSA and EdDSA and an attacker will not be able to compromise the
+   private key with algebraic means as in fully randomized ECDSA
+   [FIPS-186-5].  With the construction specified in this document, two
+   signatures over two equal messages are different which prevents
+   information leakage in use cases where signatures but not messages
+   are public.
 
-   [SBBDS17] states that [XEdDSA] would not prevent their attack due to
-   insufficient mixing of the hashed private key with the additional
-   randomness.  The construction in this document aims to mitigate fault
-   injection attacks that leverage determinism in deterministic ECDSA
-   and EdDSA signatures (see e.g., [ABFJLM17]), by randomizing nonce
-   generation.  Fault injection attacks that achieve instruction
-   skipping as in e.g., Section 3.4 of [ABFJLM17] are not necessarily
-   stopped.  It seems to be possible to, at the same time, also mitigate
-   attacks that use first order differential power analysis (DPA)
-   against the hash computation of deterministic nonces in EdDSA and
-   ECDSA (see e.g., [ABFJLM17][SBBDS17]).  The mitigation in this
-   document agrees with one mentioned in [ABFJLM17] and appears to be as
-   effective against the referenced first order DPA attacks as the one
-   in [SBBDS17].  The random bytes Z are re-used in step d and f of
-   Hedged ECDSA to align with HMAC_DRBG (see Section 3.3 of [RFC6979]).
-   This may make certain DPA attacks easier than if randomness had been
-   sampled fresh for each respective step.  Note however that V is
-   updated between the steps and that the secret key x is processed in a
-   new input block of the hash function after processing V and Z in each
-   respective step.
+   The construction in this document aims to mitigate fault injection
+   attacks that leverage determinism in deterministic ECDSA and EdDSA
+   signatures (see e.g., [ABFJLM17]), by randomizing nonce generation.
+   Fault injection attacks that achieve instruction skipping as in e.g.,
+   Section 3.4 of [ABFJLM17] are not necessarily stopped.  It seems to
+   be possible to, at the same time, also mitigate attacks that use
+   first order differential power analysis (DPA) against the hash
+   computation of deterministic nonces in EdDSA and ECDSA (see e.g.,
+   [ABFJLM17][SBBDS17]).  The Hedged EdDSA construction mitigates the
+   referenced first order DPA attacks by mixing prefix with Z before
+   mixing it with any public variable data (message or context).
+   Similarly, the Hedged ECDSA construction mixes x with a state
+   randomized by Z before mixing it with public variable data (h1).  The
+   random bytes Z are re-used in step d and f of Hedged ECDSA to align
+   with HMAC_DRBG (see Section 3.3 of [RFC6979]).  This may make certain
+   DPA attacks easier than if randomness had been sampled fresh for each
+   respective step.  Note however that V is updated between the steps
+   and that the secret key x is processed in a new input block of the
+   hash function after processing V and Z in each respective step.
 
-   Another countermeasure to fault attacks is to force the signer to
-   verify the signature in the last step of the signature generation or
-   to calculate the signature twice and compare the results.  These
-   countermeasure would catch a single fault but would not protect
-   against attackers that are able to precisely inject faults several
-   times [RP17] [PSSLR17] [SB18].  Adding an additional sign or
-   verification operation would also significantly affect performance,
-   especially verification which is a heavier operation than signing in
-   ECDSA and EdDSA.
-
-   [ABFJLM17] suggests using both additional randomness and a counter,
-   which makes the signature generation stateful.  While most used
-   signatures have traditionally been stateless, stateful signatures
-   like XMSS [RFC8391] and LMS [RFC8554] have now been standardized and
-   deployed.  [RFC8937] specifies a PRNG construction with a random
-   seed, a secret key, a context string, and a nonce, which makes the
-   random number generation stateful.  The generation of the per-message
-   secret number in this document is not stateful, but it can be used
-   with a stateful PRNG.  The exact construction in [RFC8937] is however
-   not recommended in deployments where side-channel and fault injection
-   attacks are a concern as it relies on deterministic signatures.
-
-   With the construction in this document, the repetition of the same
-   per-message secret number for two different messages is highly
-   unlikely even with an imperfect random number generator, but not
-   impossible.  As an extreme countermeasure, previously used secret
-   numbers can be tracked to ensure their uniqueness for a given key,
-   and a different random number can be used if a collision is detected.
-   This document neither mandates nor prohibits implementations from
-   taking such precautions.
+   A key pair MAY be reused between implementations of the hedged
+   constructions in this document and the non-hedged original
+   constructions in [RFC8072] and Section 3.2 of [RFC6979].  The Hedged
+   EdDSA construction in this document randomizes prefix in an
+   intermediate step and preserves the domain separation between the
+   different variants of EdDSA (see Section 8.6 of [RFC8072]).  The
+   Hedged ECDSA construction has a different HMAC input length in step d
+   (and f) of Section 4 than the original construction in Section 3.2 of
+   [RFC6979].  It is therefore impossible for an attacker to manipulate
+   the parameters to the nonce generation process (between the different
+   constructions) such that the HMAC input in step d and f becomes
+   identical for two distinct messages.
 
    Implementations need to follow best practices on how to protect
    against all side-channel attacks, not just attacks that exploit
    determinism, see for example [BSI].
-
-   The leading 0x00 octet in Hedged EdDSA provides domain separation
-   with RFC 8032 since the first octets of dom2 and dom4 are distinct
-   from 0x00.  In the case of Ed25519, for which dom2 is the empty
-   string, note that Ed25519 in RFC 8032 would have to contain the
-   prefix also in PH(M) to collide with any of the inputs to the hash
-   computations in the hedged variants in this document.
 
 6.  Test Vectors
 
@@ -772,8 +742,8 @@ Acknowledgments
    The authors would like to thank Tony Arcieri, Uri Blumenthal, Carsten
    Bormann, Taylor R Campbell, Quynh Dang, Håkan Englund, Janos Follath,
    Phillip Hallam-Baker, Chelsea Komlo, Niklas Lindskog, Ilari
-   Liusvaara, Danny Niu, Jim Schaad, and Ruggero Susella for their
-   valuable comments and feedback.
+   Liusvaara, Danny Niu, Jim Schaad, Ruggero Susella, and Daniel
+   J. Bernstein for their valuable comments and feedback.
 
 Authors' Addresses
 
