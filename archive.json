@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-01-30T01:10:17.281602+00:00",
+  "timestamp": "2025-02-23T01:18:09.455530+00:00",
   "repo": "cfrg/draft-irtf-cfrg-det-sigs-with-noise",
   "labels": [
     {
@@ -93,7 +93,7 @@
       "labels": [],
       "body": "I'd like to let the interested parties know that, I've written a experimental C implementation of the draft. If anyone's interested in benchmarking or any kind of testing, I'd love to assist. I've also raised a few implementation-related issue at [crypto.stackexchange.com/a/106599/36960](http://crypto.stackexchange.com/a/106599/36960) and I'll summarize here:\r\n\r\n1. The draft treats ECDSA RNG as a white box and penetrates the PRNG boundary to seed it, which is something NIST specifies not to do. This isn't too big an issue, as there are ways to maintain functionality opacity.\r\n\r\n2. The draft underspecifies how to use KMAC when the hash function is SHAKE. The way I prefer is to persuade NIST to specify and approve a permutation-based PRNG and use that instead. However in the interim time, we could add details on how KMAC should be used with HMAC-DRBG, but again, it'll penetrate the PRNG boundary. What's more, KMAC had not been approved for use with HMAC-DRBG yet.",
       "createdAt": "2024-02-28T08:59:13Z",
-      "updatedAt": "2024-04-24T15:14:42Z",
+      "updatedAt": "2025-02-17T12:59:06Z",
       "closedAt": null,
       "comments": [
         {
@@ -287,7 +287,7 @@
       "labels": [],
       "body": "People have suggested a FIPS 186 compliant mode where message-dependent pseudorandom values are used as \u2018additional input\u2019 in the random number generation for randomized ECDSA [FIPS 186]. Such a mode could compliment the current hedged construction based on Deterministic ECDSA [RFC 6979].\r\nhttps://blogs.cisco.com/security/fips-and-deterministic-ecdsa-achieving-robust-security-and-conformance",
       "createdAt": "2024-03-11T10:32:08Z",
-      "updatedAt": "2024-04-21T11:35:56Z",
+      "updatedAt": "2025-02-19T18:23:56Z",
       "closedAt": null,
       "comments": [
         {
@@ -303,6 +303,20 @@
           "body": "Ah, actually, more evidence from SP 800-90Ar1, Section 8.6.7 in support of just calling Z entropy+nonce.\r\n\r\n> For case 1 above, the random value could be acquired from the same source and at the same time as the entropy input. In this case, the seed could be considered to be constructed from an \u201cextra strong\u201d entropy input and the optional personalization string, where the entropy for the entropy input is equal to or greater than (3/2 security_strength) bits.\r\n\r\nThis is very reasonable, especially for ECDSA nonce generation, because this use case is susceptible to birthday bounds. This is explicitly called out.\r\n\r\n> The nonce provides greater assurance that the DRBG provides security_strength bits of security to the consuming application. If a DRBG were instantiated many times without a nonce, a compromise could become more likely. In some consuming applications, a single DRBG compromise could reveal long-term secrets (e.g., a compromise of the DSA per-message secret could reveal the signing key).\r\n\r\nGiven P-256, P-384, and P-521 require a security strength of 128, 192, and 256 respectively per SP 800-57 Part 1 Rev. 5, Section 5.6.1.1, the Z length of 256, 384, and 528 respectively is always greater than 3/2 security_strength.\r\n\r\nAlso, SHA-256 or better is sufficient for all those security strengths per SP 800-57 Part 1 Rev. 5, Section 5.6.1.2. From SP 800-90Ar1, Section 10.1:\r\n\r\n> The maximum security strength that can be supported by each DRBG based on a hash function is the security strength of the hash function for pre-image resistance; these security strengths are provided in [SP 800-107]. [SP 800-57] identifies hash functions that can be used to support a required security strength.",
           "createdAt": "2024-04-21T11:35:55Z",
           "updatedAt": "2024-04-21T11:35:55Z"
+        },
+        {
+          "author": "ethorm",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Thanks @FiloSottile,\nI tried to look into this and to me it is not clear that the current Hedged ECDSA is compliant to FIPS 186-5. You wrote:\n\n> It then uses this cryptographically strong DRBG to generate the nonce according to FIPS 186-5, Appendix A.3.2, \"Per-Message Secret Number Generation of Private Keys by Rejection Sampling\". RFC 6979 checks 0 < x < q, while Appendix A.4.2 checks 0 <= x < q-1 and then returns x + 1 (which is way more annoying to implement), but note that Appendix A.3.2 says \"Convert returned_bits to the (non-negative) integer k using the procedure in Appendix A.4.2 or an equivalent process\" (emphasis mine).\n\nFIPS 186-5 also says:\n\n> Two processes are equivalent if the same output is produced when the same values are input to each process (either as input parameters, as values made available during the process, or both).\n\nBut, compared to RFC 6979, FIPS 186-5 act slightly different on returned_bits by shifting with +1 as you note, and RFC 6979 also checks that k does not result in an r value that is 0. While these things are irrelevant to security and the latter will never happen in practice, the two processes seem to not be equivalent by the given definition.\n\nAny thoughts on these things?",
+          "createdAt": "2025-02-19T16:51:49Z",
+          "updatedAt": "2025-02-19T16:51:49Z"
+        },
+        {
+          "author": "FiloSottile",
+          "authorAssociation": "NONE",
+          "body": "Our argument was that bits from the DRBG are not an input parameter of Appendix A.3.2 (because they are not deterministic and the DRBG is not rigidly specified, and indeed they are not listed as inputs), so when Appendix A.3.2 says \"The following procedure or its equivalent\" we can apply the RFC 6979 process to produce an \"Integer in the interval [1, n\u20131]\" from an abstract DRBG.\n\nNote that [0, n-2]+1 and [1, n-1] are strictly equivalent, we don't rely on the negligible chance of hitting 0.\n\nMoreover, these are appendixes that use \"may\", not \"**shall**\".\n\nWe linked our lab to this issue, and they were satisfied.",
+          "createdAt": "2025-02-19T18:23:53Z",
+          "updatedAt": "2025-02-19T18:23:53Z"
         }
       ]
     },
@@ -494,15 +508,15 @@
       "id": "I_kwDOIymWWc6X-buM",
       "title": "Should the number of zeros chosen to be positive or just non-negative?",
       "url": "https://github.com/cfrg/draft-irtf-cfrg-det-sigs-with-noise/issues/13",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "dannyniu",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "In the current draft (as of this writing), the each amendments to the existing RFCs contain:\r\n\r\n> the number of zeroes 000... is chosen so that the length are multiples of ...\r\n\r\nShould this number chosen to be strictly positive? Or a length of 0 is also acceptable?",
       "createdAt": "2024-09-26T07:18:12Z",
-      "updatedAt": "2024-11-16T23:16:17Z",
-      "closedAt": null,
+      "updatedAt": "2025-02-17T12:53:34Z",
+      "closedAt": "2025-02-17T12:53:33Z",
       "comments": [
         {
           "author": "FiloSottile",
@@ -510,6 +524,13 @@
           "body": "I had the same doubt. FWIW I chose to interpret a length of zero to be acceptable, since it still achieves its stated purpose without wasting a whole hash compression on zeroes.\r\n\r\nWould be good to clarify.",
           "createdAt": "2024-11-16T23:16:16Z",
           "updatedAt": "2024-11-16T23:16:16Z"
+        },
+        {
+          "author": "ethorm",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Thanks, clarified that \"the non-negative number of zeroes 000... is chosen so that the length of (V || 0x00 || Z || 000...) and (int2octets(x) || 000...) are the smallest possible multiples of the block size of the hash function\".",
+          "createdAt": "2025-02-17T12:53:33Z",
+          "updatedAt": "2025-02-17T12:53:33Z"
         }
       ]
     },
@@ -518,16 +539,24 @@
       "id": "I_kwDOIymWWc6aQWt9",
       "title": "Better wording to explain non-colliding of hedged Ed25519 and deterministic Ed25519.",
       "url": "https://github.com/cfrg/draft-irtf-cfrg-det-sigs-with-noise/issues/14",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "dannyniu",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "Current wording (highlights' mine):\r\n\r\n> The leading 0x00 octet in Hedged EdDSA provides domain separation with RFC 8032 since the first octets of dom2 and dom4 are distinct from 0x00. **In the case of Ed25519, for which dom2 is the empty string, note that Ed25519 in RFC 8032 would have to contain the prefix also in PH(M) to collide with any of the inputs to the hash computations in the hedged variants in this document.**\r\n\r\nThe bold is a bit unclear in my opinion. Can we come up with a better wording that explain it. For example, my attempt:\r\n\r\n> In the case of Ed25519 for which `dom2` is the empty string, an attacker must somehow find a private key that collide with `Z`, then make signer sign both hedged Ed25519 as well as RFC-8032-style deterministic Ed25519 with different message that results in the same nonce-generation-hash input string - a situation that's improbable assuming proper protection of the secret key, and also out side the scope of hedged EdDSA.",
       "createdAt": "2024-10-15T08:05:24Z",
-      "updatedAt": "2024-10-15T08:05:24Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2025-02-17T12:55:57Z",
+      "closedAt": "2025-02-17T12:55:55Z",
+      "comments": [
+        {
+          "author": "ethorm",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Thanks @dannyniu, this has changed with the update to the new Hedged EdDSA construction. A new piece of text in the security considerations also explain that the domain separation of RFC 8032 is preserved. ",
+          "createdAt": "2025-02-17T12:55:55Z",
+          "updatedAt": "2025-02-17T12:55:55Z"
+        }
+      ]
     }
   ],
   "pulls": [
