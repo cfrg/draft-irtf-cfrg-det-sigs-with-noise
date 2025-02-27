@@ -338,18 +338,18 @@ d.  Set:
    Similarly, the Hedged ECDSA construction mixes x with a state
    randomized by Z before mixing it with public variable data (h1).  The
    random bytes Z are re-used in step (d) and (f) of Hedged ECDSA to
-   align with HMAC_DRBG (see Section 3.3 of [RFC6979]).  This may make
-   certain DPA attacks easier than if randomness had been sampled fresh
-   for each respective step.  Note however that V is updated between the
-   steps and that the secret key x is processed in a new input block of
-   the hash function after processing V and Z in each respective step.
+   align with HMAC_DRBG.  This may make certain DPA attacks easier than
+   if randomness had been sampled fresh for each respective step.  Note
+   however that V is updated between the steps and that the secret key x
+   is processed in a new input block of the hash function after
+   processing V and Z in each respective step.
 
    A key pair MAY be reused between implementations of the hedged
    constructions in this document and the non-hedged original
-   constructions in [RFC8072] and Section 3.2 of [RFC6979].  The Hedged
+   constructions in [RFC8032] and Section 3.2 of [RFC6979].  The Hedged
    EdDSA construction in this document randomizes prefix in an
    intermediate step and preserves the domain separation between the
-   different variants of EdDSA (see Section 8.6 of [RFC8072]).  The
+   different variants of EdDSA (see Section 8.6 of [RFC8032]).  The
    Hedged ECDSA construction has a different HMAC input length in step
    (d) (and (f)) of Section 4 than the original construction in
    Section 3.2 of [RFC6979].  It is therefore impossible for an attacker
@@ -740,8 +740,9 @@ Acknowledgments
    The authors would like to thank Tony Arcieri, Uri Blumenthal, Carsten
    Bormann, Taylor R Campbell, Quynh Dang, Håkan Englund, Janos Follath,
    Phillip Hallam-Baker, Chelsea Komlo, Niklas Lindskog, Ilari
-   Liusvaara, Danny Niu, Jim Schaad, Ruggero Susella, and Daniel
-   J. Bernstein for their valuable comments and feedback.
+   Liusvaara, Danny Niu, Jim Schaad, Ruggero Susella, Daniel
+   J. Bernstein, and Filippo Valsorda for their valuable comments and
+   feedback.
 
 Authors' Addresses
 
