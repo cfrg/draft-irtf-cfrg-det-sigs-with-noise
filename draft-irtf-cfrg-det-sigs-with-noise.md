@@ -403,9 +403,6 @@ Side-channel Attack on EdDSA"
   SP800-90Ar1:
     target: https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-90Ar1.pdf
     title: "NIST Special Publication 800-90A Revision 1: Recommendation for Random Number Generation Using Deterministic Random Bit Generators"
-    author:
-      -
-        ins: "National Institute of Standards and Technology (NIST)"
     date: June 2015
 
   RFC8037:
