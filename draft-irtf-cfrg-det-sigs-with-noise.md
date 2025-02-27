@@ -512,8 +512,6 @@ f.  Set:
     called provided_data in HMAC_DRBG, is the same as in step (d).
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-The construction in {{RFC6979}} can be seen as using HMAC_DRBG [SP800-90Ar1] with rejection sampling to generate the ECDSA nonce (see Section 3.3 of {{RFC6979}}). With the updates in this document, Z can be seen as the combination of entropy_input and nonce (see the note on "extra strong" entropy input in Section 8.6.7 of [SP800-90Ar1]). The concatenation  000... || int2octets(x) || 000... || bits2octets(h1) can be seen as the personalization_string. See Section 3.3 of {{RFC6979}} for the other parameters.
-
 When ECDSA is used with SHAKE {{SHA3}} the HMAC construction above MAY be used but it is RECOMMENDED to use the more efficient KMAC construction {{KMAC}}. SHAKE is a variable-length hash function defined as SHAKE(M, d) where the output is a d-bits-long digest of message M. When ECDSA is used with SHAKE128(M, d), it is RECOMMENDED to replace HMAC(K, M) with KMAC128(K, M, d2, ""), where d2 = max(d, qlen) and qlen is the binary length of the order of the base point of the elliptic curve {{RFC6979}}. When ECDSA is used with SHAKE256(M, d), it is RECOMMENDED to replace HMAC(K, M) with KMAC256(K, M, d2, ""), where d2 = max(d, qlen). {{RFC8692}} and {{FIPS-186-5}} define the use of SHAKE128 with an output length of 256 bits and SHAKE256 with an output length or 512 bits.
 
 In new deployments, where side-channel and fault injection attacks are a concern, Hedged EdDSA as specified in {{HedgedEdDSA}} is RECOMMENDED.
