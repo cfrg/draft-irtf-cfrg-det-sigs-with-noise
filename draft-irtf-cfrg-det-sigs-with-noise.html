@@ -1302,7 +1302,7 @@ f.  Set:
     called provided_data in HMAC_DRBG, is the same as in step (d).
 </pre><a href="#section-4-4" class="pilcrow">¶</a>
 </div>
-<p id="section-4-5">The construction in <span>[<a href="#RFC6979" class="cite xref">RFC6979</a>]</span> can be seen as using HMAC_DRBG [SP800-90Ar1] with rejection sampling to generate the ECDSA nonce (see Section 3.3 of <span>[<a href="#RFC6979" class="cite xref">RFC6979</a>]</span>). With the updates in this document, Z can be seen as the combination of entropy_input and nonce (see the note on "extra strong" entropy input in Section 8.6.7 of [SP800-90Ar1]). The concatenation  000... || int2octets(x) || 000... || bits2octets(h1) can be seen as the personalization_string. See Section 3.3 of <span>[<a href="#RFC6979" class="cite xref">RFC6979</a>]</span> for the other parameters.<a href="#section-4-5" class="pilcrow">¶</a></p>
+<p id="section-4-5">The construction in <span>[<a href="#RFC6979" class="cite xref">RFC6979</a>]</span> can be seen as using HMAC_DRBG <span>[<a href="#SP800-90Ar1" class="cite xref">SP800-90Ar1</a>]</span> with rejection sampling to generate the ECDSA nonce (see Section 3.3 of <span>[<a href="#RFC6979" class="cite xref">RFC6979</a>]</span>). With the updates in this document, Z can be seen as the combination of entropy_input and nonce (see the note on "extra strong" entropy input in Section 8.6.7 of <span>[<a href="#SP800-90Ar1" class="cite xref">SP800-90Ar1</a>]</span>). The concatenation  000... || int2octets(x) || 000... || bits2octets(h1) can be seen as the personalization_string. See Section 3.3 of <span>[<a href="#RFC6979" class="cite xref">RFC6979</a>]</span> for the other parameters.<a href="#section-4-5" class="pilcrow">¶</a></p>
 <p id="section-4-6">When ECDSA is used with SHAKE <span>[<a href="#SHA3" class="cite xref">SHA3</a>]</span> the HMAC construction above MAY be used but it is RECOMMENDED to use the more efficient KMAC construction <span>[<a href="#KMAC" class="cite xref">KMAC</a>]</span>. SHAKE is a variable-length hash function defined as SHAKE(M, d) where the output is a d-bits-long digest of message M. When ECDSA is used with SHAKE128(M, d), it is RECOMMENDED to replace HMAC(K, M) with KMAC128(K, M, d2, ""), where d2 = max(d, qlen) and qlen is the binary length of the order of the base point of the elliptic curve <span>[<a href="#RFC6979" class="cite xref">RFC6979</a>]</span>. When ECDSA is used with SHAKE256(M, d), it is RECOMMENDED to replace HMAC(K, M) with KMAC256(K, M, d2, ""), where d2 = max(d, qlen). <span>[<a href="#RFC8692" class="cite xref">RFC8692</a>]</span> and <span>[<a href="#FIPS-186-5" class="cite xref">FIPS-186-5</a>]</span> define the use of SHAKE128 with an output length of 256 bits and SHAKE256 with an output length or 512 bits.<a href="#section-4-6" class="pilcrow">¶</a></p>
 <p id="section-4-7">In new deployments, where side-channel and fault injection attacks are a concern, Hedged EdDSA as specified in <a href="#HedgedEdDSA" class="auto internal xref">Section 3</a> is RECOMMENDED.<a href="#section-4-7" class="pilcrow">¶</a></p>
 </section>
@@ -1369,7 +1369,7 @@ RANDOM DATA = { }
 <dl class="references">
 <dt id="FIPS-186-5">[FIPS-186-5]</dt>
         <dd>
-<span class="refAuthor">Department of Commerce, N. S.</span>, <span class="refTitle">"Digital Signature Standard (DSS)"</span>, <span class="seriesInfo">NIST FIPS PUB 186-5 </span>, <time datetime="2023-02" class="refDate">February 2023</time>, <span>&lt;<a href="https://doi.org/10.6028/NIST.FIPS.186-5">https://doi.org/10.6028/NIST.FIPS.186-5</a>&gt;</span>. </dd>
+<span class="refAuthor">National Institute of Standards and Technology (NIST)</span>, <span class="refTitle">"Digital Signature Standard (DSS)"</span>, <span class="seriesInfo">NIST FIPS PUB 186-5 </span>, <time datetime="2023-02" class="refDate">February 2023</time>, <span>&lt;<a href="https://doi.org/10.6028/NIST.FIPS.186-5">https://doi.org/10.6028/NIST.FIPS.186-5</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="KMAC">[KMAC]</dt>
         <dd>
@@ -1396,8 +1396,12 @@ RANDOM DATA = { }
 <span class="refAuthor">Kampanakis, P.</span> and <span class="refAuthor">Q. Dang</span>, <span class="refTitle">"Internet X.509 Public Key Infrastructure: Additional Algorithm Identifiers for RSASSA-PSS and ECDSA Using SHAKEs"</span>, <span class="seriesInfo">RFC 8692</span>, <span class="seriesInfo">DOI 10.17487/RFC8692</span>, <time datetime="2019-12" class="refDate">December 2019</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8692">https://www.rfc-editor.org/rfc/rfc8692</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="SHA3">[SHA3]</dt>
-      <dd>
+        <dd>
 <span class="refAuthor">National Institute of Standards and Technology (NIST)</span>, <span class="refTitle">"SHA-3 Standard: Permutation-Based Hash and Extendable-Output Functions"</span>, <span class="seriesInfo">NIST FIPS PUB 202 </span>, <time datetime="2015-08" class="refDate">August 2015</time>, <span>&lt;<a href="https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.202.pdf">https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.202.pdf</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="SP800-90Ar1">[SP800-90Ar1]</dt>
+      <dd>
+<span class="refAuthor">National Institute of Standards and Technology (NIST)</span>, <span class="refTitle">"Recommendation for Random Number Generation Using Deterministic Random Bit Generators"</span>, <span class="seriesInfo">NIST SP 800-90A Revision 1 </span>, <time datetime="2015-06" class="refDate">June 2015</time>, <span>&lt;<a href="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-90Ar1.pdf">https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-90Ar1.pdf</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>

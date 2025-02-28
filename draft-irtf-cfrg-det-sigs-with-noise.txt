@@ -393,9 +393,9 @@ d.  Set:
 7.1.  Normative References
 
    [FIPS-186-5]
-              Department of Commerce, N. S., "Digital Signature Standard
-              (DSS)", NIST FIPS PUB 186-5 , February 2023,
-              <https://doi.org/10.6028/NIST.FIPS.186-5>.
+              National Institute of Standards and Technology (NIST),
+              "Digital Signature Standard (DSS)", NIST FIPS PUB 186-5 ,
+              February 2023, <https://doi.org/10.6028/NIST.FIPS.186-5>.
 
    [KMAC]     National Institute of Standards and Technology (NIST),
               "SHA-3 Derived Functions: cSHAKE, KMAC, TupleHash and
@@ -433,6 +433,14 @@ d.  Set:
               Output Functions", NIST FIPS PUB 202 , August 2015,
               <https://nvlpubs.nist.gov/nistpubs/FIPS/
               NIST.FIPS.202.pdf>.
+
+   [SP800-90Ar1]
+              National Institute of Standards and Technology (NIST),
+              "Recommendation for Random Number Generation Using
+              Deterministic Random Bit Generators", NIST SP 800-90A
+              Revision 1 , June 2015,
+              <https://nvlpubs.nist.gov/nistpubs/SpecialPublications/
+              NIST.SP.800-90Ar1.pdf>.
 
 7.2.  Informative References
 
