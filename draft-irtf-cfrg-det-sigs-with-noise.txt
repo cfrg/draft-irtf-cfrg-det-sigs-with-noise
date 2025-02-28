@@ -6,7 +6,7 @@ Crypto Forum                                           J. Preuß Mattsson
 Internet-Draft                                             E. Thormarker
 Updates: 6979, 8032 (if approved)                            S. Ruohomaa
 Intended status: Informational                                  Ericsson
-Expires: 31 August 2025                                 27 February 2025
+Expires: 1 September 2025                               28 February 2025
 
 
                    Hedged ECDSA and EdDSA Signatures
@@ -61,7 +61,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 31 August 2025.
+   This Internet-Draft will expire on 1 September 2025.
 
 Copyright Notice
 
@@ -289,6 +289,15 @@ d.  Set:
        Note that the "internal octet" is 0x01 this time. The string
        (Z || 000... || int2octets(x) || 000.. || bits2octets(h1)),
        called provided_data in HMAC_DRBG, is the same as in step (d).
+
+   The construction in [RFC6979] can be seen as using HMAC_DRBG
+   [SP800-90Ar1] with rejection sampling to generate the ECDSA nonce
+   (see Section 3.3 of [RFC6979]).  With the updates in this document, Z
+   can be seen as the combination of entropy_input and nonce (see the
+   note on "extra strong" entropy input in Section 8.6.7 of
+   [SP800-90Ar1]).  The concatenation 000... || int2octets(x) ||
+   000... || bits2octets(h1) can be seen as the personalization_string.
+   See Section 3.3 of [RFC6979] for the other parameters.
 
    When ECDSA is used with SHAKE [SHA3] the HMAC construction above MAY
    be used but it is RECOMMENDED to use the more efficient KMAC
