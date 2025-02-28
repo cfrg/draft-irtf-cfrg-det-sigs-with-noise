@@ -185,16 +185,16 @@ Table of Contents
    generate the per-message secret number from a random string, a secret
    key, and the message.  This combines the security benefits of fully
    randomized per-message secret numbers with the security benefits of
-   fully deterministic secret numbers.  Section 3.6 of [RFC6979]
-   describes a variant of deterministic ECDSA that adds non-repeating
-   additional data k' to the per-message secret number generation.  Such
-   a hedged construction protects against key compromise due to weak
-   random number generation, but still effectively prevents many side-
-   channel and fault injection attacks that exploit determinism.  Hedged
-   constructions require minor changes to the implementation and does
-   not increase the number of elliptic curve point multiplications and
-   is therefore suitable for constrained IoT.  Adding randomness to
-   EdDSA is not compliant with [RFC8032].  [Kampanakis16] describes an
+   fully deterministic secret numbers.  Such a hedged construction
+   protects against key compromise due to weak random number generation,
+   but still effectively prevents many side-channel and fault injection
+   attacks that exploit determinism.  Hedged constructions require minor
+   changes to the implementation and does not increase the number of
+   elliptic curve point multiplications and is therefore suitable for
+   constrained IoT.  Section 3.6 of [RFC6979] describes a variant of
+   deterministic ECDSA that adds non-repeating additional data k' to the
+   per-message secret number generation.  Adding randomness to EdDSA is
+   not compliant with [RFC8032].  [Kampanakis16] describes an
    alternative [FIPS-186-5] compliant approach where message specific
    pseudo-random information is used as an additional input to the
    random number generation to create per-message secret number.
