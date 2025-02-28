@@ -365,8 +365,8 @@ d.  Set:
    (d) (and (f)) of Section 4 than the original construction in
    Section 3.2 of [RFC6979].  It is therefore impossible for an attacker
    to manipulate the parameters to the nonce generation process (between
-   the different constructions) such that the HMAC input in step d and f
-   becomes identical for two distinct messages.
+   the different constructions) such that the HMAC input in step (d) and
+   (f) becomes identical for two distinct messages.
 
    Implementations need to follow best practices on how to protect
    against all side-channel attacks, not just attacks that exploit
