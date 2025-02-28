@@ -168,13 +168,12 @@ Table of Contents
    [Notice-186-5] and [FIPS-186-5], NIST warns about side-channel and
    fault injection attacks, but states that deterministic ECDSA may be
    desirable for devices that lack good randomness.  The quantum-
-   resistant ML-DSA [Draft-204] under standardization by NIST uses
-   hedged signing by default.  BSI has published [BSI] and researchers
-   from BSI have co-authored two research papers [ABFJLM17] [PSSLR17] on
-   attacks on deterministic signatures.  For many industries it is
-   important to be compliant with both RFCs and government publications,
-   alignment between IETF, NIST, and BSI recommendations would be
-   preferable.
+   resistant ML-DSA [FIPS-204] standardized by NIST uses hedged signing
+   by default.  BSI has published [BSI] and researchers from BSI have
+   co-authored two research papers [ABFJLM17] [PSSLR17] on attacks on
+   deterministic signatures.  For many industries it is important to be
+   compliant with both RFCs and government publications, alignment
+   between IETF, NIST, and BSI recommendations would be preferable.
 
    Note that deriving per-message secret number deterministically, is
    also insecure in a multi-party signature setting [RFC9591].
@@ -494,14 +493,14 @@ d.  Set:
               <https://csrc.nist.gov/CSRC/media/Publications/fips/186/5/
               draft/documents/fips-186-5-draft-comments-received.pdf>.
 
-   [Draft-204]
-              National Institute of Standards and Technology (NIST),
-              "FIPS PUB 204 (Draft)", August 2023,
-              <https://csrc.nist.gov/pubs/fips/204/ipd>.
-
    [FG19]     Fischlin, M. and F. Günther, "Modeling Memory Faults in
               Signature and Encryption Schemes", September 2019,
               <https://eprint.iacr.org/2019/1053>.
+
+   [FIPS-204] National Institute of Standards and Technology (NIST),
+              "Module-Lattice-Based Digital Signature Standard", FIPS
+              204 , August 2023,
+              <https://csrc.nist.gov/pubs/fips/204/ipd>.
 
    [Kampanakis16]
               Kampanakis, P., "FIPS and Deterministic ECDSA: Achieving
