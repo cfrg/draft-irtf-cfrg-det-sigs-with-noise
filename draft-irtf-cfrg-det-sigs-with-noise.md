@@ -50,8 +50,17 @@ normative:
     seriesinfo: "NIST FIPS PUB 186-5"
     author:
       -
-        ins: "National Institute of Standards and Technology, U.S. Department of Commerce"
+        ins: "National Institute of Standards and Technology (NIST)"
     date: February 2023
+
+  SP800-90Ar1:
+    target: https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-90Ar1.pdf
+    title: "Recommendation for Random Number Generation Using Deterministic Random Bit Generators"
+    seriesinfo: "NIST SP 800-90A Revision 1"
+    author:
+      -
+        ins: "National Institute of Standards and Technology (NIST)"
+    date: June 2015
 
   SHA3:
     target: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.202.pdf
