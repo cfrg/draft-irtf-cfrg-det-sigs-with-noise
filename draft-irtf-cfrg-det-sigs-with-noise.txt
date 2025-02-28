@@ -294,7 +294,7 @@ d.  Set:
    [SP800-90Ar1] with rejection sampling to generate the ECDSA nonce
    (see Section 3.3 of [RFC6979]).  With the updates in this document, Z
    can be seen as the combination of entropy_input and nonce (see the
-   note on "extra strong" entropy input in Section 8.6.7 of
+   text on "extra strong" entropy input in Section 8.6.7 of
    [SP800-90Ar1]).  The concatenation 000... || int2octets(x) ||
    000... || bits2octets(h1) can be seen as the personalization_string.
    See Section 3.3 of [RFC6979] for the other parameters.
