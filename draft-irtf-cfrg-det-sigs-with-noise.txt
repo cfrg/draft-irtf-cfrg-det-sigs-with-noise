@@ -205,8 +205,8 @@ Table of Contents
    attacks are a concern.  The updates are invisible to the validator of
    the signature.  Produced signatures remain fully compatible with
    unmodified ECDSA and EdDSA verifiers and existing key pairs can
-   continue to be used.  As the precise use of the noise is specified,
-   test vectors can still be produced, see Section 6, and
+   continue to be used.  As the precise use of random bytes is
+   specified, test vectors can still be produced, see Section 6, and
    implementations can be tested against them.
 
 2.  Conventions Used in This Document
