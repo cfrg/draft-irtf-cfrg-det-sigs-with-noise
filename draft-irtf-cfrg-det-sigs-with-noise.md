@@ -614,6 +614,7 @@ The authors would like to thank
 {{{Jim Schaad}}},
 {{{Ruggero Susella}}},
 {{{Daniel J. Bernstein}}},
+{{{Filippo Valsorda}}},
 and
-{{{Filippo Valsorda}}}
+{{{Sönke Jendral}}}
 for their valuable comments and feedback.
