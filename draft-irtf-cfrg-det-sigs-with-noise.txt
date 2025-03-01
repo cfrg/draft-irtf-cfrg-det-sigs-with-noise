@@ -6,7 +6,7 @@ Crypto Forum                                           J. Preuß Mattsson
 Internet-Draft                                             E. Thormarker
 Updates: 6979, 8032 (if approved)                            S. Ruohomaa
 Intended status: Informational                                  Ericsson
-Expires: 1 September 2025                               28 February 2025
+Expires: 2 September 2025                                   1 March 2025
 
 
                    Hedged ECDSA and EdDSA Signatures
@@ -61,7 +61,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 1 September 2025.
+   This Internet-Draft will expire on 2 September 2025.
 
 Copyright Notice
 
@@ -760,8 +760,8 @@ Acknowledgments
    Bormann, Taylor R Campbell, Quynh Dang, Håkan Englund, Janos Follath,
    Phillip Hallam-Baker, Chelsea Komlo, Niklas Lindskog, Ilari
    Liusvaara, Danny Niu, Jim Schaad, Ruggero Susella, Daniel
-   J. Bernstein, and Filippo Valsorda for their valuable comments and
-   feedback.
+   J. Bernstein, Filippo Valsorda, and Sönke Jendral for their valuable
+   comments and feedback.
 
 Authors' Addresses
 
