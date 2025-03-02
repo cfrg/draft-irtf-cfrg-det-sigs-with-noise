@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-02-27T01:14:43.030151+00:00",
+  "timestamp": "2025-03-02T01:19:06.676709+00:00",
   "repo": "cfrg/draft-irtf-cfrg-det-sigs-with-noise",
   "labels": [
     {
@@ -287,7 +287,7 @@
       "labels": [],
       "body": "People have suggested a FIPS 186 compliant mode where message-dependent pseudorandom values are used as \u2018additional input\u2019 in the random number generation for randomized ECDSA [FIPS 186]. Such a mode could compliment the current hedged construction based on Deterministic ECDSA [RFC 6979].\r\nhttps://blogs.cisco.com/security/fips-and-deterministic-ecdsa-achieving-robust-security-and-conformance",
       "createdAt": "2024-03-11T10:32:08Z",
-      "updatedAt": "2025-02-19T18:23:56Z",
+      "updatedAt": "2025-03-01T08:40:19Z",
       "closedAt": null,
       "comments": [
         {
@@ -317,6 +317,27 @@
           "body": "Our argument was that bits from the DRBG are not an input parameter of Appendix A.3.2 (because they are not deterministic and the DRBG is not rigidly specified, and indeed they are not listed as inputs), so when Appendix A.3.2 says \"The following procedure or its equivalent\" we can apply the RFC 6979 process to produce an \"Integer in the interval [1, n\u20131]\" from an abstract DRBG.\n\nNote that [0, n-2]+1 and [1, n-1] are strictly equivalent, we don't rely on the negligible chance of hitting 0.\n\nMoreover, these are appendixes that use \"may\", not \"**shall**\".\n\nWe linked our lab to this issue, and they were satisfied.",
           "createdAt": "2025-02-19T18:23:53Z",
           "updatedAt": "2025-02-19T18:23:53Z"
+        },
+        {
+          "author": "ethorm",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Thanks @FiloSottile, I updated the draft in Section 4 with your suggestion to consider Z as the combination of entropy_input and nonce.",
+          "createdAt": "2025-02-28T07:28:01Z",
+          "updatedAt": "2025-02-28T07:28:01Z"
+        },
+        {
+          "author": "ethorm",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@emanjon I think the mention of [Cisco's blog](https://blogs.cisco.com/security/fips-and-deterministic-ecdsa-achieving-robust-security-and-conformance) in the draft is sufficient and this issue can be closed. I think that reuse of existing key pairs is an essential feature of Hedged ECDSA and I read the Cisco blog as that they use a separate dedicated secret key instead of the ECDSA private key in nonce generation.",
+          "createdAt": "2025-03-01T08:21:23Z",
+          "updatedAt": "2025-03-01T08:24:48Z"
+        },
+        {
+          "author": "FiloSottile",
+          "authorAssociation": "NONE",
+          "body": "I think Cisco's blog is not particularly relevant to this draft, indeed because as you say it looks like they opted for a different design. However, I also agree that the draft is fine as-is and this issue can be closed: there's no need for an IRTF draft to make a definitive statement about FIPS 186 compliance, that's the testing lab's and NIST's job.",
+          "createdAt": "2025-03-01T08:40:18Z",
+          "updatedAt": "2025-03-01T08:40:18Z"
         }
       ]
     },
