@@ -6,7 +6,7 @@ Crypto Forum                                           J. Preuß Mattsson
 Internet-Draft                                             E. Thormarker
 Updates: 6979, 8032 (if approved)                            S. Ruohomaa
 Intended status: Informational                                  Ericsson
-Expires: 2 September 2025                                   1 March 2025
+Expires: 4 September 2025                                   3 March 2025
 
 
                    Hedged ECDSA and EdDSA Signatures
@@ -61,7 +61,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 2 September 2025.
+   This Internet-Draft will expire on 4 September 2025.
 
 Copyright Notice
 
@@ -301,18 +301,18 @@ d.  Set:
    personalization_string.  See Section 3.3 of [RFC6979] for the other
    parameters.
 
-   When ECDSA is used with SHAKE [SHA3] the HMAC construction above MAY
-   be used but it is RECOMMENDED to use the more efficient KMAC
-   construction [KMAC].  SHAKE is a variable-length hash function
-   defined as SHAKE(M, d) where the output is a d-bits-long digest of
-   message M.  When ECDSA is used with SHAKE128(M, d), it is RECOMMENDED
-   to replace HMAC(K, M) with KMAC128(K, M, d2, ""), where d2 = max(d,
-   qlen) and qlen is the binary length of the order of the base point of
-   the elliptic curve [RFC6979].  When ECDSA is used with SHAKE256(M,
-   d), it is RECOMMENDED to replace HMAC(K, M) with KMAC256(K, M, d2,
-   ""), where d2 = max(d, qlen).  [RFC8692] and [FIPS-186-5] define the
-   use of SHAKE128 with an output length of 256 bits and SHAKE256 with
-   an output length or 512 bits.
+   When ECDSA is used with SHAKE [SHA3] the HMAC construction in
+   Section 3.2 of [RFC6979] MAY be used but it is RECOMMENDED to use the
+   more efficient KMAC construction [KMAC] with output length hlen = 8 ·
+   ceil(qlen / 8), where qlen is the binary length of the order of the
+   base point of the elliptic curve [RFC6979] and ceil(x) is the ceiling
+   function mapping x to the least integer greater than or equal to x.
+   When ECDSA is used with SHAKE128, it is RECOMMENDED to replace
+   HMAC(K, M) in Section 3.2 of [RFC6979] with KMAC128(K, M, hlen, "").
+   When ECDSA is used with SHAKE256, it is RECOMMENDED to replace
+   HMAC(K, M) in Section 3.2 of [RFC6979] with KMAC256(K, M, hlen, "").
+   [RFC8692] and [FIPS-186-5] define the use of SHAKE128 with an output
+   length of 256 bits and SHAKE256 with an output length or 512 bits.
 
    In new deployments, where side-channel and fault injection attacks
    are a concern, Hedged EdDSA as specified in Section 3 is RECOMMENDED.
