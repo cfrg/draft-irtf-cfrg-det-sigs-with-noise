@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-02T01:19:06.676709+00:00",
+  "timestamp": "2025-03-04T01:15:47.877925+00:00",
   "repo": "cfrg/draft-irtf-cfrg-det-sigs-with-noise",
   "labels": [
     {
@@ -586,21 +586,21 @@
       "id": "PR_kwDOIymWWc5tnbkF",
       "title": "Optimize KMAC construction",
       "url": "https://github.com/cfrg/draft-irtf-cfrg-det-sigs-with-noise/pull/12",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "emanjon",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Optimize KMAC construction\r\nSee #2",
       "createdAt": "2024-04-24T15:11:27Z",
-      "updatedAt": "2024-05-02T06:49:22Z",
+      "updatedAt": "2025-03-03T20:55:50Z",
       "baseRepository": "cfrg/draft-irtf-cfrg-det-sigs-with-noise",
       "baseRefName": "main",
       "baseRefOid": "9359dadf856c9fdbec1a43ad177435fc27f802d3",
       "headRepository": "cfrg/draft-irtf-cfrg-det-sigs-with-noise",
       "headRefName": "Optimize-KMAC-construction",
-      "headRefOid": "9128a1240abc6e628d56ea17eeff7daa27ae9be4",
-      "closedAt": null,
+      "headRefOid": "02550c55f2cb1335b6cd7f2c1d5c18cef463dbcd",
+      "closedAt": "2025-03-03T20:55:49Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
@@ -611,6 +611,13 @@
           "body": "Hi there, \r\n\r\nDid you add a definition of the `ceil` unary operator / function?",
           "createdAt": "2024-05-02T06:49:21Z",
           "updatedAt": "2024-05-02T06:49:21Z"
+        },
+        {
+          "author": "emanjon",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Added a definition of ceil()\r\nAdded a commit to main instead of resolving the conflicts in this PR.\r\n",
+          "createdAt": "2025-03-03T20:55:49Z",
+          "updatedAt": "2025-03-03T20:55:49Z"
         }
       ],
       "reviews": []
